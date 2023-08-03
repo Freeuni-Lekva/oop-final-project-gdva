@@ -1,7 +1,5 @@
 package quizpackage;
 
-import jdk.nashorn.internal.ir.RuntimeNode;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,7 +25,6 @@ public class RegisterUserServlet extends HttpServlet {
             RequestDispatcher dispatcher = req.getRequestDispatcher("registerpage.jsp");
             dispatcher.forward(req,resp);
             return;
-
         }
         handler.addAccount(acc);
         req.getSession().setAttribute("account",acc);

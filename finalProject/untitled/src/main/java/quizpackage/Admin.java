@@ -1,7 +1,6 @@
 package quizpackage;
 
 public class Admin implements Account{
-
     String name;
     String surname;
     String username;

@@ -24,8 +24,14 @@ public class LoginButtonServlet extends HttpServlet {
             dispatcher.forward(req,resp);
             return;
         }
-        req.getSession().setAttribute("account",acc);
-        RequestDispatcher dispatcher  = req.getRequestDispatcher("homepage.jsp");
-        dispatcher.forward(req,resp);
+        if(!handler.isAdmin(acc.getId())){
+            req.getSession().setAttribute("account",acc);
+            RequestDispatcher dispatcher  = req.getRequestDispatcher("homepage.jsp");
+            dispatcher.forward(req,resp);
+        } else {
+            req.getSession().setAttribute("account",acc);
+            RequestDispatcher dispatcher  = req.getRequestDispatcher("adminhomepage.jsp");
+            dispatcher.forward(req,resp);
+        }
     }
 }

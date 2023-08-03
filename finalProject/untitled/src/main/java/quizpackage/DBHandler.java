@@ -18,7 +18,7 @@ public class DBHandler {
         dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/finalProject");
         dataSource.setUsername("root");
-        dataSource.setPassword("Vpxdukkdaash1");
+        dataSource.setPassword("root1234");
         try{
             connection = dataSource.getConnection();
         }
@@ -94,14 +94,56 @@ public class DBHandler {
         }
     }
 
+    public Account getAccount(String username){
+        try{
+            ResultSet st =
+                    connection.createStatement().executeQuery("Select * from Accounts where username = "
+                    + "\'" + username +"\'");
+            Account account = null;
+            while(st.next()){
+                String name = st.getString("firstname");
+                String surname = st.getString("surname");
+                String pswrd = st.getString("pass");
+                int age = st.getInt("age");
+                account = new User(name,surname,username,pswrd,age);
+            }
+            return account;
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+
+    }
     public boolean containsUsername(String username){
         try{
             ResultSet st = connection.createStatement().executeQuery("Select * from accounts where username = " + "\'" + username + "\'");
             return st.next();
-        }
-        catch(SQLException e){
+        }catch(SQLException e){
             e.printStackTrace();
             return true;
         }
     }
+
+    public boolean isAdmin(long id){
+        try{
+            ResultSet st = connection.createStatement().executeQuery("Select * from admins where id = " + "\'" + id + "\'");
+            return st.next();
+        }catch(SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void removeUser(String username){
+        if(isAdmin(getAccount(username).getId())) return;
+        try{
+            connection.createStatement().executeUpdate("delete from accounts where username = " + "\'" + username + "\'");
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+
+    }
+
+
 }

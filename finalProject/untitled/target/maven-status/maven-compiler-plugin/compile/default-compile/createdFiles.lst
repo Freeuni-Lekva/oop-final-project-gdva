@@ -1,11 +1,12 @@
-quizpackage\DBHandler.class
+quizpackage\RemoveUserServlet.class
 quizpackage\PasswordHasher.class
-quizpackage\RegisterUserServlet.class
 quizpackage\SessionCreation.class
-quizpackage\LoginButtonServlet.class
 quizpackage\Account.class
 quizpackage\LoginPageController.class
 quizpackage\RegisterButtonServlet.class
+quizpackage\DBHandler.class
+quizpackage\RegisterUserServlet.class
+quizpackage\LoginButtonServlet.class
 quizpackage\ContextCreation.class
 quizpackage\Admin.class
 quizpackage\User.class
