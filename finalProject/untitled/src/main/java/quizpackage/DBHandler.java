@@ -4,6 +4,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 
 import javax.xml.transform.Result;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class DBHandler {
         dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/finalProject");
         dataSource.setUsername("root");
-        dataSource.setPassword("root1234");
+        dataSource.setPassword("Vpxdukkdaash1");
         try{
             connection = dataSource.getConnection();
         }
@@ -72,17 +73,12 @@ public class DBHandler {
             ResultSet st = connection.createStatement().executeQuery("Select * from Accounts where username = "
                     + "\'" + username +"\'");
             boolean usernameCorrect = false;
-            boolean passwordCorrect = false;
-            Account account = null;
-            while(st.next()){
+            boolean passwordCorrect;
+            Account account = castResultToAccount(st);
+            if(account != null){
                 usernameCorrect = true;
-                String name = st.getString("firstname");
-                String surname = st.getString("surname");
-                String pswrd = st.getString("pass");
-                int age = st.getInt("age");
-                passwordCorrect = PasswordHasher.isPassword(password,pswrd);
-                account = new User(name,surname,username,pswrd,age);
             }
+            passwordCorrect = PasswordHasher.isPassword(password,account.getPassword());
             if(usernameCorrect && passwordCorrect){
                 return account;
             }
@@ -99,15 +95,38 @@ public class DBHandler {
             ResultSet st =
                     connection.createStatement().executeQuery("Select * from Accounts where username = "
                     + "\'" + username +"\'");
+            return castResultToAccount(st);
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+    private Account castResultToAccount(ResultSet st){
+        try{
             Account account = null;
             while(st.next()){
                 String name = st.getString("firstname");
                 String surname = st.getString("surname");
+                String username = st.getString("username");
                 String pswrd = st.getString("pass");
                 int age = st.getInt("age");
                 account = new User(name,surname,username,pswrd,age);
             }
             return account;
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public Account getAccount(int id){
+        try{
+            ResultSet st =
+                    connection.createStatement().executeQuery("Select * from Accounts where id = "
+                            + "\'" + id +"\'");
+            return castResultToAccount(st);
         }
         catch(SQLException e){
             e.printStackTrace();
@@ -143,6 +162,28 @@ public class DBHandler {
             e.printStackTrace();
         }
 
+    }
+
+    public List<Announcement> getAnnouncements(){
+        try{
+            List<Announcement> announcements = new ArrayList<>();
+            ResultSet st = connection.createStatement().executeQuery("select * from posts");
+            while (st.next()) {
+                String title = st.getString("title");
+                String plot = st.getString("plot");
+                String image = st.getString("img");
+                Date date = st.getDate("upload_date");
+                int id = st.getInt("author_id");
+                Account account = getAccount(id);
+                Announcement announcement = new Announcement(title,plot,image,date,account);
+                announcements.add(announcement);
+            }
+            return announcements;
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
