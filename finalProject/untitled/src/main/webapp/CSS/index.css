@@ -79,6 +79,14 @@ body #buttonsDiv{
     align-content: center;
     justify-content: center;
 }
+body #buttonsDiv2{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+}
 
 #errorMessage{
     word-wrap:break-word;

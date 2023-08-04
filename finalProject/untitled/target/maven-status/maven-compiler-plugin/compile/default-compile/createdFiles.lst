@@ -6,9 +6,11 @@ quizpackage\LoginPageController.class
 quizpackage\RegisterButtonServlet.class
 quizpackage\DBHandler.class
 quizpackage\RegisterUserServlet.class
+quizpackage\AddAnnouncementServlet.class
 quizpackage\Announcement.class
 quizpackage\LoginButtonServlet.class
 quizpackage\ContextCreation.class
 quizpackage\Admin.class
 quizpackage\User.class
 quizpackage\mainclass.class
+quizpackage\AnnouncementAddButtonServlet.class

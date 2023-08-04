@@ -73,11 +73,7 @@
     height:100%;
     transition: transform 0.3s ease-in-out;
 }
-/*#announcementDiv > div > a{*/
-/*    position:relative;*/
-/*    width:100%;*/
-/*    height:100%;*/
-/*}*/
+
 #announcementDiv > a > div > p{
     display:none;
     position: absolute;
@@ -90,7 +86,9 @@
     display:block;
 }
 #announcementDiv > a > div{
-    positio:relative;
+    position:relative;
+    width: 100%;
+    height: 100%;
 }
 h1{
     position: absolute;
@@ -108,8 +106,9 @@ a{
     color:inherit;
     text-decoration: none;
     position:relative;
-    width:100%;
-    height:100%;
+    width: calc(33.33% - 10px);
+    height: calc(50% - 10px);
+    margin: 2px;
 }
 li{
     display: inline-block;

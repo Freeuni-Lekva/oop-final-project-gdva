@@ -19,7 +19,7 @@ public class DBHandler {
         dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/finalProject");
         dataSource.setUsername("root");
-        dataSource.setPassword("Vpxdukkdaash1");
+        dataSource.setPassword("root1234");
         try{
             connection = dataSource.getConnection();
         }
@@ -207,6 +207,18 @@ public class DBHandler {
             return announcement;
     }
 
+    public void addAnnouncement(Announcement announcement){
+        try{
+            connection.createStatement().executeUpdate("insert into posts(id,title,plot,img,upload_date,author_id) value "+
+                    "("+ announcement.getId() + ", " + "\'" + announcement.getTitle()+"\'" + ","+ "\'" +
+                    announcement.getText()+"\'" + ","+"\'" +announcement.getImgSrc()+"\'" + ","+"\'" +announcement.getUploadDate()
+                    + "\'" + ","+announcement.getAuthor().getId()+")");
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
     public int getMaxId(){
         try{
             ResultSet st = connection.createStatement().executeQuery("select id from accounts where id = (select max(id) from accounts);");
@@ -221,12 +233,18 @@ public class DBHandler {
         }
     }
 
-    public void debug(String text){
+    public int getMaxIdOFAnnouncements(){
         try{
-            connection.createStatement().execute("insert into debug(txt) value (\'" + text + "\')");
+            ResultSet st = connection.createStatement().
+                    executeQuery("select id from posts where id = (select max(id) from posts);");
+            if(st.next()){
+                return st.getInt("id");
+            }
+            return -1;
         }
-        catch (SQLException e){
+        catch(SQLException e){
             e.printStackTrace();
+            return -1;
         }
     }
 

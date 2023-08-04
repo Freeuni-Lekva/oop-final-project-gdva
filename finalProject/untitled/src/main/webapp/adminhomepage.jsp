@@ -23,6 +23,11 @@
                 <div id = "buttonsDiv">
                     <input type="submit" value = "Remove" id="removeButton" name="removeButton">
                 </div>
+                <div id = "buttonsDiv2">
+                <div>
+                    <button type="button" onclick="location.href='addPostButtonServlet'" id="addPostButton">Add Post</button>
+                </div>
+                </div>
             </form>
         </div>
     </div>
