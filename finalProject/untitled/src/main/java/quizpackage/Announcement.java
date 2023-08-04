@@ -8,14 +8,14 @@ public class Announcement {
     String imgSrc;
     Date uploadDate;
     Account author;
-    static long id = 0;
-    public Announcement(String title, String text,String imgSrc,Date uploadDate, Account author){
+    int id;
+    public Announcement(String title, String text,String imgSrc,Date uploadDate, Account author, int id){
         this.title = title;
         this.text = text;
         this.imgSrc = imgSrc;
         this.uploadDate = uploadDate;
         this.author = author;
-        this.id = ++id;
+        this.id = id;
     }
 
     public Account getAuthor() {
@@ -38,7 +38,7 @@ public class Announcement {
         return title;
     }
 
-    public static long getId() {
+    public int getId() {
         return id;
     }
 }

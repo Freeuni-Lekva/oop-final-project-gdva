@@ -30,11 +30,11 @@
             <div id="announcementDiv">
                 <%
                     for(int i = 0; i<announcements.size();i++){
-                        out.println("<div><a style = \" \"; href=\"announcement.jsp?id ="+announcements.get(i).getId()+" \">");
+                        out.println("<a href=\"announcement.jsp?id="+announcements.get(i).getId()+"\"><div>");
                         out.println("<img  src = \""+announcements.get(i).getImgSrc()+"\">");
                         out.println("<p style = \" top : 5%; left:50%;\">"+announcements.get(i).getAuthor().getUsername() + "</p>");
                         out.println("<p style = \" top : 50%; left:50%;\">"+announcements.get(i).getTitle() + "</p>");
-                        out.println("</a></div>");
+                        out.println("</div></a>");
                     }
                 %>
 

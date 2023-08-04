@@ -6,5 +6,5 @@ public interface Account {
     String getUsername();
     String getPassword();
     int getAge();
-    long getId();
+    int getId();
 }

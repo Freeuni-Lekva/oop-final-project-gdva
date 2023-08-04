@@ -57,28 +57,28 @@
     flex-wrap: wrap;
 }
 
-#announcementDiv > div{
+#announcementDiv > a > div{
     position:relative;
     width: calc(33.33% - 10px);
     height: calc(50% - 10px);
     margin: 2px;
 }
-#announcementDiv > div > img:hover{
+#announcementDiv > a > div > img:hover{
     transform: scale(1.05);
     filter:brightness(0.7);
 }
-#announcementDiv > div >  img{
+#announcementDiv > a > div >  img{
     position:relative;
     width:100%;
     height:100%;
     transition: transform 0.3s ease-in-out;
 }
-#announcementDiv > div > a{
-    position:relative;
-    width:100%;
-    height:100%;
-}
-#announcementDiv > div > p{
+/*#announcementDiv > div > a{*/
+/*    position:relative;*/
+/*    width:100%;*/
+/*    height:100%;*/
+/*}*/
+#announcementDiv > a > div > p{
     display:none;
     position: absolute;
     transform: translate(-50%, -50%);
@@ -86,10 +86,10 @@
     z-index: 1;
 }
 
-#announcementDiv > div >  img:hover ~ p{
+#announcementDiv > a > div >  img:hover ~ p{
     display:block;
 }
-#announcementDiv > div{
+#announcementDiv > a > div{
     positio:relative;
 }
 h1{
@@ -107,6 +107,9 @@ ul{
 a{
     color:inherit;
     text-decoration: none;
+    position:relative;
+    width:100%;
+    height:100%;
 }
 li{
     display: inline-block;

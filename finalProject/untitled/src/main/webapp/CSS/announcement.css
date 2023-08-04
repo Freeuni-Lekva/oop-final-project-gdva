@@ -64,7 +64,7 @@
 #announcementDiv > img{
     position: relative;
     width:100%;
-    height: 50%;
+    height: 70%;
 }
 #announcementDiv > h4{
     positon: relative;
@@ -88,6 +88,7 @@ h2{
     font-size:xxx-large;
 }
 h3{
+    font-style:italic;
     position:absolute;
     color: azure;
     font-family: "Academy Italic";

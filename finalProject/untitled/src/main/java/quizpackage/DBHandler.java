@@ -4,7 +4,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 
 import javax.xml.transform.Result;
 import java.sql.Connection;
-import java.util.Date;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class DBHandler {
         dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/finalProject");
         dataSource.setUsername("root");
-        dataSource.setPassword("root1234");
+        dataSource.setPassword("Vpxdukkdaash1");
         try{
             connection = dataSource.getConnection();
         }
@@ -47,7 +47,7 @@ public class DBHandler {
                         resultSet.getString("surname"),
                         resultSet.getString("username"),
                         resultSet.getString("pass"),
-                        resultSet.getInt("age"));
+                        resultSet.getInt("age"), resultSet.getInt("id"));
                 accounts.add(cur);
             }
             return accounts;
@@ -60,8 +60,8 @@ public class DBHandler {
 
     public void addAccount(Account account){
         try{
-            connection.createStatement().execute("insert into accounts(firstname,surname,username,pass,age) value "+
-                    "("+ "\'" + account.getName()+"\'" + ","+ "\'" +account.getSurname()+"\'" + ","+"\'" +account.getUsername()+"\'" + ","+"\'" +account.getPassword() + "\'" + ","+account.getAge()+")");
+            connection.createStatement().execute("insert into accounts(id,firstname,surname,username,pass,age) value "+
+                    "("+ account.getId() + ", " + "\'" + account.getName()+"\'" + ","+ "\'" +account.getSurname()+"\'" + ","+"\'" +account.getUsername()+"\'" + ","+"\'" +account.getPassword() + "\'" + ","+account.getAge()+")");
         }
         catch(SQLException e){
             e.printStackTrace();
@@ -75,6 +75,7 @@ public class DBHandler {
             boolean usernameCorrect = false;
             boolean passwordCorrect;
             Account account = castResultToAccount(st);
+         //   connection.createStatement().executeQuery("insert into debug(id) value (" + account.getId()+")");
             if(account != null){
                 usernameCorrect = true;
             }
@@ -107,12 +108,13 @@ public class DBHandler {
         try{
             Account account = null;
             while(st.next()){
+                int id = st.getInt("id");
                 String name = st.getString("firstname");
                 String surname = st.getString("surname");
                 String username = st.getString("username");
                 String pswrd = st.getString("pass");
                 int age = st.getInt("age");
-                account = new User(name,surname,username,pswrd,age);
+                account = new User(name,surname,username,pswrd,age,id);
             }
             return account;
         }
@@ -125,7 +127,7 @@ public class DBHandler {
         try{
             ResultSet st =
                     connection.createStatement().executeQuery("Select * from accounts where id = "
-                            + "\'" + id +"\'");
+                            + id + ";");
             return castResultToAccount(st);
         }
         catch(SQLException e){
@@ -181,29 +183,51 @@ public class DBHandler {
     }
     public Announcement getAnnouncement(String id){
         try{
-            ResultSet st = connection.createStatement().executeQuery("Select * from posts where id = 3;");
-            Announcement announcement = getSingleAnnouncementFromResultSet(st);
+            ResultSet st = connection.createStatement().executeQuery("Select * from posts where id =" + id +";");
+            Announcement announcement = null;
+            while(st.next()){
+                announcement = getSingleAnnouncementFromResultSet(st);
+            }
             return announcement;
         }catch(SQLException e){
             e.printStackTrace();
+            return null;
         }
-        Account acc = getAccount("lasa","lasa");
-        String text = "abcdbcabckdmldkmladsfm;lds,f;sa,f;dsla,f;asd,f;asd, sdmfasldmfdslamfdslamfldsmflasdfsdalmfls" +
-                "sdfkmsaldfmsalfmsdalkmflsmfslamdfdslfmdslfmsdl lsdfmalsmfsdmfdsl sldmflsdmflks lsdfmlsmf lsfmlsmfl ad" +
-                "adsmaldmalskdmasldmaslkdmalk alksmdlxm kcsnlksd lsacmdlk acsml";
-        return new Announcement("LASA",text,"lasa.jpg",
-                new java.util.Date(2023,8,4),acc);
     }
 
     public Announcement getSingleAnnouncementFromResultSet(ResultSet st) throws SQLException {
-        String title = st.getString("title");
-        String plot = st.getString("plot");
-        String image = st.getString("img");
-        Date date = st.getDate("upload_date");
-        int ID = st.getInt("author_id");
-        Account account = getAccount(ID);
-        Announcement announcement = new Announcement(title,plot,image,date,account);
-        return announcement;
+            int id = st.getInt("id");
+            String title = st.getString("title");
+            String plot = st.getString("plot");
+            String image = st.getString("img");
+            Date date = st.getDate("upload_date");
+            int ID = st.getInt("author_id");
+            Account account = getAccount(ID);
+            Announcement announcement = new Announcement(title, plot, image, date, account,id);
+            return announcement;
+    }
+
+    public int getMaxId(){
+        try{
+            ResultSet st = connection.createStatement().executeQuery("select id from accounts where id = (select max(id) from accounts);");
+            if(st.next()){
+                return st.getInt("id");
+            }
+            return -1;
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    public void debug(String text){
+        try{
+            connection.createStatement().execute("insert into debug(txt) value (\'" + text + "\')");
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
 }

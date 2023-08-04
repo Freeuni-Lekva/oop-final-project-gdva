@@ -6,14 +6,14 @@ public class Admin implements Account{
     String username;
     String password;
     int age;
-    static long id = 0;
-    public Admin(String name, String surname, String username,String password,int age){
+    int id;
+    public Admin(String name, String surname, String username,String password,int age, int id){
         this.name = name;
         this.surname = surname;
         this.username = username;
         this.password = password;
         this.age = age;
-        this.id = ++id;
+        this.id = id;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class Admin implements Account{
     }
 
     @Override
-    public long getId() {
+    public int getId() {
         return id;
     }
 }
