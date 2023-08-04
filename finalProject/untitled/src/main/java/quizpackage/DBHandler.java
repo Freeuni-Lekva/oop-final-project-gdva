@@ -4,7 +4,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 
 import javax.xml.transform.Result;
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class DBHandler {
         dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/finalProject");
         dataSource.setUsername("root");
-        dataSource.setPassword("Vpxdukkdaash1");
+        dataSource.setPassword("root1234");
         try{
             connection = dataSource.getConnection();
         }
@@ -41,7 +41,7 @@ public class DBHandler {
     public List<Account> getAccounts(){
         try{
             List<Account> accounts = new ArrayList<>();
-            ResultSet resultSet = connection.createStatement().executeQuery("Select * from Accounts");
+            ResultSet resultSet = connection.createStatement().executeQuery("Select * from accounts");
             while(resultSet.next()){
                 Account cur = new User(resultSet.getString("firstname"),
                         resultSet.getString("surname"),
@@ -60,7 +60,7 @@ public class DBHandler {
 
     public void addAccount(Account account){
         try{
-            connection.createStatement().execute("insert into Accounts(firstname,surname,username,pass,age) value "+
+            connection.createStatement().execute("insert into accounts(firstname,surname,username,pass,age) value "+
                     "("+ "\'" + account.getName()+"\'" + ","+ "\'" +account.getSurname()+"\'" + ","+"\'" +account.getUsername()+"\'" + ","+"\'" +account.getPassword() + "\'" + ","+account.getAge()+")");
         }
         catch(SQLException e){
@@ -70,7 +70,7 @@ public class DBHandler {
 
     public Account getAccount(String username, String password){
         try{
-            ResultSet st = connection.createStatement().executeQuery("Select * from Accounts where username = "
+            ResultSet st = connection.createStatement().executeQuery("Select * from accounts where username = "
                     + "\'" + username +"\'");
             boolean usernameCorrect = false;
             boolean passwordCorrect;
@@ -93,7 +93,7 @@ public class DBHandler {
     public Account getAccount(String username){
         try{
             ResultSet st =
-                    connection.createStatement().executeQuery("Select * from Accounts where username = "
+                    connection.createStatement().executeQuery("Select * from accounts where username = "
                     + "\'" + username +"\'");
             return castResultToAccount(st);
         }
@@ -124,7 +124,7 @@ public class DBHandler {
     public Account getAccount(int id){
         try{
             ResultSet st =
-                    connection.createStatement().executeQuery("Select * from Accounts where id = "
+                    connection.createStatement().executeQuery("Select * from accounts where id = "
                             + "\'" + id +"\'");
             return castResultToAccount(st);
         }
@@ -157,7 +157,7 @@ public class DBHandler {
     public void removeUser(String username){
         if(isAdmin(getAccount(username).getId())) return;
         try{
-            connection.createStatement().executeUpdate("delete from accounts where username = " + "\'" + username + "\'");
+            connection.createStatement().executeUpdate("delete from accounts where username = " + "\'" + username + "\'; commit;");
         }catch(SQLException e){
             e.printStackTrace();
         }
@@ -169,13 +169,7 @@ public class DBHandler {
             List<Announcement> announcements = new ArrayList<>();
             ResultSet st = connection.createStatement().executeQuery("select * from posts");
             while (st.next()) {
-                String title = st.getString("title");
-                String plot = st.getString("plot");
-                String image = st.getString("img");
-                Date date = st.getDate("upload_date");
-                int id = st.getInt("author_id");
-                Account account = getAccount(id);
-                Announcement announcement = new Announcement(title,plot,image,date,account);
+                Announcement announcement = getSingleAnnouncementFromResultSet(st);
                 announcements.add(announcement);
             }
             return announcements;
@@ -185,6 +179,33 @@ public class DBHandler {
             return null;
         }
     }
+    public Announcement getAnnouncement(String id){
+        try{
+            ResultSet st = connection.createStatement().executeQuery("Select * from posts where id = 3;");
+            Announcement announcement = getSingleAnnouncementFromResultSet(st);
+            return announcement;
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        Account acc = getAccount("lasa","lasa");
+        String text = "abcdbcabckdmldkmladsfm;lds,f;sa,f;dsla,f;asd,f;asd, sdmfasldmfdslamfdslamfldsmflasdfsdalmfls" +
+                "sdfkmsaldfmsalfmsdalkmflsmfslamdfdslfmdslfmsdl lsdfmalsmfsdmfdsl sldmflsdmflks lsdfmlsmf lsfmlsmfl ad" +
+                "adsmaldmalskdmasldmaslkdmalk alksmdlxm kcsnlksd lsacmdlk acsml";
+        return new Announcement("LASA",text,"lasa.jpg",
+                new java.util.Date(2023,8,4),acc);
+    }
 
+    public Announcement getSingleAnnouncementFromResultSet(ResultSet st) throws SQLException {
+        String title = st.getString("title");
+        String plot = st.getString("plot");
+        String image = st.getString("img");
+        Date date = st.getDate("upload_date");
+        int ID = st.getInt("author_id");
+        Account account = getAccount(ID);
+        Announcement announcement = new Announcement(title,plot,image,date,account);
+        return announcement;
+    }
 
 }
+
+

@@ -11,8 +11,8 @@
     <source src="/CSS/backgr.mp4" type="video/mp4">
 </video>
 <%
-    DBHandler handler = (DBHandler) application.getAttribute("handler");
-    Account currentAccount = (Account) request.getSession().getAttribute("account");
+    DBHandler handler = (DBHandler)application.getAttribute("handler");
+    Account currentAccount = (Account)request.getSession().getAttribute("account");
     List<Announcement> announcements = handler.getAnnouncements();
 %>
 <div id = "entireDiv">
@@ -30,11 +30,11 @@
             <div id="announcementDiv">
                 <%
                     for(int i = 0; i<announcements.size();i++){
-                        out.println("<div>");
-                        out.println("<img src = \""+announcements.get(i).getImgSrc()+"\" >");
+                        out.println("<div><a style = \" \"; href=\"announcement.jsp?id ="+announcements.get(i).getId()+" \">");
+                        out.println("<img  src = \""+announcements.get(i).getImgSrc()+"\">");
                         out.println("<p style = \" top : 5%; left:50%;\">"+announcements.get(i).getAuthor().getUsername() + "</p>");
                         out.println("<p style = \" top : 50%; left:50%;\">"+announcements.get(i).getTitle() + "</p>");
-                        out.println("</div>");
+                        out.println("</a></div>");
                     }
                 %>
 
