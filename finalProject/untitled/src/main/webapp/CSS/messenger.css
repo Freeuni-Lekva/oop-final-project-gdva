@@ -1,0 +1,186 @@
+#entireDiv{
+    top:0;
+    left:0;
+    position : relative;
+    height:100%;
+    width:100%;
+    /*background-color: black;*/
+}
+
+#centralDiv{
+    position:relative;
+    display:flex;
+    flex-direction: row;
+    width:60%;
+    height:70%;
+    top:15%;
+    left:20%;
+    /*background-color: aqua;*/
+}
+#leftDiv{
+    position:relative;
+    left:0;
+    height:100%;
+    width:25%;
+    /*background-color:red;*/
+    overflow:auto;
+}
+#leftDiv > div{
+    height:60px;
+    background-color:orange;
+    margin-bottom:5px;
+    display:flex;
+    flex-direction:row;
+}
+#leftDiv > div > img{
+    position:relative;
+    border-radius:15px;
+    height:100%;
+    width:20%;
+    left:0;
+}
+#leftDiv > div > div{
+    position:relative;
+    width:80%;
+    height:100%;
+    right:0;
+    /*background-color:orange;*/
+    display:flex;
+    flex-direction: column;
+}
+#leftDiv > div > div > h4{
+    position:relative;
+    left:0;
+    top:10%;
+    margin : 0;
+}
+#leftDiv > div > div > p{
+    position:relative;
+    top:30%;
+    left:0;
+    margin:0;
+}
+
+
+
+#rightDiv{
+    height:100%;
+    width:75%;
+    /*background-color:orange;*/
+    display:flex;
+    flex-direction: column;
+}
+#messageHeaderDiv{
+    width:100%;
+    height:10%;
+    background-color:olivedrab;
+    display:flex;
+    flex-direction: row;
+}
+#messageHeaderDiv > img{
+    position:relative;
+    border-radius:15px;
+    height:100%;
+    width:8%;
+    left:0;
+}
+#messageHeaderDiv > div {
+    position:relative;
+    width:92%;
+    height:100%;
+    right:0;
+    /*background-color:orange;*/
+}
+#messageHeaderDiv > div > h4{
+    position:relative;
+    left:0;
+    top:10%;
+    margin : 0;
+}
+#messageDiv{
+    width:100%;
+    height:85%;
+    background-color:darkcyan;
+    overflow:auto;
+}
+#messageDiv > div{
+    position:relative;
+    width:100%;
+    height:auto;
+    margin-bottom:10px;
+    /*background-color:forestgreen;*/
+    display:flex;
+    justify-content : flex-start;
+}
+#messageDiv > div > div{
+    position:relative;
+    height:auto;
+    width:70px;
+}
+#messageDiv > div > div > p {
+    word-wrap : break-word;
+}
+#messageDiv > div > img{
+    border-radius:10px;
+    height:15px;
+    width:15px;
+}
+
+#inputDiv{
+    width:100%;
+    height:5%;
+    /*background-color:gold;*/
+    display:flex;
+    flex-direction: row;
+}
+#messageInput{
+    height:100%;
+    width:80%;
+    box-sizing: border-box;
+    border: 2px solid #4CAF50;
+    border-radius: 12px;
+}
+#messageButton{
+    height:100%;
+    width:20%;
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 8px;
+    transition-duration: 0.4s;
+    transition-property:background-color,color;
+}
+#messageButton:hover{
+    background-color: white;
+    color: black;
+    border: 2px solid white;
+}
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #e6f7ff;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #99ccff;
+    border-radius: 10px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+#backgrVid{
+    position: fixed;
+    right:0;
+    bottom:0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+}
+
+p{
+    color:white;
+}

@@ -16,10 +16,11 @@ public class RegisterUserServlet extends HttpServlet {
         String surname = req.getParameter("surnameInput");
         String username = req.getParameter("usernameInput");
         String password = req.getParameter("passwordInput");
+        String image = req.getParameter("imageInput");
         int age = Integer.parseInt(req.getParameter("ageInput"));
 
         DBHandler handler = (DBHandler) req.getServletContext().getAttribute("handler");
-        Account acc = new User(name,surname,username, PasswordHasher.hashPassword(password),age,handler.getMaxId()+1);
+        Account acc = new User(name,surname,username, PasswordHasher.hashPassword(password),age,handler.getMaxId()+1,image);
         if(handler.containsUsername(username)){
             req.getSession().setAttribute("validRegister",0);
             RequestDispatcher dispatcher = req.getRequestDispatcher("registerpage.jsp");

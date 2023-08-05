@@ -19,7 +19,7 @@ public class DBHandler {
         dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/finalProject");
         dataSource.setUsername("root");
-        dataSource.setPassword("root1234");
+        dataSource.setPassword("Vpxdukkdaash1");
         try{
             connection = dataSource.getConnection();
         }
@@ -47,7 +47,7 @@ public class DBHandler {
                         resultSet.getString("surname"),
                         resultSet.getString("username"),
                         resultSet.getString("pass"),
-                        resultSet.getInt("age"), resultSet.getInt("id"));
+                        resultSet.getInt("age"), resultSet.getInt("id"),resultSet.getString("img"));
                 accounts.add(cur);
             }
             return accounts;
@@ -113,8 +113,9 @@ public class DBHandler {
                 String surname = st.getString("surname");
                 String username = st.getString("username");
                 String pswrd = st.getString("pass");
+                String image = st.getString("img");
                 int age = st.getInt("age");
-                account = new User(name,surname,username,pswrd,age,id);
+                account = new User(name,surname,username,pswrd,age,id,image);
             }
             return account;
         }
@@ -245,6 +246,26 @@ public class DBHandler {
         catch(SQLException e){
             e.printStackTrace();
             return -1;
+        }
+    }
+
+    public List<Message> getAccountMessages(Account account){
+        try{
+            ResultSet st = connection.createStatement().executeQuery("select * from messages where from_id = " +account.getId() +" or to_id = " + account.getId() + " order by send_date;");
+            List<Message> messages = new ArrayList<>();
+            while(st.next()){
+                Account from = getAccount(st.getInt("from_id"));
+                Account to = getAccount(st.getInt("to_id"));
+                Date date = st.getDate("send_date");
+                String txt = st.getString("txt");
+                Message message = new Message(from,to,date,txt);
+                messages.add(message);
+            }
+            return messages;
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return null;
         }
     }
 

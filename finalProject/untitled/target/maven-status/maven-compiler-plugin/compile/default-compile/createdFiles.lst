@@ -2,6 +2,7 @@ quizpackage\RemoveUserServlet.class
 quizpackage\PasswordHasher.class
 quizpackage\SessionCreation.class
 quizpackage\Account.class
+quizpackage\Message.class
 quizpackage\LoginPageController.class
 quizpackage\RegisterButtonServlet.class
 quizpackage\DBHandler.class

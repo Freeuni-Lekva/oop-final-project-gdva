@@ -1,0 +1,14 @@
+0:0:0:0:0:0:0:1 - - [05/Aug/2023:12:30:54 +0400] "GET / HTTP/1.1" 200 1262 http-bio-9090-exec-1 412
+0:0:0:0:0:0:0:1 - - [05/Aug/2023:12:31:05 +0400] "GET /loginButtonServlet?loginInput=fxala&passwordInput=fxala&loginButton=Log+In HTTP/1.1" 500 1492 http-bio-9090-exec-4 3
+0:0:0:0:0:0:0:1 - - [05/Aug/2023:12:32:37 +0400] "GET / HTTP/1.1" 200 1262 http-bio-9090-exec-1 66
+0:0:0:0:0:0:0:1 - - [05/Aug/2023:12:32:44 +0400] "GET /loginButtonServlet?loginInput=fxala&passwordInput=fxala&loginButton=Log+In HTTP/1.1" 200 1235 http-bio-9090-exec-3 562
+0:0:0:0:0:0:0:1 - - [05/Aug/2023:12:32:48 +0400] "GET /messenger.jsp HTTP/1.1" 200 2841 http-bio-9090-exec-4 93
+0:0:0:0:0:0:0:1 - - [05/Aug/2023:12:33:56 +0400] "GET /registerButtonServlet HTTP/1.1" 200 1282 http-bio-9090-exec-7 40
+0:0:0:0:0:0:0:1 - - [05/Aug/2023:12:34:10 +0400] "GET /registerUserServlet?nameInput=nika&surnameInput=pkhaladze&usernameInput=fxala_admin&passwordInput=fxala_admin&ageInput=20&registerButton=Register HTTP/1.1" 200 1241 http-bio-9090-exec-10 102
+0:0:0:0:0:0:0:1 - - [05/Aug/2023:12:35:04 +0400] "GET /loginButtonServlet?loginInput=fxala_admin&passwordInput=fxala_admin&loginButton=Log+In HTTP/1.1" 200 923 http-bio-9090-exec-4 98
+0:0:0:0:0:0:0:1 - - [05/Aug/2023:12:35:11 +0400] "GET /addPostButtonServlet HTTP/1.1" 200 935 http-bio-9090-exec-4 30
+0:0:0:0:0:0:0:1 - - [05/Aug/2023:12:36:15 +0400] "GET /AddAnnouncementServlet?titleInput=koba+kobaa&textInput=koba+kobam+kobas+kobasi+kobati+kobad+kobav&imageInput=img.png&addPostButton=AddPost HTTP/1.1" 200 923 http-bio-9090-exec-9 40
+0:0:0:0:0:0:0:1 - - [05/Aug/2023:12:36:24 +0400] "GET /loginButtonServlet?loginInput=fxala&passwordInput=fxala&loginButton=Log+In HTTP/1.1" 200 1412 http-bio-9090-exec-10 5
+0:0:0:0:0:0:0:1 - - [05/Aug/2023:12:36:24 +0400] "GET /img.png HTTP/1.1" 200 413647 http-bio-9090-exec-10 5
+0:0:0:0:0:0:0:1 - - [05/Aug/2023:12:36:31 +0400] "GET /announcement.jsp?id=5 HTTP/1.1" 200 863 http-bio-9090-exec-10 32
+0:0:0:0:0:0:0:1 - - [05/Aug/2023:12:36:31 +0400] "GET /CSS/announcement.css HTTP/1.1" 200 1729 http-bio-9090-exec-10 6

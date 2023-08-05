@@ -7,4 +7,5 @@ public interface Account {
     String getPassword();
     int getAge();
     int getId();
+    String getImage();
 }
