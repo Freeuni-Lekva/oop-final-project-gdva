@@ -5,6 +5,8 @@ quizpackage\Account.class
 quizpackage\Message.class
 quizpackage\LoginPageController.class
 quizpackage\RegisterButtonServlet.class
+quizpackage\Chat.class
+quizpackage\MessageButtonServlet.class
 quizpackage\DBHandler.class
 quizpackage\RegisterUserServlet.class
 quizpackage\AddAnnouncementServlet.class

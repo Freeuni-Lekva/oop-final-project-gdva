@@ -11,10 +11,10 @@
     position:relative;
     display:flex;
     flex-direction: row;
-    width:60%;
+    width:70%;
     height:70%;
     top:15%;
-    left:20%;
+    left:15%;
     /*background-color: aqua;*/
 }
 #leftDiv{
@@ -25,21 +25,24 @@
     /*background-color:red;*/
     overflow:auto;
 }
-#leftDiv > div{
+#leftDiv > a > div{
     height:60px;
-    background-color:orange;
+    background-color:#383C97;
     margin-bottom:5px;
     display:flex;
     flex-direction:row;
 }
-#leftDiv > div > img{
+#leftDiv > a > div > img{
     position:relative;
     border-radius:15px;
     height:100%;
     width:20%;
     left:0;
 }
-#leftDiv > div > div{
+#leftDiv > a:hover{
+  opacity:0.7;
+}
+#leftDiv > a > div > div{
     position:relative;
     width:80%;
     height:100%;
@@ -48,13 +51,14 @@
     display:flex;
     flex-direction: column;
 }
-#leftDiv > div > div > h4{
+#leftDiv > a > div > div > h4{
     position:relative;
     left:0;
     top:10%;
     margin : 0;
+    color:#1A1110;
 }
-#leftDiv > div > div > p{
+#leftDiv > a > div > div > p{
     position:relative;
     top:30%;
     left:0;
@@ -73,9 +77,10 @@
 #messageHeaderDiv{
     width:100%;
     height:10%;
-    background-color:olivedrab;
+    background-color:#383C97;
     display:flex;
     flex-direction: row;
+    border-radius:10px
 }
 #messageHeaderDiv > img{
     position:relative;
@@ -96,11 +101,12 @@
     left:0;
     top:10%;
     margin : 0;
+    color:#1A1110;
 }
 #messageDiv{
     width:100%;
     height:85%;
-    background-color:darkcyan;
+    background-color:#F1F3F4;
     overflow:auto;
 }
 #messageDiv > div{
@@ -119,6 +125,7 @@
 }
 #messageDiv > div > div > p {
     word-wrap : break-word;
+    color:black;
 }
 #messageDiv > div > img{
     border-radius:10px;
@@ -137,13 +144,18 @@
     height:100%;
     width:80%;
     box-sizing: border-box;
-    border: 2px solid #4CAF50;
+    border: 2px solid #383C97;
     border-radius: 12px;
+    transition:background-color 0.5s;
+}
+#messageInput:hover{
+    background-color:#383C97;
+    color:white;
 }
 #messageButton{
     height:100%;
     width:20%;
-    background-color: #4CAF50; /* Green */
+    background-color: #383C97; /* Green */
     border: none;
     color: white;
     text-align: center;
@@ -180,7 +192,20 @@
     min-height: 100%;
     z-index: -1;
 }
-
+#leftDiv > a{
+    color:inherit;
+    text-decoration: none;
+    position:relative;
+    /*height:60px;*/
+}
 p{
     color:white;
+}
+#inputDiv > form{
+    position:relative;
+    width:100%;
+    height:100%;
+    /*background-color:gold;*/
+    display:flex;
+    flex-direction: row;
 }

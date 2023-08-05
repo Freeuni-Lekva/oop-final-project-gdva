@@ -39,6 +39,8 @@
             <input type="password" id="passwordInput" name="passwordInput">
             <p>Age: </p>
             <input type="text" id="ageInput" name="ageInput">
+                <p>Image: </p>
+                <input type="text" id="imageInput" name="imageInput">
             <div id = "buttonsDiv">
                     <input type="submit" value = "Register" id="registerButton" name="registerButton">
             </div>

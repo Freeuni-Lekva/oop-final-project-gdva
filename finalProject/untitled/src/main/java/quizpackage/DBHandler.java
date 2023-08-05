@@ -251,21 +251,91 @@ public class DBHandler {
 
     public List<Message> getAccountMessages(Account account){
         try{
-            ResultSet st = connection.createStatement().executeQuery("select * from messages where from_id = " +account.getId() +" or to_id = " + account.getId() + " order by send_date;");
+            ResultSet st = connection.createStatement().executeQuery("select * from messages where from_id = " +account.getId() +" or to_id = " + account.getId() + " order by send_date asc, id asc;");
             List<Message> messages = new ArrayList<>();
             while(st.next()){
-                Account from = getAccount(st.getInt("from_id"));
-                Account to = getAccount(st.getInt("to_id"));
-                Date date = st.getDate("send_date");
-                String txt = st.getString("txt");
-                Message message = new Message(from,to,date,txt);
-                messages.add(message);
+                messages.add(castResultToMessage(st));
             }
             return messages;
         }
         catch(SQLException e){
             e.printStackTrace();
             return null;
+        }
+    }
+    public void debug(String text){
+        try{
+             connection.createStatement().execute("insert into debug(txt) value (\'" + text + "\');");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
+    }
+
+
+    public Account getMostRecentMessageAccount(Account account){
+        try{
+            ResultSet st = connection.createStatement().executeQuery("select from_id, to_id from messages where send_date = (select max(send_date) from messages where from_id = " + account.getId() + " or to_id = " +account.getId() +") order by id desc;");
+            while(st.next()){
+                int from_id = st.getInt("from_id");
+                int to_id = st.getInt("to_id");
+                if(from_id == account.getId()){
+                    return getAccount(to_id);
+                }
+                else{
+                    return getAccount(from_id);
+                }
+            }
+            return null;
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Message> getDialogue(Account acc1, Account acc2){
+        try{
+            List<Message> result = new ArrayList<>();
+            ResultSet st = connection.createStatement().executeQuery("select * from messages where (from_id = " + acc1.getId() + " and to_id = " + acc2.getId()+ " ) or ( from_id = " + acc2.getId() + " and to_id = " + acc1.getId()+") order by send_date asc, id asc;" );
+            while(st.next()){
+                result.add(castResultToMessage(st));
+            }
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Message castResultToMessage(ResultSet st){
+        try{
+            Account from = getAccount(st.getInt("from_id"));
+            Account to = getAccount(st.getInt("to_id"));
+            Date date = st.getDate("send_date");
+            String txt = st.getString("txt");
+            Message message = new Message(from,to,date,txt);
+            return message;
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void addMessage(Account from, Account to, String text){
+        try{
+            if(from == null){
+                debug("from is null");
+            }
+            if(to == null){
+                debug("to is null");
+            }
+            debug("" + from.getId() + " " + to.getId() + " " +text);
+            connection.createStatement().execute("insert into messages(from_id,to_id,send_date,txt) value ("+ from.getId() + ","+ to.getId()+","+"sysdate()"+"," + "\'"+text+"\');");
+        }
+        catch(SQLException e){
+            e.printStackTrace();
         }
     }
 
