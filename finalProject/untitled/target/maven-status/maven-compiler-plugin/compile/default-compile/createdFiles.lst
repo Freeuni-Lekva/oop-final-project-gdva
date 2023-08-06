@@ -15,5 +15,6 @@ quizpackage\LoginButtonServlet.class
 quizpackage\ContextCreation.class
 quizpackage\Admin.class
 quizpackage\User.class
+quizpackage\searchUsersServlet.class
 quizpackage\mainclass.class
 quizpackage\AnnouncementAddButtonServlet.class

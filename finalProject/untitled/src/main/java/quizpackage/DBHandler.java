@@ -19,7 +19,7 @@ public class DBHandler {
         dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/finalProject");
         dataSource.setUsername("root");
-        dataSource.setPassword("Vpxdukkdaash1");
+        dataSource.setPassword("root1234");
         try{
             connection = dataSource.getConnection();
         }
@@ -43,11 +43,7 @@ public class DBHandler {
             List<Account> accounts = new ArrayList<>();
             ResultSet resultSet = connection.createStatement().executeQuery("Select * from accounts");
             while(resultSet.next()){
-                Account cur = new User(resultSet.getString("firstname"),
-                        resultSet.getString("surname"),
-                        resultSet.getString("username"),
-                        resultSet.getString("pass"),
-                        resultSet.getInt("age"), resultSet.getInt("id"),resultSet.getString("img"));
+                Account cur = getSingleAccount(resultSet);
                 accounts.add(cur);
             }
             return accounts;
@@ -56,6 +52,14 @@ public class DBHandler {
             se.printStackTrace();
             return null;
         }
+    }
+    private Account getSingleAccount(ResultSet resultSet) throws SQLException{
+        Account acc = new User(resultSet.getString("firstname"),
+                resultSet.getString("surname"),
+                resultSet.getString("username"),
+                resultSet.getString("pass"),
+                resultSet.getInt("age"), resultSet.getInt("id"),resultSet.getString("img"));
+        return acc;
     }
 
     public void addAccount(Account account){
@@ -73,13 +77,13 @@ public class DBHandler {
             ResultSet st = connection.createStatement().executeQuery("Select * from accounts where username = "
                     + "\'" + username +"\'");
             boolean usernameCorrect = false;
-            boolean passwordCorrect;
+            boolean passwordCorrect = false;
             Account account = castResultToAccount(st);
          //   connection.createStatement().executeQuery("insert into debug(id) value (" + account.getId()+")");
             if(account != null){
                 usernameCorrect = true;
+                passwordCorrect = PasswordHasher.isPassword(password,account.getPassword());
             }
-            passwordCorrect = PasswordHasher.isPassword(password,account.getPassword());
             if(usernameCorrect && passwordCorrect){
                 return account;
             }
@@ -102,12 +106,11 @@ public class DBHandler {
             e.printStackTrace();
             return null;
         }
-
     }
     private Account castResultToAccount(ResultSet st){
         try{
             Account account = null;
-            while(st.next()){
+            if(st.next()){
                 int id = st.getInt("id");
                 String name = st.getString("firstname");
                 String surname = st.getString("surname");
@@ -120,6 +123,7 @@ public class DBHandler {
             return account;
         }
         catch(SQLException e){
+            debug("castshi daicatcha");
             e.printStackTrace();
             return null;
         }
@@ -132,6 +136,7 @@ public class DBHandler {
             return castResultToAccount(st);
         }
         catch(SQLException e){
+            debug("getAccountshi daicatcha");
             e.printStackTrace();
             return null;
         }
@@ -337,6 +342,21 @@ public class DBHandler {
         catch(SQLException e){
             e.printStackTrace();
         }
+    }
+
+    public List<Account> filterUsersByPrefix(String username){
+        List<Account> accounts = new ArrayList<>();
+        try{
+            ResultSet rs = connection.createStatement().
+                    executeQuery("select * from accounts where username like " + "\'" + username +"%"+ "\'");
+            while(rs.next()){
+                Account cur = getSingleAccount(rs);
+                accounts.add(cur);
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return accounts;
     }
 
 }
