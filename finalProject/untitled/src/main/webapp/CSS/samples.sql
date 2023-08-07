@@ -102,3 +102,17 @@ select * from messages where from_id = 0 or to_id = 0 order by send_date;
 select from_id, to_id from messages where id = (select max(id) from messages where from_id = 0 or to_id = 0);
 select * from debug;
 select * from messages;
+create table sent_requests(
+                              sender_id int,
+                              receiver_id int,
+                              response varchar(10),
+                              foreign key (sender_id) references accounts(id),
+                              foreign key (sender_id) references accounts(id)
+);
+
+create table friends(
+                        first_friend_id int,
+                        second_friend_id int,
+                        foreign key (first_friend_id) references accounts(id),
+                        foreign key (second_friend_id) references accounts(id)
+);

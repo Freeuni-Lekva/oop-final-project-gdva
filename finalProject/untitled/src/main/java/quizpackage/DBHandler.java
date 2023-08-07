@@ -358,6 +358,94 @@ public class DBHandler {
         }
         return accounts;
     }
+    public void addFriendRequest(Account from,Account to){
+         try{
+             connection.createStatement().
+                     executeUpdate("insert into sent_requests(sender_id,receiver_id,response) value (" +
+                             + from.getId() + ","+ to.getId()+","+"\'"+"N/A"+"\')");
+         }catch (SQLException e){
+            e.printStackTrace();
+         }
+    }
+
+    public boolean isRequestSent(Account from, Account to){
+        try{
+            ResultSet rs = connection.createStatement().
+                    executeQuery("select sender_id from sent_requests where sender_id = " + from.getId()
+                            +" and "+"receiver_id = "+to.getId());
+            return rs.next();
+        }catch (SQLException e){
+            debug("select sender_id from sent_requests where sender_id = " + from.getId()
+                    +" and "+"receiver_id = "+to.getId());
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public List<Account> getReceivedFriendRequests(Account receiver){
+        List<Account> accounts = new ArrayList<>();
+        try{
+            ResultSet rs = connection.createStatement().
+                    executeQuery("select sender_id from sent_requests where receiver_id = "+receiver.getId()+
+                            " and response =" +"\'"+"N/A"+"\'" );
+            while(rs.next()){
+                int id = rs.getInt("sender_id");
+                Account acc = getAccount(id);
+                accounts.add(acc);
+            }
+        }catch (SQLException e){
+            debug("select sender_id from sent_requests where receiver_id = "+receiver.getId()+
+                    " and response =" +"\'"+"N/A"+"\'");
+            e.printStackTrace();
+        }
+        return accounts;
+    }
+
+    public void generateResponseToFriendRequest(boolean response,int fromID,int toID){
+        if(response){
+            try{
+                connection.createStatement()
+                        .executeUpdate("insert into friends(first_friend_id,second_friend_id) value (" + fromID+","+
+                                toID+")");
+                connection.createStatement()
+                        .executeUpdate("update sent_requests set sender_id =" + fromID +", receiver_id ="+ toID +", response = 'Accept'" +
+                                "where sender_id = " + fromID + " and receiver_id = " + toID +";");
+            }catch (SQLException e){
+                debug("insert into friends(first_friend_id,second_friend_id) value (" + fromID+","+
+                        toID+")");
+                debug("update sent_requests set sender_id =" + fromID +", receiver_id ="+ toID +", response = 'Accept'" +
+                        "where sender_id = " + fromID + " and receiver_id = " + toID +";");
+                e.printStackTrace();
+            }
+
+        } else {
+            try{
+                connection.createStatement()
+                        .executeUpdate("delete from sent_requests where sender_id ="
+                                + fromID + " and receiver_id = " + toID+";");
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public boolean areFriends(Account first,Account second){
+        int firstID = first.getId();
+        int secondID = second.getId();
+        try{
+            ResultSet rs = connection.createStatement()
+                    .executeQuery("select * from friends " +
+                            "where (first_friend_id ="+ firstID+ " and second_friend_id ="+ secondID +
+                            ") or (first_friend_id = " + secondID + " and second_friend_id = " + firstID +");");
+            return rs.next();
+        }catch (SQLException e){
+                debug("select * from friends " +
+                        "where (first_friend_id ="+ firstID+ " and second_friend_id ="+ secondID +
+                        ") or (first_friend_id = " + secondID + " and second_friend_id = " + firstID +");");
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 }
 

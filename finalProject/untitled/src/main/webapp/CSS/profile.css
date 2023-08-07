@@ -53,8 +53,24 @@ h1 {
 .section h2 {
     margin-bottom: 10px;
 }
+.section h3{
+    margin-bottom: 10px;
+    text-align: center;
+}
 
 .section p {
     line-height: 1.6;
 }
+ .friend-request-button {
+     display: block;
+     margin: 10px auto;
+     padding: 5px 5px;
+     color: black;
+     background: azure;
+     font-size: large;
+     border: none;
+     border-radius: 5px;
+     cursor: pointer;
+ }
+
 

@@ -12,6 +12,10 @@
     String id = request.getParameter("id");
     DBHandler handler = (DBHandler) request.getServletContext().getAttribute("handler");
     Account profileUser = handler.getAccount(Integer.valueOf(id));
+    Account currentUser = (Account)session.getAttribute("account");
+    session.setAttribute("profile",profileUser);
+    Boolean isRequestSent = handler.isRequestSent(currentUser,profileUser);
+    Boolean areAlreadyFriends = handler.areFriends(currentUser,profileUser);
 %>
 <!DOCTYPE html>
 <html>
@@ -34,6 +38,23 @@
     <div class="section">
         <h2>Age: <%=profileUser.getAge()%></h2>
     </div>
+    </div>
+    <div class="section">
+    <form action="SendRequestServlet" method = "get">
+        <%if(profileUser.getId() != currentUser.getId() && !areAlreadyFriends) {
+            if (!isRequestSent) {
+                out.println("<input class=\"friend-request-button\" type = \"submit\" value = \"Send Request\" id = \"sendRequestButton\"\n" +
+                        "            name = \"sendRequestButton\" >");
+            } else {
+                out.println("<h3 style = \"color: gold;\"> Request Sent </h3>");
+            }
+        } else if(areAlreadyFriends){
+            out.println("<h3 style = \"color: gold;\"> Friends </h3>");
+        }
+        %>
+    </form>
+    </div>
+</div>
 </div>
 </body>
 </html>

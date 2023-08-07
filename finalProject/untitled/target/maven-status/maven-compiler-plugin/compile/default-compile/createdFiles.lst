@@ -7,9 +7,11 @@ quizpackage\LoginPageController.class
 quizpackage\RegisterButtonServlet.class
 quizpackage\Chat.class
 quizpackage\MessageButtonServlet.class
+quizpackage\FriendRequestResponseServlet.class
 quizpackage\DBHandler.class
 quizpackage\RegisterUserServlet.class
 quizpackage\AddAnnouncementServlet.class
+quizpackage\SendRequestServlet.class
 quizpackage\Announcement.class
 quizpackage\LoginButtonServlet.class
 quizpackage\ContextCreation.class

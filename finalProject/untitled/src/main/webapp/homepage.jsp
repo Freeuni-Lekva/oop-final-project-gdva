@@ -19,6 +19,7 @@
     <div id = "topDiv">
         <h1>Quiz Website</h1>
         <ul>
+            <li> <a style = " "; href="friendrequests.jsp">Friend Requests</a></li>
             <li> <a style = " "; href="searchuser.jsp">Search Users</a></li>
             <li> <a style = " "; href="messenger.jsp">Messages</a></li>
             <li><%=currentAccount.getUsername()%></li>
