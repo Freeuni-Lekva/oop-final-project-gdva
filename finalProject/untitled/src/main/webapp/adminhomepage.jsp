@@ -17,18 +17,33 @@
 <div id = "central">
     <div id = "loginDiv">
         <div id = "loginElements">
-            <form action = "removeUserServlet" method = "get">
+            <form action = "removeOrPromoteUserServlet" method = "get">
                 <p>Username: </p>
                 <input type="text" id="usernameInput" name="usernameInput">
                 <div id = "buttonsDiv">
-                    <input type="submit" value = "Remove" id="removeButton" name="removeButton">
+                    <input type="submit" value = "Remove" id="removeButton" name="buttonClicked">
+                    <input type="submit" value = "Promote" id="promoteButton" name="buttonClicked">
                 </div>
-                <div id = "buttonsDiv2">
+
+                <%
+                    Integer inp = (Integer)session.getAttribute("validUsername");
+                    if(inp == null){
+                        inp = 1;
+                    }
+                    String style = inp == 1 ? "\"display : none;\"" : "\"display : block;\"";
+                %>
+                <div id = "errorMessage">
+                    <p  style = <%=style%>>Incorrect Username</p>
+                </div>
+
+            </form>
+
+            <div id = "buttonsDiv2">
                 <div>
                     <button type="button" onclick="location.href='addPostButtonServlet'" id="addPostButton">Add Post</button>
                 </div>
-                </div>
-            </form>
+            </div>
+
         </div>
     </div>
 </div>

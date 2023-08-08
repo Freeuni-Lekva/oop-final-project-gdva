@@ -24,6 +24,7 @@ public class LoginButtonServlet extends HttpServlet {
             dispatcher.forward(req,resp);
             return;
         }
+        req.getSession().setAttribute("validInput",1);
         if(!handler.isAdmin(acc.getId())){
             req.getSession().setAttribute("account",acc);
             RequestDispatcher dispatcher  = req.getRequestDispatcher("homepage.jsp");

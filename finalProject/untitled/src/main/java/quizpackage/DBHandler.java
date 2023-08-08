@@ -17,9 +17,9 @@ public class DBHandler {
 
     public DBHandler(){
         dataSource = new BasicDataSource();
-        dataSource.setUrl("jdbc:mysql://localhost:3306/finalProject");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/finalproject");
         dataSource.setUsername("root");
-        dataSource.setPassword("root1234");
+        dataSource.setPassword("rootroot2023");
         try{
             connection = dataSource.getConnection();
         }
@@ -164,12 +164,24 @@ public class DBHandler {
 
     public void removeUser(String username){
         if(isAdmin(getAccount(username).getId())) return;
+        //System.out.println(username);
         try{
-            connection.createStatement().executeUpdate("delete from accounts where username = " + "\'" + username + "\'; commit;");
+            //System.out.println("delete from accounts where username = " + "\'" + username + "\'; commit;");
+            connection.createStatement().executeUpdate("delete from accounts where username = " + "\'" + username + "\'; ");
         }catch(SQLException e){
             e.printStackTrace();
         }
 
+    }
+
+    public void promoteUser(String username){
+        int id = getAccount(username).getId();
+        if(isAdmin(id)) return ;
+        try{
+            connection.createStatement().executeUpdate("insert into admins(id) value (" + id + ");");
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
     }
 
     public List<Announcement> getAnnouncements(){

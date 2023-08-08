@@ -1,4 +1,3 @@
-quizpackage\RemoveUserServlet.class
 quizpackage\SingleAnswer.class
 quizpackage\PasswordHasher.class
 quizpackage\PictureResponse.class
@@ -16,6 +15,7 @@ quizpackage\Announcement.class
 quizpackage\LoginButtonServlet.class
 quizpackage\MultipleChoiceSingleAnswer.class
 quizpackage\MultipleAnswerQuestion.class
+quizpackage\RemoveOrPromoteUserServlet.class
 quizpackage\User.class
 quizpackage\Answer.class
 quizpackage\SessionCreation.class
