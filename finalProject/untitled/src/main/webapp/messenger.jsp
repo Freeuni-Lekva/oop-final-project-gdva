@@ -23,6 +23,7 @@
     Account to_account;
     DBHandler handler = (DBHandler) application.getAttribute("handler");
     Account currentAccount = (Account) session.getAttribute("account");
+    List<Account> friends = (ArrayList<Account>)session.getAttribute("friends");
     List<Message> messageList = handler.getAccountMessages(currentAccount);
     if(obj == null){
       //  handler.debug("is null");
@@ -63,41 +64,22 @@
     <div id = "entireDiv">
         <div id = "centralDiv">
             <div id = "leftDiv">
+                <div id="searchBarDiv">
+                    <form action="SearchFriendMessagesServlet" method="get">
+                        <input id="searchInput" name="searchInput" type="text" placeholder="Search...">
+                        <input id="searchButton" name="searchButton" type="submit" value="Search">
+                    </form>
+                </div>
                 <%
                     for(int i = 0; i<chats.size();i++){
-                        out.println("<a href = \"" + "messenger.jsp?to_account=" + chats.get(i).getDisplayAccount().getId() + "\">");
-                        out.println("<div> <img src = \""+chats.get(i).getDisplayAccount().getImage()+"\">");
-                        out.println("<div><h4>" + chats.get(i).getDisplayName() + "</h4>");
-                        out.println("<p>" + chats.get(i).getDisplayMessage() + "</p></div></div></a>");
+                        if(friends != null && friends.contains(chats.get(i).getDisplayAccount())) {
+                            out.println("<a href = \"" + "messenger.jsp?to_account=" + chats.get(i).getDisplayAccount().getId() + "\">");
+                            out.println("<div> <img src = \"" + chats.get(i).getDisplayAccount().getImage() + "\">");
+                            out.println("<div><h4>" + chats.get(i).getDisplayName() + "</h4>");
+                            out.println("<p>" + chats.get(i).getDisplayMessage() + "</p></div></div></a>");
+                        }
                     }
                 %>
-<%--                <a href = "index.jsp">--%>
-<%--                    <div>--%>
-<%--                        <img src="fxala.jpg">--%>
-<%--                        <div>--%>
-<%--                            <h4>Nika</h4>--%>
-<%--                            <p>nika sent you...</p>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
-<%--                </a>--%>
-<%--                <div>--%>
-<%--                    <img src="lasa.jpg">--%>
-<%--                    <div>--%>
-<%--                        <h4>lasa</h4>--%>
-<%--                        <p>lasa sent you...</p>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--                <div></div>--%>
-<%--                <div></div>--%>
-<%--                <div></div>--%>
-<%--                <div></div>--%>
-<%--                <div></div>--%>
-<%--                <div></div>--%>
-<%--                <div></div>--%>
-<%--                <div></div>--%>
-<%--                <div></div>--%>
-<%--                <div></div>--%>
-<%--                <div></div>--%>
             </div>
             <div id="rightDiv">
                 <div id="messageHeaderDiv">
@@ -118,24 +100,7 @@
                             }
                         }
                     %>
-<%--                    <div>--%>
-<%--                        <img src="fxala.jpg">--%>
-<%--                        <div><p>nika</p></div>--%>
-<%--                    </div>--%>
-<%--                    <div>--%>
-<%--                        <img src="fxala.jpg">--%>
-<%--                        <div>--%>
-<%--                        <p>asdfsdfsdfsdff</p>--%>
-<%--                    </div></div>--%>
-<%--                    <div><div>--%>
-<%--                        <p>nisdfgdfgsdfgsdfgdfgdfggsdfgdska</p>--%>
-<%--                    </div></div>--%>
-<%--                    <div><div>--%>
-<%--                        <p>niksdfgsdfgssdfgdgssdfsgdfgdfgdfgdfgdfgdfgdfsgdfgsdfgsdfa</p>--%>
-<%--                    </div></div>--%>
-<%--                    <div><div>--%>
-<%--                        <p>nisdgfgfgfgfgfgfgfgfgfgfgfgfgfgfgfgfgfgfka</p>--%>
-<%--                    </div></div>--%>
+
                 </div>
                 <script>
                     // Scroll the div with id "myDiv" to the bottom
