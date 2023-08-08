@@ -9,6 +9,7 @@ quizpackage\FriendRequestResponseServlet.class
 quizpackage\SingleAnswerQuestion.class
 quizpackage\DBHandler.class
 quizpackage\RegisterUserServlet.class
+quizpackage\StatisticsServlet.class
 quizpackage\AddAnnouncementServlet.class
 quizpackage\SendRequestServlet.class
 quizpackage\Announcement.class

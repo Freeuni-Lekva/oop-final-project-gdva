@@ -459,6 +459,24 @@ public class DBHandler {
         return false;
     }
 
+    public int numberOfAccounts(){
+        return getAccounts().size();
+    }
+
+    public int numberOfAdmins(){
+        try {
+            int result = 0;
+            ResultSet resultSet = connection.createStatement().executeQuery("Select * from admins");
+            while (resultSet.next()) {
+                result++;
+            }
+            return result;
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 }
 
 
