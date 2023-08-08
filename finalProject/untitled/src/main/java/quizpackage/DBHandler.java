@@ -19,7 +19,7 @@ public class DBHandler {
         dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/finalproject");
         dataSource.setUsername("root");
-        dataSource.setPassword("rootroot2023");
+        dataSource.setPassword("root1234");
         try{
             connection = dataSource.getConnection();
         }
@@ -420,8 +420,8 @@ public class DBHandler {
                         .executeUpdate("insert into friends(first_friend_id,second_friend_id) value (" + fromID+","+
                                 toID+")");
                 connection.createStatement()
-                        .executeUpdate("update sent_requests set sender_id =" + fromID +", receiver_id ="+ toID +", response = 'Accept'" +
-                                "where sender_id = " + fromID + " and receiver_id = " + toID +";");
+                        .executeUpdate("delete from sent_requests where sender_id ="
+                                + fromID + " and receiver_id = " + toID+";");
             }catch (SQLException e){
                 debug("insert into friends(first_friend_id,second_friend_id) value (" + fromID+","+
                         toID+")");
@@ -475,6 +475,23 @@ public class DBHandler {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public void removeFriend(Account first, Account second){
+        int firstID = first.getId();
+        int secondID = second.getId();
+        try {
+            connection.createStatement()
+                    .executeUpdate("delete from friends " +
+                            "where (first_friend_id ="+ firstID+ "  and second_friend_id ="+ secondID +
+                            ") or (first_friend_id = " + secondID + "  and second_friend_id = " + firstID +");");
+        }catch (SQLException e){
+            debug("delete from friends " +
+                    "where (first_friend_id ="+ firstID+ " and second_friend_id ="+ secondID +
+                    ") or (first_friend_id = " + secondID + " and second_friend_id = " + firstID +");");
+            e.printStackTrace();
+        }
+
     }
 
 }

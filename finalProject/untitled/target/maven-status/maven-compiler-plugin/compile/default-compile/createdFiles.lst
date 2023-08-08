@@ -31,6 +31,7 @@ quizpackage\SearchFriendMessagesServlet.class
 quizpackage\ContextCreation.class
 quizpackage\Admin.class
 quizpackage\searchUsersServlet.class
+quizpackage\RemoveFriendServlet.class
 quizpackage\mainclass.class
 quizpackage\Quiz.class
 quizpackage\AnnouncementAddButtonServlet.class
