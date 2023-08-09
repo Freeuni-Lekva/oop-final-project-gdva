@@ -1,4 +1,4 @@
-<%@ page import="quizpackage.Account" %><%--
+<%@ page import="quizpackage.model.Account" %><%--
   Created by IntelliJ IDEA.
   User: Giorgi
   Date: 03.08.2023

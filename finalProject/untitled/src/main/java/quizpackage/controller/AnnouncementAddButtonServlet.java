@@ -1,4 +1,4 @@
-package quizpackage;
+package quizpackage.controller;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

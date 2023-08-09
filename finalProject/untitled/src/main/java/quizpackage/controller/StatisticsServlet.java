@@ -1,4 +1,6 @@
-package quizpackage;
+package quizpackage.controller;
+
+import quizpackage.model.DBHandler;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

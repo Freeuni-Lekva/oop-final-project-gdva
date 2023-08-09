@@ -1,4 +1,4 @@
-package quizpackage;
+package quizpackage.model;
 
 public class User implements Account{
 

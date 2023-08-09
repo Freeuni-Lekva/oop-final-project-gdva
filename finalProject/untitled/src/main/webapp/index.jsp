@@ -2,8 +2,8 @@
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.Statement" %>
 <%@ page import="java.sql.ResultSet" %>
-<%@ page import="quizpackage.DBHandler" %>
-<%@ page import="quizpackage.Account" %>
+<%@ page import="quizpackage.model.DBHandler" %>
+<%@ page import="quizpackage.model.Account" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.io.PrintWriter" %>
 <html>

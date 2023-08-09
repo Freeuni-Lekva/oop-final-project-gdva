@@ -1,4 +1,6 @@
-package quizpackage;
+package quizpackage.controller;
+
+import quizpackage.model.DBHandler;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

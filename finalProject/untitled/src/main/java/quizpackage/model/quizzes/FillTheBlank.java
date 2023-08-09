@@ -1,4 +1,4 @@
-package quizpackage;
+package quizpackage.model.quizzes;
 
 public class FillTheBlank extends SingleAnswer {
 
@@ -13,5 +13,17 @@ public class FillTheBlank extends SingleAnswer {
             res += "~";
         }
         return res;
+    }
+
+    @Override
+    public double answerPercent(String... answer){
+        String[] answers = this.getQuestionAnswer().split("~");
+        double counter = 0;
+        for(int i = 0; i<answers.length;i++){
+            if(answers[i].equals(answer[i].toLowerCase())){
+                counter++;
+            }
+        }
+        return answers.length == 0 ? 1 :  counter / (double) answers.length;
     }
 }

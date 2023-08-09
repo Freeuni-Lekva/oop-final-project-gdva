@@ -1,4 +1,4 @@
-package quizpackage;
+package quizpackage.model;
 
 public class Admin implements Account{
     String name;

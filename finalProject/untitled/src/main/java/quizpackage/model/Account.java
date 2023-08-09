@@ -1,4 +1,4 @@
-package quizpackage;
+package quizpackage.model;
 
 public interface Account {
     String getName();

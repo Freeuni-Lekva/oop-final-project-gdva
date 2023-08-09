@@ -1,7 +1,7 @@
-<%@ page import="quizpackage.Account" %>
-<%@ page import="quizpackage.Announcement" %>
+<%@ page import="quizpackage.model.Account" %>
+<%@ page import="quizpackage.model.Announcement" %>
 <%@ page import="java.util.List" %>
-<%@ page import="quizpackage.DBHandler" %>
+<%@ page import="quizpackage.model.DBHandler" %>
 <html>
 <head>
     <link href="/CSS/homepage.css" rel="stylesheet" type="text/css">

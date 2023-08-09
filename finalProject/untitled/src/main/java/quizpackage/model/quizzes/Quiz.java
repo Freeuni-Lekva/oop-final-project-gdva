@@ -1,4 +1,4 @@
-package quizpackage;
+package quizpackage.model.quizzes;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +21,7 @@ public class Quiz {
     public double gradeQuiz(List<Answer> answers){
         double result = 0;
         for(Answer answer : answers){
-            result += questions.get(answer.getQuestionNumber()).gradeQuestion(answer.getAnswers().toArray(new String[answer.getAnswers().size()]));
+            result += questions.get(answer.getQuestionNumber()-1).gradeQuestion(answer.getAnswers().toArray(new String[answer.getAnswers().size()]));
         }
         return result;
     }

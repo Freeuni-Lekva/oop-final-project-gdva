@@ -1,13 +1,18 @@
-package quizpackage;
+package quizpackage.model.quizzes;
 
 public interface MultipleChoice extends Question {
-     static String convertText(String... text){
+    static String convertText(String... text){
         char cur = 'A';
         String res = "";
-        for(String str : text){
+        if(text.length == 0){
+            return res;
+        }
+        res += text[0];
+        res += " \n";
+        for(int i = 1; i<text.length;i++){
             res+= cur + ". ";
-            res+=str;
-            res+= "\n";
+            res+=text[i];
+            res+= " \n";
             cur++;
         }
         return res;

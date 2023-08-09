@@ -1,4 +1,6 @@
-package quizpackage;
+package quizpackage.model.quizzes;
+
+import quizpackage.model.DBHandler;
 
 public class mainclass {
 

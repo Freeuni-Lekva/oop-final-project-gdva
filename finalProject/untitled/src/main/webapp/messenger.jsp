@@ -1,8 +1,8 @@
-<%@ page import="quizpackage.Message" %>
-<%@ page import="quizpackage.DBHandler" %>
-<%@ page import="quizpackage.Account" %>
+<%@ page import="quizpackage.model.Message" %>
+<%@ page import="quizpackage.model.DBHandler" %>
+<%@ page import="quizpackage.model.Account" %>
 <%@ page import="java.util.*" %>
-<%@ page import="quizpackage.Chat" %><%--
+<%@ page import="quizpackage.model.Chat" %><%--
   Created by IntelliJ IDEA.
   User: PC
   Date: 8/4/2023

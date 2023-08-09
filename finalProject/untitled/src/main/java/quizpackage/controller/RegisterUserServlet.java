@@ -1,4 +1,9 @@
-package quizpackage;
+package quizpackage.controller;
+
+import quizpackage.model.Account;
+import quizpackage.model.DBHandler;
+import quizpackage.model.PasswordHasher;
+import quizpackage.model.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

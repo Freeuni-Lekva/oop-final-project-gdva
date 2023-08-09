@@ -1,4 +1,4 @@
-package quizpackage;
+package quizpackage.controller;
 
 import javax.ejb.SessionContext;
 import javax.servlet.annotation.WebListener;

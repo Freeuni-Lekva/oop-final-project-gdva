@@ -1,7 +1,9 @@
-package quizpackage;
+package quizpackage.controller;
 
 
-import javax.jms.Session;
+import quizpackage.model.Account;
+import quizpackage.model.DBHandler;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

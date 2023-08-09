@@ -1,8 +1,7 @@
-package quizpackage;
+package quizpackage.model;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 
-import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;

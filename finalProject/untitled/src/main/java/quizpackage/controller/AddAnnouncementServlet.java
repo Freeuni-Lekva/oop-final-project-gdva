@@ -1,7 +1,8 @@
-package quizpackage;
+package quizpackage.controller;
 
-import com.mysql.cj.result.LocalDateTimeValueFactory;
-import com.mysql.cj.result.SqlDateValueFactory;
+import quizpackage.model.Account;
+import quizpackage.model.Announcement;
+import quizpackage.model.DBHandler;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,8 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.sql.Date;
 
 @WebServlet(name = "AddAnnouncementServlet", urlPatterns = "/AddAnnouncementServlet")

@@ -1,6 +1,6 @@
-package quizpackage;
+package quizpackage.model.quizzes;
 
-public class SingleAnswer implements SingleAnswerQuestion{
+public class SingleAnswer implements SingleAnswerQuestion {
     String questionText;
     String questionAnswer;
     double grade;

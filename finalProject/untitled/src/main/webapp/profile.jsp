@@ -1,6 +1,6 @@
-<%@ page import="quizpackage.DBHandler" %>
-<%@ page import="quizpackage.Announcement" %>
-<%@ page import="quizpackage.Account" %>
+<%@ page import="quizpackage.model.DBHandler" %>
+<%@ page import="quizpackage.model.Announcement" %>
+<%@ page import="quizpackage.model.Account" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String id = request.getParameter("id");

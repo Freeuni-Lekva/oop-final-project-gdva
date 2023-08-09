@@ -1,4 +1,4 @@
-package quizpackage;
+package quizpackage.model.quizzes;
 
 public class PictureResponse extends SingleAnswer{
     String image;
