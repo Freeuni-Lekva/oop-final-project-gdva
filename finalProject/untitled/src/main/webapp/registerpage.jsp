@@ -48,12 +48,18 @@
             <div id = "errorMessage">
                 <%
                     Integer inp = (Integer)session.getAttribute("validRegister");
+                    Integer falseAgeInput = (Integer)session.getAttribute("NumberFormatException");
                     if(inp == null){
                         inp = 1;
                     }
                     String style = inp == 1 ? "\"display : none;\"" : "\"display : block;\"";
+                    session.setAttribute("validRegister",null);
                 %>
+                <% if(falseAgeInput == null) {%>
                 <p  style = <%=style%>>Username already exists</p>
+                <% } else { %>
+                <p  style = <%=style%>>Please put in your age</p>
+                <% session.setAttribute("NumberFormatException",null);} %>
             </div>
         </div>
     </div>

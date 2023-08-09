@@ -47,6 +47,7 @@
                         inp = 1;
                     }
                     String style = inp == 1 ? "\"display : none;\"" : "\"display : block;\"";
+                    session.setAttribute("validInput",null);
                 %>
                 <div id = "errorMessage">
                     <p  style = <%=style%>>Incorrect Username or Password</p>
