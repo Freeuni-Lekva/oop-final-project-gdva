@@ -20,7 +20,7 @@ public class Admin implements Account{
 
     @Override
     public String getName() {
-        return username;
+        return name;
     }
 
     @Override

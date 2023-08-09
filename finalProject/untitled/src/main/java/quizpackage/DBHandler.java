@@ -19,7 +19,20 @@ public class DBHandler {
         dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/finalproject");
         dataSource.setUsername("root");
-        dataSource.setPassword("root1234");
+        dataSource.setPassword("rootroot2023");
+        try{
+            connection = dataSource.getConnection();
+        }
+        catch (SQLException se){
+            se.printStackTrace();
+        }
+    }
+
+    public DBHandler(boolean f){
+        dataSource = new BasicDataSource();
+        dataSource.setUrl("jdbc:mysql://localhost:3306/test");
+        dataSource.setUsername("root");
+        dataSource.setPassword("rootroot2023");
         try{
             connection = dataSource.getConnection();
         }
@@ -58,14 +71,23 @@ public class DBHandler {
                 resultSet.getString("surname"),
                 resultSet.getString("username"),
                 resultSet.getString("pass"),
-                resultSet.getInt("age"), resultSet.getInt("id"),resultSet.getString("img"));
+                resultSet.getInt("age"),
+                resultSet.getInt("id"),
+                resultSet.getString("img"));
         return acc;
     }
 
     public void addAccount(Account account){
         try{
-            connection.createStatement().execute("insert into accounts(id,firstname,surname,username,pass,age) value "+
-                    "("+ account.getId() + ", " + "\'" + account.getName()+"\'" + ","+ "\'" +account.getSurname()+"\'" + ","+"\'" +account.getUsername()+"\'" + ","+"\'" +account.getPassword() + "\'" + ","+account.getAge()+")");
+            connection.createStatement().execute("insert into accounts(id,firstname,surname,username,pass,age,img) value "+
+                    "("+ account.getId() + "," +
+                    "\'" + account.getName()+"\'" + ","+
+                    "\'" +account.getSurname()+"\'" + ","+
+                    "\'" +account.getUsername()+"\'" + ","+
+                    "\'" +account.getPassword() + "\'" + "," +
+                    account.getAge() + "," +
+                    "\'" +account.getImage() + "\'" + ");");
+
         }
         catch(SQLException e){
             e.printStackTrace();

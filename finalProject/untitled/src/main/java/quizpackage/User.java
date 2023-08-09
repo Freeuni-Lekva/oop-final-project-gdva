@@ -9,7 +9,7 @@ public class User implements Account{
     int age;
     int id;
     String image;
-    public User(String name, String surname, String username,String password,int age, int id,String image){
+    public User(String name, String surname, String username, String password, int age, int id, String image){
         this.name = name;
         this.surname = surname;
         this.username = username;
@@ -21,7 +21,7 @@ public class User implements Account{
 
     @Override
     public String getName() {
-        return username;
+        return name;
     }
 
     @Override
@@ -51,6 +51,7 @@ public class User implements Account{
 
     @Override
     public boolean equals(Object a){
+        if(a == null) return false;
         return ((Account)a).getUsername().equals(username);
     }
 

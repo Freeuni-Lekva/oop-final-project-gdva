@@ -1,11 +1,11 @@
 use finalProject;
 
 
-drop table if exists Accounts;
-drop table if exists admins;
-drop table if exists posts;
-drop table if exists messages;
 drop table if exists debug;
+drop table if exists messages;
+drop table if exists posts;
+drop table if exists admins;
+drop table if exists Accounts;
 
 create table Accounts (
 	id int primary key,
