@@ -42,6 +42,7 @@ select * from accounts;
 
 insert into admins(id) value (2);
 select * from admins;
+
 create table posts(
 	id int primary key,
 	title varchar(255),

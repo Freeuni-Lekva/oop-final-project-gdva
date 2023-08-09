@@ -104,6 +104,7 @@ public class DBHandler {
             if(account != null){
                 usernameCorrect = true;
                 passwordCorrect = PasswordHasher.isPassword(password,account.getPassword());
+                //System.out.println(account.getPassword());
             }
             if(usernameCorrect && passwordCorrect){
                 return account;
@@ -185,7 +186,7 @@ public class DBHandler {
 
     public void removeUser(String username){
         if(isAdmin(getAccount(username).getId())) return;
-        //System.out.println(username);
+
         try{
             //System.out.println("delete from accounts where username = " + "\'" + username + "\'; commit;");
             connection.createStatement().executeUpdate("delete from accounts where username = " + "\'" + username + "\'; ");
@@ -234,7 +235,7 @@ public class DBHandler {
         }
     }
 
-    public Announcement getSingleAnnouncementFromResultSet(ResultSet st) throws SQLException {
+    private Announcement getSingleAnnouncementFromResultSet(ResultSet st) throws SQLException {
             int id = st.getInt("id");
             String title = st.getString("title");
             String plot = st.getString("plot");
@@ -248,10 +249,11 @@ public class DBHandler {
 
     public void addAnnouncement(Announcement announcement){
         try{
-            connection.createStatement().executeUpdate("insert into posts(id,title,plot,img,upload_date,author_id) value "+
+
+            connection.createStatement().executeUpdate("insert into posts(id, title, plot, img, upload_date, author_id) value "+
                     "("+ announcement.getId() + ", " + "\'" + announcement.getTitle()+"\'" + ","+ "\'" +
-                    announcement.getText()+"\'" + ","+"\'" +announcement.getImgSrc()+"\'" + ","+"\'" +announcement.getUploadDate()
-                    + "\'" + ","+announcement.getAuthor().getId()+")");
+                    announcement.getText()+"\'" + ","+"\'" +announcement.getImgSrc()+"\'" + ","+ "\'" + announcement.getUploadDate() + "\'" + ","
+                    + announcement.getAuthor().getId()+")");
         }
         catch(SQLException e){
             e.printStackTrace();
@@ -306,14 +308,12 @@ public class DBHandler {
              connection.createStatement().execute("insert into debug(txt) value (\'" + text + "\');");
         } catch (SQLException e) {
             e.printStackTrace();
-            return;
         }
     }
 
-
     public Account getMostRecentMessageAccount(Account account){
         try{
-            ResultSet st = connection.createStatement().executeQuery("select from_id, to_id from messages where send_date = (select max(send_date) from messages where from_id = " + account.getId() + " or to_id = " +account.getId() +") order by id desc;");
+            ResultSet st = connection.createStatement().executeQuery("select from_id, to_id from messages where id = (select max(id) from messages where from_id = " + account.getId() + " or to_id = " +account.getId() +");");
             while(st.next()){
                 int from_id = st.getInt("from_id");
                 int to_id = st.getInt("to_id");
@@ -346,7 +346,7 @@ public class DBHandler {
         }
     }
 
-    public Message castResultToMessage(ResultSet st){
+    private Message castResultToMessage(ResultSet st){
         try{
             Account from = getAccount(st.getInt("from_id"));
             Account to = getAccount(st.getInt("to_id"));
@@ -391,11 +391,11 @@ public class DBHandler {
         }
         return accounts;
     }
-    public void addFriendRequest(Account from,Account to){
+    public void addFriendRequest(Account from, Account to){
          try{
              connection.createStatement().
-                     executeUpdate("insert into sent_requests(sender_id,receiver_id,response) value (" +
-                             + from.getId() + ","+ to.getId()+","+"\'"+"N/A"+"\')");
+                     executeUpdate("insert into sent_requests(sender_id,receiver_id) value (" +
+                             + from.getId() + ","+ to.getId() + ");");
          }catch (SQLException e){
             e.printStackTrace();
          }
@@ -419,20 +419,19 @@ public class DBHandler {
         List<Account> accounts = new ArrayList<>();
         try{
             ResultSet rs = connection.createStatement().
-                    executeQuery("select sender_id from sent_requests where receiver_id = "+receiver.getId()+
-                            " and response =" +"\'"+"N/A"+"\'" );
+                    executeQuery("select sender_id from sent_requests where receiver_id = "+receiver.getId() + ";");
             while(rs.next()){
                 int id = rs.getInt("sender_id");
                 Account acc = getAccount(id);
                 accounts.add(acc);
             }
         }catch (SQLException e){
-            debug("select sender_id from sent_requests where receiver_id = "+receiver.getId()+
-                    " and response =" +"\'"+"N/A"+"\'");
+            debug("select sender_id from sent_requests where receiver_id = "+receiver.getId() + ";");
             e.printStackTrace();
         }
         return accounts;
     }
+
 
     public void generateResponseToFriendRequest(boolean response,int fromID,int toID){
         if(response){
@@ -442,7 +441,8 @@ public class DBHandler {
                                 toID+")");
                 connection.createStatement()
                         .executeUpdate("delete from sent_requests where sender_id ="
-                                + fromID + " and receiver_id = " + toID+";");
+                                + fromID + " and receiver_id = " + toID+
+                                " or sender_id = " + toID +" and receiver_id = " + fromID + ";");
             }catch (SQLException e){
                 debug("insert into friends(first_friend_id,second_friend_id) value (" + fromID+","+
                         toID+")");
@@ -480,6 +480,25 @@ public class DBHandler {
         return false;
     }
 
+    public void removeFriend(Account first, Account second){
+        int firstID = first.getId();
+        int secondID = second.getId();
+        try {
+            connection.createStatement()
+                    .executeUpdate("delete from friends " +
+                            "where (first_friend_id ="+ firstID+ "  and second_friend_id ="+ secondID +
+                            ") or (first_friend_id = " + secondID + "  and second_friend_id = " + firstID +");");
+        }catch (SQLException e){
+            debug("delete from friends " +
+                    "where (first_friend_id ="+ firstID+ " and second_friend_id ="+ secondID +
+                    ") or (first_friend_id = " + secondID + " and second_friend_id = " + firstID +");");
+            e.printStackTrace();
+        }
+
+    }
+
+
+
     public int numberOfAccounts(){
         return getAccounts().size();
     }
@@ -498,22 +517,6 @@ public class DBHandler {
         return 0;
     }
 
-    public void removeFriend(Account first, Account second){
-        int firstID = first.getId();
-        int secondID = second.getId();
-        try {
-            connection.createStatement()
-                    .executeUpdate("delete from friends " +
-                            "where (first_friend_id ="+ firstID+ "  and second_friend_id ="+ secondID +
-                            ") or (first_friend_id = " + secondID + "  and second_friend_id = " + firstID +");");
-        }catch (SQLException e){
-            debug("delete from friends " +
-                    "where (first_friend_id ="+ firstID+ " and second_friend_id ="+ secondID +
-                    ") or (first_friend_id = " + secondID + " and second_friend_id = " + firstID +");");
-            e.printStackTrace();
-        }
-
-    }
 
 }
 
