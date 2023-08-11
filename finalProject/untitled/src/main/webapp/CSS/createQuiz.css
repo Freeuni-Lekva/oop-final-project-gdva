@@ -1,0 +1,46 @@
+#entireDiv{
+    position:absolute;
+    width:100%;
+    height:100%;
+    display:flex;
+    flex-direction: column;
+    left:0;
+    top:0;
+}
+#backgrVid{
+    position: fixed;
+    right:0;
+    bottom:0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+}
+
+#topDiv{
+    position : relative;
+    top : 0;
+    width: 30%;
+    height:10%;
+    left: 42%;
+    display:flex;
+    flex-direction: row;
+    //background-color: black;
+    color: azure
+}
+
+#bodyDiv{
+    position: relative;
+    height:90%;
+    width:100%;
+}
+
+#addQuestionButton{
+    position: relative;
+    left: 30%;
+}
+
+#submitQuizButton{
+    position: relative;
+    left: 30%;
+}
+

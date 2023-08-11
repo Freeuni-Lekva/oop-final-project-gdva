@@ -5,6 +5,8 @@ drop table if exists debug;
 drop table if exists messages;
 drop table if exists posts;
 drop table if exists admins;
+drop table if exists sent_requests;
+drop table if exists friends;
 drop table if exists Accounts;
 
 create table Accounts (
@@ -106,7 +108,6 @@ select * from messages;
 create table sent_requests(
                               sender_id int,
                               receiver_id int,
-                              response varchar(10),
                               foreign key (sender_id) references accounts(id),
                               foreign key (sender_id) references accounts(id)
 );
