@@ -35,7 +35,7 @@ public class QuizTest extends TestCase {
         Question question1 = new QuestionResponse("who's the goat?", "Messi",10);
         List<Question> questions = new ArrayList<>();
         questions.add(question1);
-        Question question2 = new MultipleChoiceSingleAnswer("fxala",15,"vinaa yvelaze magari da dzlieri?","siko chumburidze","kukusha","fxala");
+        Question question2 = new MultipleChoiceSingleAnswer("fxala",15,3,"vinaa yvelaze magari da dzlieri?","siko chumburidze","kukusha","fxala");
         questions.add(question2);
         Question question3 = new FillTheBlank("___ ari yvelaze ___ da ___",25.5,"fxala","magari","dzlieri");
         questions.add(question3);

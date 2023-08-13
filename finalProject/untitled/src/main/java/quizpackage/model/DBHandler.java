@@ -18,7 +18,7 @@ public class DBHandler {
         dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/finalproject");
         dataSource.setUsername("root");
-        dataSource.setPassword("rootroot2023");
+        dataSource.setPassword("Vpxdukkdaash1");
         try{
             connection = dataSource.getConnection();
         }
@@ -518,6 +518,60 @@ public class DBHandler {
     }
 
 
+    public void addQuiz(String quizTitle, String order, String alignment, String answerType) {
+        try{
+            connection.createStatement().executeUpdate("insert into quizzes(title,question_order,question_alignment,answer_type) value ( \'" + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\');");
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void addQuestion(String text, Double grade, String questionType, int choicesNumber, String image,String answer) {
+        try{
+            connection.createStatement().executeUpdate("insert into questions(question_type,question_text,question_answer,question_image,question_choices_number,question_grade) value ( \'" + questionType + "\', \'"+text+"\',\'"+answer+"\',\'"+image+"\',"+ choicesNumber + ","+grade+");");
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+    private int getLastQuestionID(){
+        try{
+            ResultSet st = connection.createStatement().executeQuery("select max(question_id) as \"id\" from questions;");
+            if(st.next()){
+                return st.getInt("id");
+            }
+            return 0;
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return 0;
+        }
+    }
+    private int getQuizID(String quizTitle){
+        try{
+            ResultSet st = connection.createStatement().executeQuery("select id from quizzes where title = \'" + quizTitle + "\'");
+            if(st.next()){
+                return st.getInt("id");
+            }
+            return 0;
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public void addLastQuestionToQuiz(String quizTitle) {
+        int quiz_id = getQuizID(quizTitle);
+        int question_id = getLastQuestionID();
+        try{
+            connection.createStatement().executeUpdate("insert into quiz_questions(quiz_id,question_id) value (" + quiz_id+","+question_id+")");
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
 }
 
 

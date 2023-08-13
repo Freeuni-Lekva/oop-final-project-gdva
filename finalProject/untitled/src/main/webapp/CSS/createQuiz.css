@@ -32,7 +32,26 @@
     position: relative;
     height:90%;
     width:100%;
+    display:flex;
+    flex-direction:row;
 }
+
+#leftDiv{
+    height:100%;
+    width:70%;
+    background-color: blue;
+}
+#rightDiv{
+    height:100%;
+    width:30%;
+    background-color:green;
+    text-align:center;
+}
+
+#properties{
+    text-align:left;
+}
+
 
 #addQuestionButton{
     position: relative;
@@ -43,4 +62,61 @@
     position: relative;
     left: 30%;
 }
+button{
+    display:block;
+}
+details > summary {
+    padding: 4px;
+    width: 200px;
+    background-color: #eeeeee;
+    border: none;
+    box-shadow: 1px 1px 2px #bbbbbb;
+    cursor: pointer;
+}
+details > summary {
+    list-style-type: none !important;
+}
+
+details > p {
+    background-color: #eeeeee;
+    padding: 4px;
+    margin: 0;
+    box-shadow: 1px 1px 2px #bbbbbb;
+}
+details > summary::before {
+    content: '▶';
+    display: inline-block;
+    width: 1.5em;
+    text-align: center;
+    transition: transform .15s linear;
+}
+
+details[open] > summary::before {
+    transform: rotate(90deg);
+}
+#questionCreate{
+    height:40%;
+    background-color:pink;
+}
+#leftCenter{
+    position:relative;
+    left:30%;
+    height:100%;
+    width:70%;
+    background-color:salmon;
+}
+#choices{
+    width:25%;
+    display:flex;
+    flex-direction: column;
+}
+#numberOfQuestions{
+    display:none;
+}
+#addQuestionButton{
+    display:block;
+    position:relative;
+    left:0;
+}
+
 

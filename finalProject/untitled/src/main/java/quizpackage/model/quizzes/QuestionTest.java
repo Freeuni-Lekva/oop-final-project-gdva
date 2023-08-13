@@ -40,7 +40,7 @@ public class QuestionTest extends TestCase {
         assertTrue(question.gradeQuestion("messi") == 9.9);
     }
     public void testMultipleChoiceSingleAnswer(){
-        SingleAnswerQuestion question = new MultipleChoiceSingleAnswer("Messi",9.99,"vinaa goati?","Messi","Koba","Lasa","Khvicha");
+        SingleAnswerQuestion question = new MultipleChoiceSingleAnswer("Messi",9.99,4,"vinaa goati?","Messi","Koba","Lasa","Khvicha");
         assertTrue(question.getQuestionText().equals("vinaa goati? \nA. Messi \nB. Koba \nC. Lasa \nD. Khvicha \n"));
         assertTrue(question.getQuestionGrade() == 9.99);
         assertTrue(question.answerPercent("Messi") == 1);
@@ -50,7 +50,7 @@ public class QuestionTest extends TestCase {
     }
 
     public void testMultipleChoiceEmpty(){
-        SingleAnswerQuestion question = new MultipleChoiceSingleAnswer("",9);
+        SingleAnswerQuestion question = new MultipleChoiceSingleAnswer("",9,0);
         assertTrue(question.getQuestionText().equals(""));
     }
 

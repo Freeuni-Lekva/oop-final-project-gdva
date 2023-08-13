@@ -1,13 +1,11 @@
 use finalProject;
 
 
-drop table if exists debug;
-drop table if exists messages;
-drop table if exists posts;
-drop table if exists admins;
-drop table if exists sent_requests;
-drop table if exists friends;
 drop table if exists Accounts;
+drop table if exists admins;
+drop table if exists posts;
+drop table if exists messages;
+drop table if exists debug;
 
 create table Accounts (
 	id int primary key,
@@ -44,7 +42,6 @@ select * from accounts;
 
 insert into admins(id) value (2);
 select * from admins;
-
 create table posts(
 	id int primary key,
 	title varchar(255),
@@ -70,6 +67,7 @@ drop table if exists messages;
 create table debug(
 	txt varchar(255)
 );
+select * from debug;
 select * from messages;
 create table messages(
 	id int auto_increment primary key,
@@ -80,6 +78,7 @@ create table messages(
     foreign key(from_id) references accounts(id),
     foreign key(to_id) references accounts(id)
 );
+
 INSERT INTO messages(from_id, to_id, send_date, txt)
 SELECT from_id, to_id, SYSDATE(), CONCAT('Random message ', n)
 FROM (
@@ -105,6 +104,7 @@ select * from messages where from_id = 0 or to_id = 0 order by send_date;
 select from_id, to_id from messages where id = (select max(id) from messages where from_id = 0 or to_id = 0);
 select * from debug;
 select * from messages;
+
 create table sent_requests(
                               sender_id int,
                               receiver_id int,
@@ -117,4 +117,34 @@ create table friends(
                         second_friend_id int,
                         foreign key (first_friend_id) references accounts(id),
                         foreign key (second_friend_id) references accounts(id)
+);
+create table quizzes(
+id int auto_increment primary key,
+title varchar(55),
+question_order varchar(55),
+question_alignment varchar(55),
+answer_type varchar(55)
+);
+
+create table questions(
+	question_id  int auto_increment primary key,
+	question_type varchar(55),
+    question_text varchar(255),
+    question_answer varchar(255),
+    question_image varchar(255),
+    question_choices_number int,
+    question_grade double
+);
+select * from quizzes;
+insert into questions(question_type,question_text,question_answer,question_image,question_choices_number,question_grade) value('QuestionRespone','gg','gia','',0,1.0);
+select max(question_id) as "id" from questions;
+select * from questions;
+delete from questions where question_id = 1;
+drop table question
+drop table quiz_questions
+create table quiz_questions(
+	quiz_id int,
+    question_id int,
+    foreign key(quiz_id) references quizzes(id),
+    foreign key(question_id) references questions(question_id)
 );
