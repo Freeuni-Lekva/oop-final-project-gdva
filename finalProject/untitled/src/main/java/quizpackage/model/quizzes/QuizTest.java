@@ -15,7 +15,7 @@ public class QuizTest extends TestCase {
         Question question1 = new QuestionResponse("who's the goat?", "Messi",10);
         List<Question> questions = new ArrayList<>();
         questions.add(question1);
-        Quiz quiz = new Quiz(questions);
+        Quiz quiz = new Quiz(questions, "Quiz Title");
         List<Question> testQuestions = quiz.getQuestions();
         for(int i = 0 ;i<testQuestions.size();i++){
             assertTrue(testQuestions.get(i).getQuestionText().equals("who's the goat?"));
@@ -54,7 +54,7 @@ public class QuizTest extends TestCase {
         answers.add(answer1);
         answers.add(answer2);
         answers.add(answer3);
-        Quiz quiz = new Quiz(questions);
+        Quiz quiz = new Quiz(questions, "quiz");
         assertTrue(quiz.gradeQuiz(answers) == 25 + (double) 1 / 3 * 25.5);
 
     }
@@ -65,7 +65,7 @@ public class QuizTest extends TestCase {
         questions.add(question1);
         Question question2 = new FillTheBlank("___ ari yvelaze ___ da ___",25.5,"fxala","magari","dzlieri");
         questions.add(question2);
-        Quiz quiz = new Quiz(questions);
+        Quiz quiz = new Quiz(questions, "quiz");
         quiz.randomizeQuestions();
         List<Question> quizQuestions = quiz.getQuestions();
         assertTrue(quizQuestions.size() == questions.size());

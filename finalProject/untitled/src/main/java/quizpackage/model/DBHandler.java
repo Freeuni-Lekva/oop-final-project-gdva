@@ -1,7 +1,9 @@
 package quizpackage.model;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import quizpackage.model.quizzes.*;
 
+import javax.swing.plaf.PanelUI;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -18,7 +20,7 @@ public class DBHandler {
         dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/finalproject");
         dataSource.setUsername("root");
-        dataSource.setPassword("Vpxdukkdaash1");
+        dataSource.setPassword("rootroot2023");
         try{
             connection = dataSource.getConnection();
         }
@@ -518,18 +520,40 @@ public class DBHandler {
     }
 
 
-    public void addQuiz(String quizTitle, String order, String alignment, String answerType) {
+    public void addQuiz(String quizTitle, String order, String alignment, String answerType, int creatorId) {
         try{
-            connection.createStatement().executeUpdate("insert into quizzes(title,question_order,question_alignment,answer_type) value ( \'" + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\');");
+            if(containsQuiz(quizTitle)){
+                return ;
+            }
+            //System.out.println("insert into quizzes(title,question_order,question_alignment,answer_type,creator_id) " +
+            //        "value ( \'" + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ");");
+            connection.createStatement()
+                    .executeUpdate("insert into quizzes(title,question_order,question_alignment,answer_type,creator_id) " +
+                            "value ( \'" + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ");");
         }
         catch(SQLException e){
             e.printStackTrace();
         }
     }
 
-    public void addQuestion(String text, Double grade, String questionType, int choicesNumber, String image,String answer) {
+    private boolean containsQuiz(String quizTitle) {
+        try {
+            //System.out.println("select * from quizzes where title = \'" + quizTitle + "\';");
+            ResultSet resultSet = connection.createStatement().executeQuery("select * from quizzes where title = \'" + quizTitle + "\';");
+            if(resultSet.next()) return true;
+            return false;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void addQuestion(String text, Double grade, String questionType, int choicesNumber, String image,String answer, int quizId) {
         try{
-            connection.createStatement().executeUpdate("insert into questions(question_type,question_text,question_answer,question_image,question_choices_number,question_grade) value ( \'" + questionType + "\', \'"+text+"\',\'"+answer+"\',\'"+image+"\',"+ choicesNumber + ","+grade+");");
+            //System.out.println("insert into questions(question_type,question_text,question_answer,question_image,question_choices_number,question_grade,quiz_id) " +
+            //        "value ( \'" + questionType + "\', \'"+text+"\',\'"+answer+"\',\'"+image+"\',"+ choicesNumber + ","+grade+","+ quizId +");");
+            connection.createStatement()
+                    .executeUpdate("insert into questions(question_type,question_text,question_answer,question_image,question_choices_number,question_grade,quiz_id) " +
+                            "value ( \'" + questionType + "\', \'"+text+"\',\'"+answer+"\',\'"+image+"\',"+ choicesNumber + ","+grade+","+ quizId +");");
         }
         catch(SQLException e){
             e.printStackTrace();
@@ -548,7 +572,7 @@ public class DBHandler {
             return 0;
         }
     }
-    private int getQuizID(String quizTitle){
+    public int getQuizID(String quizTitle){
         try{
             ResultSet st = connection.createStatement().executeQuery("select id from quizzes where title = \'" + quizTitle + "\'");
             if(st.next()){
@@ -571,6 +595,62 @@ public class DBHandler {
         catch(SQLException e){
             e.printStackTrace();
         }
+    }
+
+    public List<Quiz> getQuizzes(int id){
+        try{
+            List<Quiz> quizzes = new ArrayList<>();
+            ResultSet resultSet = connection.createStatement()
+                    .executeQuery("select * from quizzes where creator_id = " + id  + ";");
+
+            while(resultSet.next()){
+                quizzes.add(new Quiz(getQuizQuestions(resultSet.getInt("id")), resultSet.getString("title")));
+            }
+
+            return quizzes;
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private List<Question> getQuizQuestions(int quizId) {
+        try{
+            List<Question> questions = new ArrayList<>();
+            ResultSet resultSet = connection.createStatement()
+                    .executeQuery("select * from questions where quiz_id = " + quizId + ";");
+            while(resultSet.next()){
+                Question question = getQuestionFromResultSet(resultSet);
+                questions.add(question);
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private Question getQuestionFromResultSet(ResultSet resultSet) throws SQLException {
+        String question_type = resultSet.getString("question_type");
+        String question_text = resultSet.getString("question_text");
+        String question_answer = resultSet.getString("question_answer");
+        String question_image = resultSet.getString("question_image");
+        int question_choices_number = resultSet.getInt("question_choices_number");
+        double question_grade = resultSet.getDouble("question_grade");
+        Question question;
+
+        if(question_type == "QuestionResponse"){
+            question = new QuestionResponse(question_text, question_answer, question_grade);
+        } else if (question_type == "FillTheBlank"){
+            question = new FillTheBlank(question_text, question_grade, question_answer);
+        } else if(question_type == "PictureResponse"){
+            question = new PictureResponse(question_text, question_answer, question_image, question_grade);
+        } else {
+            question = new MultipleChoiceSingleAnswer(question_answer, question_grade, question_choices_number, question_text);
+        }
+
+        return question;
     }
 }
 

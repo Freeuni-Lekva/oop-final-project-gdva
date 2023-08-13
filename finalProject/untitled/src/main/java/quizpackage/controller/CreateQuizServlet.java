@@ -1,6 +1,7 @@
 package quizpackage.controller;
 
 
+import quizpackage.model.Account;
 import quizpackage.model.DBHandler;
 import quizpackage.model.quizzes.*;
 
@@ -23,7 +24,8 @@ public class CreateQuizServlet extends HttpServlet {
         String order = req.getParameter("questionOrder");
         String alignment = req.getParameter("questionAlignment");
         String answerType = req.getParameter("answerType");
-        handler.addQuiz(quizTitle,order,alignment,answerType);
+        Account account = (Account)req.getSession().getAttribute("account");
+        handler.addQuiz(quizTitle, order, alignment, answerType, account.getId());
         List<Question> questions = (List<Question>) req.getSession().getAttribute("questions");
         for(int i = 0; i<questions.size();i++){
             String text = questions.get(i).getQuestionText();
@@ -54,8 +56,8 @@ public class CreateQuizServlet extends HttpServlet {
                 choicesNumber = mc.getChoiceNumber();
                 answer = mc.getQuestionAnswer();
             }
-            handler.addQuestion(text,grade,questionType,choicesNumber,image,answer);
-            handler.addLastQuestionToQuiz(quizTitle);
+            handler.addQuestion(text, grade, questionType, choicesNumber, image, answer, handler.getQuizID(quizTitle));
+            //handler.addLastQuestionToQuiz(quizTitle);
         }
         List<Question> newList = new ArrayList<>();
         req.getSession().setAttribute("questions",newList);
