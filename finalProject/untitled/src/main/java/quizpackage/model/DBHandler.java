@@ -20,7 +20,7 @@ public class DBHandler {
         dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/finalproject");
         dataSource.setUsername("root");
-        dataSource.setPassword("rootroot2023");
+        dataSource.setPassword("root1234");
         try{
             connection = dataSource.getConnection();
         }
@@ -262,7 +262,7 @@ public class DBHandler {
         }
     }
 
-    public int getMaxId(){
+    public int getMaxUserId(){
         try{
             ResultSet st = connection.createStatement().executeQuery("select id from accounts where id = (select max(id) from accounts);");
             if(st.next()){
@@ -307,7 +307,8 @@ public class DBHandler {
     }
     public void debug(String text){
         try{
-             connection.createStatement().execute("insert into debug(txt) value (\'" + text + "\');");
+             connection.createStatement().
+                     executeUpdate("insert into debug(txt) value (\'" + text + "\');");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -499,8 +500,6 @@ public class DBHandler {
 
     }
 
-
-
     public int numberOfAccounts(){
         return getAccounts().size();
     }
@@ -525,20 +524,18 @@ public class DBHandler {
             if(containsQuiz(quizTitle)){
                 return ;
             }
-            //System.out.println("insert into quizzes(title,question_order,question_alignment,answer_type,creator_id) " +
-            //        "value ( \'" + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ");");
             connection.createStatement()
-                    .executeUpdate("insert into quizzes(title,question_order,question_alignment,answer_type,creator_id) " +
-                            "value ( \'" + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ");");
-        }
-        catch(SQLException e){
+                    .executeUpdate("insert into quizzes(id,title,question_order,question_alignment,answer_type,creator_id) " +
+                            "value ( \'"+ (getMaxQuizID()+1) +"\', \'"  + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ");");
+        }catch(SQLException e){
+            System.out.println("insert into quizzes(id,title,question_order,question_alignment,answer_type,creator_id) " +
+                    "value ( \'"+ (getMaxQuizID()+1) +"\', \'"  + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ");");
             e.printStackTrace();
         }
     }
 
     private boolean containsQuiz(String quizTitle) {
         try {
-            //System.out.println("select * from quizzes where title = \'" + quizTitle + "\';");
             ResultSet resultSet = connection.createStatement().executeQuery("select * from quizzes where title = \'" + quizTitle + "\';");
             if(resultSet.next()) return true;
             return false;
@@ -549,13 +546,13 @@ public class DBHandler {
 
     public void addQuestion(String text, Double grade, String questionType, int choicesNumber, String image,String answer, int quizId) {
         try{
-            //System.out.println("insert into questions(question_type,question_text,question_answer,question_image,question_choices_number,question_grade,quiz_id) " +
-            //        "value ( \'" + questionType + "\', \'"+text+"\',\'"+answer+"\',\'"+image+"\',"+ choicesNumber + ","+grade+","+ quizId +");");
             connection.createStatement()
                     .executeUpdate("insert into questions(question_type,question_text,question_answer,question_image,question_choices_number,question_grade,quiz_id) " +
                             "value ( \'" + questionType + "\', \'"+text+"\',\'"+answer+"\',\'"+image+"\',"+ choicesNumber + ","+grade+","+ quizId +");");
         }
         catch(SQLException e){
+            debug("insert into questions(question_type,question_text,question_answer,question_image,question_choices_number,question_grade,quiz_id) " +
+                    "value ( \'" + questionType + "\', \'"+text+"\',\'"+answer+"\',\'"+image+"\',"+ choicesNumber + ","+grade+","+ quizId +");");
             e.printStackTrace();
         }
     }
@@ -600,11 +597,17 @@ public class DBHandler {
     public List<Quiz> getQuizzes(int id){
         try{
             List<Quiz> quizzes = new ArrayList<>();
-            ResultSet resultSet = connection.createStatement()
+            ResultSet rs = connection.createStatement()
                     .executeQuery("select * from quizzes where creator_id = " + id  + ";");
 
-            while(resultSet.next()){
-                quizzes.add(new Quiz(getQuizQuestions(resultSet.getInt("id")), resultSet.getString("title")));
+            while(rs.next()){
+                quizzes.add(new Quiz(getQuizQuestions(rs.getInt("id")),
+                        rs.getString("title"),
+                        rs.getString("question_order"),
+                        rs.getString("question_alignment"),
+                        rs.getString("answer_type"),
+                        rs.getInt("creator_id"),
+                        rs.getInt("id")));
             }
 
             return quizzes;
@@ -617,6 +620,7 @@ public class DBHandler {
 
     private List<Question> getQuizQuestions(int quizId) {
         try{
+            debug("get quiz questions with id: "+quizId);
             List<Question> questions = new ArrayList<>();
             ResultSet resultSet = connection.createStatement()
                     .executeQuery("select * from questions where quiz_id = " + quizId + ";");
@@ -624,6 +628,7 @@ public class DBHandler {
                 Question question = getQuestionFromResultSet(resultSet);
                 questions.add(question);
             }
+            return questions;
         }
         catch(SQLException e){
             e.printStackTrace();
@@ -652,6 +657,42 @@ public class DBHandler {
 
         return question;
     }
+    public int getMaxQuizID(){
+        try{
+            ResultSet st = connection.createStatement().executeQuery("select id from quizzes where id = (select max(id) from accounts);");
+            if(st.next()){
+                return st.getInt("id");
+            }
+            return -1;
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    public Quiz getQuiz(int id){
+        Quiz quiz = null;
+        try{
+            ResultSet rs = connection.createStatement()
+                    .executeQuery("select * from quizzes where id = "+id);
+            List<Question> questions = getQuizQuestions(id);
+            if(rs.next()){
+                quiz = new Quiz(
+                        questions,rs.getString("title"),
+                        rs.getString("question_order"),
+                        rs.getString("question_alignment"),
+                        rs.getString("answer_type"),
+                        rs.getInt("creator_id"),
+                        id);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return quiz;
+    }
+
+
 }
 
 

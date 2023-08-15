@@ -37,7 +37,7 @@ public class RegisterUserServlet extends HttpServlet {
         }
 
         DBHandler handler = (DBHandler) req.getServletContext().getAttribute("handler");
-        Account acc = new User(name,surname,username, PasswordHasher.hashPassword(password),age,handler.getMaxId()+1,image);
+        Account acc = new User(name,surname,username, PasswordHasher.hashPassword(password),age,handler.getMaxUserId()+1,image);
         if(handler.containsUsername(username)){
             req.getSession().setAttribute("validRegister",0);
             RequestDispatcher dispatcher = req.getRequestDispatcher("registerpage.jsp");

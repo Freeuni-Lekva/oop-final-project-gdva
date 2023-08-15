@@ -136,7 +136,8 @@ create table questions(
     question_grade double
 );
 select * from quizzes;
-insert into questions(question_type,question_text,question_answer,question_image,question_choices_number,question_grade) value('QuestionRespone','gg','gia','',0,1.0);
+insert into questions(question_type,question_text,question_answer,question_image,question_choices_number,question_grade)
+    value('QuestionRespone','gg','gia','',0,1.0);
 select max(question_id) as "id" from questions;
 select * from questions;
 delete from questions where question_id = 1;

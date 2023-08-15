@@ -26,4 +26,8 @@ public class MultipleChoiceSingleAnswer extends SingleAnswer {
 
         return res;
     }
+    @Override
+    public String getQuestionClass(){
+        return "MultipleChoiceSingleAnswer";
+    }
 }

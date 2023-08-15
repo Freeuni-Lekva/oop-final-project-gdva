@@ -1,18 +1,79 @@
-#entireDiv{
-    position:absolute;
-    width:100%;
-    height:100%;
-    display:flex;
-    flex-direction: column;
-    left:0;
-    top:0;
+
+/* Reset some default styles for consistency */
+body, h1, p, ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+/* Center the content vertically and horizontally */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+
+/* Style the quiz container */
+#entireDiv {
+    text-align: center;
     color: azure;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-#backgrVid{
-    position: fixed;
-    right:0;
-    bottom:0;
-    min-width: 100%;
-    min-height: 100%;
-    z-index: -1;
+
+/* Style the questions container */
+#questionsDiv {
+    display: flex;
+    flex-direction: column;
+    width: 33.3%; /* 33.3% width from both left and right edges */
 }
+
+/* Style the question text */
+.question-text {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+/* Style the answer field */
+.answer-field {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    transition: border-color 0.3s ease;
+}
+
+.answer-field:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+/* Style the radio buttons */
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Style the submit button */
+.submit-button {
+    background-color: #3498db;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #2980b9;
+}
+
+
+

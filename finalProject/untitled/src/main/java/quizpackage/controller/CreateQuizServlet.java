@@ -34,23 +34,23 @@ public class CreateQuizServlet extends HttpServlet {
             String image = "";
             String answer = "";
             int choicesNumber = 0;
-            if(questions.get(i).getClass().toString().equals("class quizpackage.model.quizzes.QuestionResponse")){
+            if(questions.get(i).getQuestionClass().equals("QuestionResponse")){
                 QuestionResponse qr = (QuestionResponse) questions.get(i);
                 questionType = "QuestionResponse";
                 answer = qr.getQuestionAnswer();
             }
-            else if(questions.get(i).getClass().toString().equals("class quizpackage.model.quizzes.FillTheBlank")){
+            else if(questions.get(i).getQuestionClass().equals("FillTheBlank")){
                 FillTheBlank fb = (FillTheBlank) questions.get(i);
                 questionType = "FillTheBlank";
                 answer = fb.getQuestionAnswer();
             }
-            else if(questions.get(i).getClass().toString().equals("class quizpackage.model.quizzes.PictureResponse")){
+            else if(questions.get(i).getQuestionClass().equals("PictureResponse")){
                 PictureResponse pr = (PictureResponse) questions.get(i);
                 questionType = "PictureResponse";
                 image = pr.getImage();
                 answer = pr.getQuestionAnswer();
             }
-            else if(questions.get(i).getClass().toString().equals("class quizpackage.model.quizzes.MultipleChoiceSingleAnswer")){
+            else if(questions.get(i).getQuestionClass().equals("MultipleChoiceSingleAnswer")){
                 MultipleChoiceSingleAnswer mc = (MultipleChoiceSingleAnswer) questions.get(i);
                 questionType = "MultipleChoiceSingleAnswer";
                 choicesNumber = mc.getChoiceNumber();

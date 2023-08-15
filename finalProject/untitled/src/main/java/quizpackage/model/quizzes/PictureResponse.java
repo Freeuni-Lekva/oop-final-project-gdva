@@ -10,5 +10,9 @@ public class PictureResponse extends SingleAnswer{
     public String getImage(){
         return image;
     }
+    @Override
+    public String getQuestionClass(){
+        return "PictureResponse";
+    }
 
 }

@@ -5,16 +5,6 @@ public class FillTheBlank extends SingleAnswer {
     public FillTheBlank(String text,double grade,String... answers ){
         super(text,answers[0].toLowerCase(),grade);
     }
-
-//    private static String convertAnswer(String... answer){
-//        String res = "";
-//        for(String str : answer){
-//            res += str.toLowerCase();
-//            res += "~";
-//        }
-//        return res;
-//    }
-
     @Override
     public double answerPercent(String... answer){
         String[] answers = this.getQuestionAnswer().split("~");
@@ -26,4 +16,10 @@ public class FillTheBlank extends SingleAnswer {
         }
         return answers.length == 0 ? 1 :  counter / (double) answers.length;
     }
+    @Override
+    public String getQuestionClass(){
+        return "FillTheBlank";
+    }
+
+
 }

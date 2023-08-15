@@ -28,7 +28,6 @@
                     DBHandler handler = (DBHandler) application.getAttribute("handler");
                     List<Question> questions = (List<Question>) session.getAttribute("questions");
                     int sz = questions == null ? 0 : questions.size();
-                    System.out.println(sz);
                     for(int i = 0; i<sz;i++){
                         out.println("<details>");
                         out.print("<summary>"+questions.get(i).getQuestionText()+"</summary>");

@@ -206,12 +206,12 @@ class DBHandlerTest {
 
     @Test
     void getMaxId() {
-        assertEquals(4, handler.getMaxId());
+        assertEquals(4, handler.getMaxUserId());
         try {
             statement.executeUpdate("delete from posts;");
             statement.executeUpdate("delete from admins;");
             statement.executeUpdate("delete from accounts;");
-            assertEquals(-1, handler.getMaxId());
+            assertEquals(-1, handler.getMaxUserId());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

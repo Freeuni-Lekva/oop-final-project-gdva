@@ -3,6 +3,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="quizpackage.model.DBHandler" %>
 <%@ page import="quizpackage.model.quizzes.Quiz" %>
+<%@ page import="java.util.ArrayList" %>
 <html>
 <head>
     <link href="/CSS/homepage.css" rel="stylesheet" type="text/css">
@@ -38,10 +39,12 @@
 
             <div id = "quizTitlesDiv">
                 <%
-                    for(int i = 0; i < quizzes.size(); i++){
-                    out.println("<a href=\"quiz.jsp?id="+quizzes.get(i).getTitle()+"\"><div>");
-                    out.println("<p style = \" \">"+quizzes.get(i).getTitle() + "</p>");
-                    out.println("</div></a>");
+                    if(quizzes != null) {
+                        for (int i = 0; i < quizzes.size(); i++) {
+                            out.println("<a href=\"quiz.jsp?id=" + quizzes.get(i).getId() + "\"><div>");
+                            out.println("<p style = \" \">" + quizzes.get(i).getTitle() + "</p>");
+                            out.println("</div></a>");
+                        }
                     }
                 %>
             </div>
