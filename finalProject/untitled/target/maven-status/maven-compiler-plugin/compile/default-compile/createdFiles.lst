@@ -32,6 +32,7 @@ quizpackage\controller\ContextCreation.class
 quizpackage\controller\RemoveOrPromoteUserServlet.class
 quizpackage\controller\FriendRequestResponseServlet.class
 quizpackage\model\Message.class
+quizpackage\controller\FinishOnePageQuizServlet.class
 quizpackage\controller\AddAnnouncementServlet.class
 quizpackage\controller\RegisterButtonServlet.class
 quizpackage\controller\RemoveFriendServlet.class

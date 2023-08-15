@@ -6,95 +6,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <style>
-        #backgrVid {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%; /* Use viewport width */
-            height: 100%; /* Use viewport height */
-            z-index: -1;
-        }
-
-        /* Reset some default styles for consistency */
-        body, h1, p, ul, li {
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Center the content vertically and horizontally */
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-        }
-
-        /* Style the quiz container */
-        #entireDiv {
-            text-align: center;
-            color: azure;
-            width: 100%; /* Take up the entire viewport width */
-        }
-
-        /* Style the questions container */
-        #questionsDiv {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            max-width: 800px; /* Adjust the maximum width as needed */
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        /* Style the container for multiple questions */
-        .questions-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        /* Style the question text */
-        .question-text {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-
-        /* Style the answer field */
-        .answer-field {
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            padding: 10px;
-            font-size: 16px;
-            width: 100%;
-            box-sizing: border-box;
-            margin-bottom: 15px;
-            transition: border-color 0.3s ease;
-        }
-
-        .answer-field:focus {
-            outline: none;
-            border-color: #3498db;
-        }
-
-        /* Style the submit button */
-        .submit-button {
-            background-color: #3498db;
-            color: #ffffff;
-            border: none;
-            border-radius: 6px;
-            padding: 8px 16px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .submit-button:hover {
-            background-color: #2980b9;
-        }
-    </style>
+    <link href="/CSS/quiz.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <video autoplay muted loop id="backgrVid">
@@ -107,20 +19,75 @@
     Quiz quiz = handler.getQuiz(Integer.parseInt(id));
     List<Question> questions = quiz.getQuestions();
 %>
-
+<form action = "FinishOnePageQuizServlet" method = "get">
 <div id="entireDiv">
     <h1><%= quiz.getTitle() %></h1>
-    <div id="questionsDiv">
-        <div class="questions-container">
-            <% for (Question question : questions) { %>
-            <div class="question">
-                <p class="question-text"><%= question.getQuestionText() %></p>
-                <input type="text" class="answer-field" placeholder="Enter your answer">
-            </div>
-            <% } %>
-        </div>
-    </div>
-</div>
 
+    <div id = "questionsAndButtonsDiv">
+        <div id="questionsDiv">
+        <div class="questions-container">
+            <% if(!quiz.isOrdered()){
+                Collections.shuffle(questions);
+            }
+            if(quiz.areQuestionsOnSinglePage()){
+                int count = 0;
+                session.setAttribute("Questions",questions);
+            %>
+
+            <% for (Question question : questions) {
+                count++;
+            if(question.getQuestionClass().equals("QuestionResponse")) {%>
+                <div class="question">
+                    <p class="question-text"><%=count + "." +question.getQuestionText() %></p>
+                </div>
+            <input type="text" name="<%=count%>" class="answer-field" placeholder="Enter your answer">
+            <%}else if(question.getQuestionClass().equals("FillTheBlank")){ %>
+                <div class="question">
+                    <p class="question-text"><%=count + "." + question.getQuestionText() %></p>
+                    <input type="text" name="<%=count%>" class="answer-field" placeholder="Enter your answer">
+                </div>
+            <%} else if (question.getQuestionClass().equals("PictureResponse")) { %>
+                <%
+                    PictureResponse pictureQuestion = (PictureResponse) question;
+                %>
+            <div class="question">
+                <p class="question-text"><%=count + "." + question.getQuestionText() %></p>
+                <div class="image-question-container">
+                    <img src="<%= pictureQuestion.getImage() %>" alt="Question Image">
+                </div>
+                <input type="text" name="<%=count%>" class="answer-field" placeholder="Enter your answer">
+            </div>
+            <% } else if (question.getQuestionClass().equals("MultipleChoiceSingleAnswer")) { %>
+            <div class="question">
+                <p class="question-text"><%=count + "." + question.getQuestionText() %></p>
+                <ul class="answer-options">
+                    <%
+                       MultipleChoiceSingleAnswer multipleChoiceQuestion = (MultipleChoiceSingleAnswer)question;
+                       List<String> answers = multipleChoiceQuestion.getPossibleAnswers();
+                       handler.debug(answers.size()+"");
+                    %>
+                    <% for (int i = 0; i < answers.size(); i++) { %>
+                    <li>
+                        <label>
+                            <input type="radio" name="<%=count%>" value="<%= answers.get(i) %>">
+                            <%= answers.get(i) %>
+                        </label>
+                    </li>
+                    <% } %>
+                </ul>
+            </div>
+            <% } } %>
+        </div>
+            <div id="buttonsDiv">
+                <button class="custom-button">Finish Quiz</button>
+            </div>
+    </div>
+        </div>
+    </form>
+    <% } else { // multiple %>
+
+
+    <%}%>
+</div>
 </body>
 </html>

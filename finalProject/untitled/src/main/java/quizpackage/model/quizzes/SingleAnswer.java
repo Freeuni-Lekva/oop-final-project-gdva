@@ -29,7 +29,7 @@ public class SingleAnswer implements SingleAnswerQuestion {
     public String getQuestionAnswer() {
         return questionAnswer;
     }
-    @Override
+
     public String getQuestionClass(){
         return "SingleAnswer";
     }

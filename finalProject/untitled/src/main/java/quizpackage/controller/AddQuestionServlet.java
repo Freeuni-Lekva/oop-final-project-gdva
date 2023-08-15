@@ -26,28 +26,32 @@ public class AddQuestionServlet extends HttpServlet {
             questions = new ArrayList<>();
         }
         if(questionType.equals("1")){
+            handler.debug("1");
             String questionText = req.getParameter("questionResponseText");
             String questionAnswer = req.getParameter("questionResponseAnswer");
             double grade = Integer.parseInt(req.getParameter("questionResponseGrade"));
-            SingleAnswerQuestion question = new QuestionResponse(questionText,questionAnswer,grade);
+            QuestionResponse question = new QuestionResponse(questionText,questionAnswer,grade);
             questions.add(question);
         }
         else if(questionType.equals("2")){
+            handler.debug("2");
             String questionText = req.getParameter("fillText");
             String questionAnswer = req.getParameter("fillAnswer");
             double grade = Integer.parseInt(req.getParameter("fillGrade"));
-            SingleAnswerQuestion question = new FillTheBlank(questionText,grade,questionAnswer);
+            FillTheBlank question = new FillTheBlank(questionText,grade,questionAnswer);
             questions.add(question);
         }
         else if(questionType.equals("3")){
+            handler.debug("3");
             String questionText = req.getParameter("pictureText");
             String questionAnswer = req.getParameter("pictureAnswer");
             String image = req.getParameter("pictureURL");
             double grade = Integer.parseInt(req.getParameter("pictureGrade"));
-            SingleAnswerQuestion question = new PictureResponse(questionText,questionAnswer,image,grade);
+            PictureResponse question = new PictureResponse(questionText,questionAnswer,image,grade);
             questions.add(question);
         }
         else if(questionType.equals("4")){
+            handler.debug("4");
             int startId = Integer.parseInt(req.getParameter("numberOfChoices"));
             handler.debug("startID:"+startId);
             String questionText = req.getParameter("multipleText");
@@ -56,7 +60,7 @@ public class AddQuestionServlet extends HttpServlet {
             double grade = Double.parseDouble(req.getParameter("multipleGrade"));
             int num = Integer.parseInt(req.getParameter("choicesNumber"));
             handler.debug("choicesNumber: "+num);
-            //List<String> choices = new ArrayList<>();
+
             String[] choices = new String[num+1];
             choices[0] = questionText;
             int counter = 0;
@@ -65,7 +69,10 @@ public class AddQuestionServlet extends HttpServlet {
                 handler.debug("choice is: "+choice);
                 choices[++counter] = choice;
             }
-            SingleAnswerQuestion question = new MultipleChoiceSingleAnswer(questionAnswer,grade,num,choices);
+            for(int i = 0; i < choices.length; i++){
+                handler.debug("CHOICE " + i + ": " + choices[i]);
+            }
+            MultipleChoiceSingleAnswer question = new MultipleChoiceSingleAnswer(questionAnswer,grade,num,choices);
             questions.add(question);
         }
 

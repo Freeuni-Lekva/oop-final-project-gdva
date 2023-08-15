@@ -520,16 +520,18 @@ public class DBHandler {
 
 
     public void addQuiz(String quizTitle, String order, String alignment, String answerType, int creatorId) {
+        int newID = getMaxQuizID()+1;
+        System.out.println(newID);
         try{
             if(containsQuiz(quizTitle)){
                 return ;
             }
             connection.createStatement()
                     .executeUpdate("insert into quizzes(id,title,question_order,question_alignment,answer_type,creator_id) " +
-                            "value ( \'"+ (getMaxQuizID()+1) +"\', \'"  + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ");");
+                            "value ( "+ newID +", \'"  + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ");");
         }catch(SQLException e){
             System.out.println("insert into quizzes(id,title,question_order,question_alignment,answer_type,creator_id) " +
-                    "value ( \'"+ (getMaxQuizID()+1) +"\', \'"  + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ");");
+                    "value ( "+ newID +", \'"  + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ");");
             e.printStackTrace();
         }
     }
@@ -620,7 +622,6 @@ public class DBHandler {
 
     private List<Question> getQuizQuestions(int quizId) {
         try{
-            debug("get quiz questions with id: "+quizId);
             List<Question> questions = new ArrayList<>();
             ResultSet resultSet = connection.createStatement()
                     .executeQuery("select * from questions where quiz_id = " + quizId + ";");
@@ -645,11 +646,11 @@ public class DBHandler {
         double question_grade = resultSet.getDouble("question_grade");
         Question question;
 
-        if(question_type == "QuestionResponse"){
+        if(question_type.equals("QuestionResponse")){
             question = new QuestionResponse(question_text, question_answer, question_grade);
-        } else if (question_type == "FillTheBlank"){
+        } else if (question_type.equals("FillTheBlank")){
             question = new FillTheBlank(question_text, question_grade, question_answer);
-        } else if(question_type == "PictureResponse"){
+        } else if(question_type.equals("PictureResponse")){
             question = new PictureResponse(question_text, question_answer, question_image, question_grade);
         } else {
             question = new MultipleChoiceSingleAnswer(question_answer, question_grade, question_choices_number, question_text);
@@ -659,7 +660,7 @@ public class DBHandler {
     }
     public int getMaxQuizID(){
         try{
-            ResultSet st = connection.createStatement().executeQuery("select id from quizzes where id = (select max(id) from accounts);");
+            ResultSet st = connection.createStatement().executeQuery("select id from quizzes where id = (select max(id) from quizzes);");
             if(st.next()){
                 return st.getInt("id");
             }
