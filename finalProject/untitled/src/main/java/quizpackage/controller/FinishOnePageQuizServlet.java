@@ -23,11 +23,14 @@ public class FinishOnePageQuizServlet extends HttpServlet {
         for(int i = 0; i < questions.size(); i++){
             String parameterName = String.valueOf(i + 1); // Change this line
             String answer = req.getParameter(parameterName);
-            String realAnswer = ((SingleAnswer)questions.get(i)).getQuestionAnswer();
-            if(answer == null) continue;
-            if(answer.equals(realAnswer)){
-                result += questions.get(i).getQuestionGrade();
-            }
+            System.out.println(answer);
+            System.out.println(questions.get(i).getQuestionClass());
+            result += questions.get(i).gradeQuestion(answer);
+//            String realAnswer = ((SingleAnswer)questions.get(i)).getQuestionAnswer();
+//            if(answer == null) continue;
+//            if(answer.equals(realAnswer)){
+//                result += questions.get(i).getQuestionGrade();
+//            }
         }
         req.getSession().setAttribute("result",result);
         RequestDispatcher dispatcher = req.getRequestDispatcher("result.jsp");

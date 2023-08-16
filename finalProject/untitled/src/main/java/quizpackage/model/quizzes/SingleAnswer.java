@@ -6,6 +6,7 @@ public class SingleAnswer implements SingleAnswerQuestion {
     double grade;
 
     public SingleAnswer(String text,String answer,double grade){
+        System.out.println("signleanswer: " + answer);
         questionAnswer = answer.toLowerCase();
         questionText = text;
         this.grade = grade;

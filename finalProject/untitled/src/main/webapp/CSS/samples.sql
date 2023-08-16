@@ -123,7 +123,8 @@ id int auto_increment primary key,
 title varchar(55),
 question_order varchar(55),
 question_alignment varchar(55),
-answer_type varchar(55)
+answer_type varchar(55),
+creator_id int
 );
 
 create table questions(
@@ -133,10 +134,11 @@ create table questions(
     question_answer varchar(255),
     question_image varchar(255),
     question_choices_number int,
-    question_grade double
+    question_grade double,
+    quiz_id int
 );
 select * from quizzes;
-insert into questions(question_type,question_text,question_answer,question_image,question_choices_number,question_grade)
+insert into questions(question_type,question_text,question_answer,question_image,question_choices_number,question_grade,quiz_id)
     value('QuestionRespone','gg','gia','',0,1.0);
 select max(question_id) as "id" from questions;
 select * from questions;

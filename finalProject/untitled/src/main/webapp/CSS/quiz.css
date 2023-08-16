@@ -125,10 +125,15 @@ body {
     margin-bottom: 10px;
 }
 #buttonsDiv {
-    display: flex;
+    display: block;
     justify-content: center;
     align-items: center;
-    margin-top: 20px; /* Add margin for spacing */
+    margin-top: 20px;
+    /* Add margin for spacing */
+}
+#questionsAndButtonsDiv{
+    display:flex;
+    flex-direction: column;
 }
 
 /* Style the button */

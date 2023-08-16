@@ -7,6 +7,7 @@ public interface Question {
     double answerPercent(String... answer);
     double getQuestionGrade();
     default double gradeQuestion(String... answer){
+        System.out.println("in gradeQuestion");
         return answerPercent(answer) * getQuestionGrade();
     }
     String getQuestionClass();

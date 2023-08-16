@@ -78,16 +78,17 @@
             </div>
             <% } } %>
         </div>
-            <div id="buttonsDiv">
-                <button class="custom-button">Finish Quiz</button>
-            </div>
+
     </div>
+        <div id="buttonsDiv">
+            <button class="custom-button">Finish Quiz</button>
         </div>
-    </form>
+        </div>
     <% } else { // multiple %>
 
 
     <%}%>
 </div>
+</form>
 </body>
 </html>

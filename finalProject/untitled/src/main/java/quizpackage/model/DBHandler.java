@@ -20,7 +20,7 @@ public class DBHandler {
         dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/finalproject");
         dataSource.setUsername("root");
-        dataSource.setPassword("root1234");
+        dataSource.setPassword("Vpxdukkdaash1");
         try{
             connection = dataSource.getConnection();
         }
@@ -538,6 +538,7 @@ public class DBHandler {
 
     private boolean containsQuiz(String quizTitle) {
         try {
+            debug("Title is: " + quizTitle);
             ResultSet resultSet = connection.createStatement().executeQuery("select * from quizzes where title = \'" + quizTitle + "\';");
             if(resultSet.next()) return true;
             return false;
