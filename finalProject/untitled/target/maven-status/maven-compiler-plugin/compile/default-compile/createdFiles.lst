@@ -39,6 +39,7 @@ quizpackage\controller\RemoveFriendServlet.class
 quizpackage\controller\SessionCreation.class
 quizpackage\controller\SubmitQuizServlet.class
 quizpackage\model\quizzes\Quiz.class
+quizpackage\controller\MultiPageServlet.class
 quizpackage\model\quizzes\SingleAnswerQuestion.class
 quizpackage\mainclass.class
 quizpackage\controller\LoginPageController.class

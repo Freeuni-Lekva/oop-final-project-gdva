@@ -37,6 +37,15 @@ body {
     padding: 20px;
     box-sizing: border-box;
 }
+#questionAndButtonsDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Add space between questions and buttons */
+    height: calc(100% - 60px); /* Adjust for header and padding */
+    padding: 20px;
+    box-sizing: border-box;
+}
 
 /* Style the questions container */
 #questionsDiv {
@@ -131,9 +140,34 @@ body {
     margin-top: 20px;
     /* Add margin for spacing */
 }
+#buttonsDiv2 {
+    display: block;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    /* Add margin for spacing */
+}
+#buttonsDiv3 {
+    display: block;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    /* Add margin for spacing */
+}
 #questionsAndButtonsDiv{
     display:flex;
     flex-direction: column;
+}
+#questionDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers items horizontally */
+    justify-content: center; /* Centers items vertically */
+    height: 100%; /* Adjust to desired height */
+}
+
+.question-text {
+    margin: 0; /* Remove default margin to prevent spacing */
 }
 
 /* Style the button */
@@ -147,4 +181,26 @@ body {
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
+
+.buttons-container {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: center;
+}
+
+.button {
+    padding: 10px 20px;
+    background-color: azure;
+    color: black;
+    border: none;
+    cursor: pointer;
+}
+.centered-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* Adjust as needed */
+}
+
+
 
