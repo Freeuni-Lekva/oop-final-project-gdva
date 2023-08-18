@@ -118,6 +118,8 @@ create table friends(
                         foreign key (first_friend_id) references accounts(id),
                         foreign key (second_friend_id) references accounts(id)
 );
+drop table quizzes;
+drop table questions;
 create table quizzes(
 id int auto_increment primary key,
 title varchar(55),
@@ -125,6 +127,17 @@ question_order varchar(55),
 question_alignment varchar(55),
 answer_type varchar(55),
 creator_id int
+);
+drop table quizzes;
+create table quizzes(
+	id int auto_increment primary key,
+	title varchar(55),
+	question_order varchar(55),
+	question_alignment varchar(55),
+	answer_type varchar(55),
+    creator_id int,
+    quiz_description varchar(1000),
+    foreign key (creator_id) references accounts(id)
 );
 
 create table questions(
@@ -151,3 +164,23 @@ create table quiz_questions(
     foreign key(quiz_id) references quizzes(id),
     foreign key(question_id) references questions(question_id)
 );
+create table quiz_history(
+     quiz_id int,
+     account_id int,
+     score double,
+     time int,
+     foreign key(quiz_id) references quizzes(id),
+     foreign key(account_id) references accounts(id)
+);
+
+
+create table quiz_history(
+     quiz_id int,
+     account_id int,
+     score double,
+     time int,
+     start_date datetime,
+     foreign key(quiz_id) references quizzes(id),
+     foreign key(account_id) references accounts(id)
+);
+

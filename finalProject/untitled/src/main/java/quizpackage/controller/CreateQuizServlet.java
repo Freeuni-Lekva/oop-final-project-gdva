@@ -25,7 +25,8 @@ public class CreateQuizServlet extends HttpServlet {
         String alignment = req.getParameter("questionAlignment");
         String answerType = req.getParameter("answerType");
         Account account = (Account)req.getSession().getAttribute("account");
-        handler.addQuiz(quizTitle, order, alignment, answerType, account.getId());
+        String description = req.getParameter("quizDescription");
+        handler.addQuiz(quizTitle, order, alignment, answerType, account.getId(),description);
         List<Question> questions = (List<Question>) req.getSession().getAttribute("questions");
         for(int i = 0; i<questions.size();i++){
             String text = questions.get(i).getQuestionText();
