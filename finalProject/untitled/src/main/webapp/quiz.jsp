@@ -16,21 +16,29 @@
 <%
     DBHandler handler = (DBHandler)application.getAttribute("handler");
     String id = request.getParameter("id");
-    Quiz quiz = handler.getQuiz(Integer.parseInt(id));
+    int ID = Integer.parseInt(id);
+    session.setAttribute("quizID",id);
+    String buttonValue = request.getParameter("buttonValue");
+    Quiz quiz = handler.getQuiz(ID);
     List<Question> questions = quiz.getQuestions();
+
+    Integer multiID = (Integer)session.getAttribute("multiID");
+    if(buttonValue == null) multiID = null;
 %>
-<form action = "FinishOnePageQuizServlet" method = "get">
+<form action="FinishOnePageQuizServlet" method="get">
 <div id="entireDiv">
     <h1><%= quiz.getTitle() %></h1>
-
     <div id = "questionsAndButtonsDiv">
         <div id="questionsDiv">
         <div class="questions-container">
-            <% if(!quiz.isOrdered()){
-                Collections.shuffle(questions);
-            }
-            if(quiz.areQuestionsOnSinglePage()){
+            <%
                 int count = 0;
+            %>
+            <%
+            if(quiz.areQuestionsOnSinglePage()){
+                if(!quiz.isOrdered()){
+                    Collections.shuffle(questions);
+                }
                 session.setAttribute("Questions",questions);
             %>
 
@@ -83,11 +91,90 @@
         <div id="buttonsDiv">
             <button class="custom-button">Finish Quiz</button>
         </div>
-        </div>
+    </div>
+
     <% } else { // multiple %>
-
-
-    <%}%>
+    <%
+        session.setAttribute("Questions",questions);
+        Question question = null;
+        if(multiID == null){
+            question = questions.get(0);
+            session.setAttribute("multiID",0);
+            multiID = 0;
+        } else {
+            if(buttonValue != null && buttonValue.equals("Next")){
+                multiID++;
+            }
+            question = questions.get(multiID);
+            session.setAttribute("multiID",multiID);
+        }
+    %>
+    <div id = "questionAndButtonsDiv">
+        <div id="questionDiv">
+            <div class="questions-container">
+                <%session.setAttribute("curIdx",(multiID+1));%>
+                 <%if(question.getQuestionClass().equals("QuestionResponse")) {%>
+                <div class="question">
+                    <p class="question-text"><%=(multiID+1) + "." +question.getQuestionText() %></p>
+                </div>
+                <input type="text" name="<%=(multiID+1)%>" class="answer-field" placeholder="Enter your answer">
+                <%}else if(question.getQuestionClass().equals("FillTheBlank")){ %>
+                <div class="question">
+                    <p class="question-text"><%=(multiID+1) + "." + question.getQuestionText() %></p>
+                    <input type="text" name="<%=(multiID+1)%>" class="answer-field" placeholder="Enter your answer">
+                </div>
+                <%} else if (question.getQuestionClass().equals("PictureResponse")) { %>
+                <%
+                    PictureResponse pictureQuestion = (PictureResponse) question;
+                %>
+                <div class="question">
+                    <p class="question-text"><%=(multiID+1) + "." + question.getQuestionText() %></p>
+                    <div class="image-question-container">
+                        <img src="<%= pictureQuestion.getImage() %>" alt="Question Image">
+                    </div>
+                    <input type="text" name="<%=(multiID+1)%>" class="answer-field" placeholder="Enter your answer">
+                </div>
+                <% } else if (question.getQuestionClass().equals("MultipleChoiceSingleAnswer")) { %>
+                <div class="question">
+                    <p class="question-text"><%=(multiID+1) + "." + question.getQuestionText() %></p>
+                    <ul class="answer-options">
+                        <%
+                            MultipleChoiceSingleAnswer multipleChoiceQuestion = (MultipleChoiceSingleAnswer)question;
+                            List<String> answers = multipleChoiceQuestion.getPossibleAnswers();
+                            handler.debug(answers.size()+"");
+                        %>
+                        <% for (int i = 0; i < answers.size(); i++) { %>
+                        <li>
+                            <label>
+                                <input type="radio" name="<%=(multiID+1)%>" value="<%= answers.get(i) %>">
+                                <%= answers.get(i) %>
+                            </label>
+                        </li>
+                        <% } %>
+                    </ul>
+                </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+    <div class="buttons-container">
+        <%if(multiID != questions.size()-1){%>
+        <div class = "centered-button">
+        <div id="buttonsDiv2">
+            <input type="hidden" name="buttonValue" value="Next">
+            <button class="custom-button">Next</button>
+        </div>
+        </div>
+        <%} else {%>
+        <div class = "centered-button">
+        <div id="buttonsDiv3">
+            <input type="hidden" name="buttonValue" value="Finish">
+            <button class="custom-button">Finish Quiz</button>
+        </div>
+        </div>
+        <%}%>
+    </div>
+    <% } %>
 </div>
 </form>
 </body>

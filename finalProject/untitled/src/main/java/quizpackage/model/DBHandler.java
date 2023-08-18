@@ -20,7 +20,7 @@ public class DBHandler {
         dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/finalproject");
         dataSource.setUsername("root");
-        dataSource.setPassword("Vpxdukkdaash1");
+        dataSource.setPassword("root1234");
         try{
             connection = dataSource.getConnection();
         }
