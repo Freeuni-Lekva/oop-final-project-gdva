@@ -179,6 +179,8 @@ create table quiz_history(
      account_id int,
      score double,
      time int,
+     start_date datetime,
      foreign key(quiz_id) references quizzes(id),
      foreign key(account_id) references accounts(id)
 );
+
