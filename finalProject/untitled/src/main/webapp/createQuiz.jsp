@@ -232,6 +232,8 @@
                 <div id = "properties">
                     <p>Quiz Title: </p>
                     <input type="text" placeholder="enter quiz title" id="quizTitle" name="quizTitle">
+                    <p>Quiz Description: </p>
+                    <input type = "text" placeholder = "enter quiz description" id="quizDescription" name="quizDescription">
                     <p>Question order</p>
                     <select name="questionOrder">
                         <option>randomized</option>
