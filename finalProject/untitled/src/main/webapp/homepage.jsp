@@ -16,7 +16,7 @@
     DBHandler handler = (DBHandler)application.getAttribute("handler");
     Account currentAccount = (Account)request.getSession().getAttribute("account");
     List<Announcement> announcements = handler.getAnnouncements();
-    List<Quiz> quizzes = handler.getQuizzes(currentAccount.getId());
+    List<Quiz> quizzes = handler.getQuizzesByAuthor(currentAccount.getId());
 %>
 <div id = "entireDiv">
     <div id = "topDiv">
@@ -41,7 +41,7 @@
                 <%
                     if(quizzes != null) {
                         for (int i = 0; i < quizzes.size(); i++) {
-                            out.println("<a href=\"quiz.jsp?id=" + quizzes.get(i).getId() + "\"><div>");
+                            out.println("<a href=\"quizSummary.jsp?id=" + quizzes.get(i).getId() + "\"><div>");
                             out.println("<p style = \" \">" + quizzes.get(i).getTitle() + "</p>");
                             out.println("</div></a>");
                         }

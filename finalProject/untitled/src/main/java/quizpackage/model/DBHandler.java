@@ -519,7 +519,7 @@ public class DBHandler {
     }
 
 
-    public void addQuiz(String quizTitle, String order, String alignment, String answerType, int creatorId) {
+    public void addQuiz(String quizTitle, String order, String alignment, String answerType, int creatorId, String description) {
         int newID = getMaxQuizID()+1;
         System.out.println(newID);
         try{
@@ -527,11 +527,11 @@ public class DBHandler {
                 return ;
             }
             connection.createStatement()
-                    .executeUpdate("insert into quizzes(id,title,question_order,question_alignment,answer_type,creator_id) " +
-                            "value ( "+ newID +", \'"  + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ");");
+                    .executeUpdate("insert into quizzes(id,title,question_order,question_alignment,answer_type,creator_id,quiz_description) " +
+                            "value ( "+ newID +", \'"  + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ",\'" +description+"\');");
         }catch(SQLException e){
-            System.out.println("insert into quizzes(id,title,question_order,question_alignment,answer_type,creator_id) " +
-                    "value ( "+ newID +", \'"  + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ");");
+            System.out.println("insert into quizzes(id,title,question_order,question_alignment,answer_type,creator_id,quiz_description) " +
+                    "value ( "+ newID +", \'"  + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ",\'" +description+"\');");
             e.printStackTrace();
         }
     }
@@ -597,7 +597,7 @@ public class DBHandler {
         }
     }
 
-    public List<Quiz> getQuizzes(int id){
+    public List<Quiz> getQuizzesByAuthor(int id){
         try{
             List<Quiz> quizzes = new ArrayList<>();
             ResultSet rs = connection.createStatement()
@@ -610,7 +610,7 @@ public class DBHandler {
                         rs.getString("question_alignment"),
                         rs.getString("answer_type"),
                         rs.getInt("creator_id"),
-                        rs.getInt("id")));
+                        rs.getInt("id"),rs.getString("quiz_description")));
             }
 
             return quizzes;
@@ -686,7 +686,8 @@ public class DBHandler {
                         rs.getString("question_alignment"),
                         rs.getString("answer_type"),
                         rs.getInt("creator_id"),
-                        id);
+                        id,
+                        rs.getString("quiz_description"));
             }
         }catch (SQLException e){
             e.printStackTrace();
