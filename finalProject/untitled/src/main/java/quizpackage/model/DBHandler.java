@@ -694,6 +694,16 @@ public class DBHandler {
         return quiz;
     }
 
+    public void updateQuizHistory(int quiz_id, int account_id, double score, int time){
+        try {
+            connection.createStatement()
+                    .executeUpdate("insert into quiz_history(quiz_id, account_id, score, time) " +
+                            "value (" + quiz_id + ", " + account_id + ", " + score + ", " + time + ");");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
 
