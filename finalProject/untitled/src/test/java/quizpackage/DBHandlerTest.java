@@ -359,7 +359,7 @@ class DBHandlerTest {
 
     @Test
     void updateQuizHistory(){
-        handler.addQuiz("asd","a","a", "a", 1);
+        handler.addQuiz("asd","a","a", "a", 1,"sadfsd");
         handler.updateQuizHistory(1, 1, 1, 1);
     }
 }
