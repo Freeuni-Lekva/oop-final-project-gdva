@@ -32,6 +32,8 @@ class DBHandlerTest {
             statement.executeUpdate("drop table if exists admins;");
             statement.executeUpdate("drop table if exists sent_requests;");
             statement.executeUpdate("drop table if exists friends;");
+            statement.executeUpdate("drop table if exists quiz_history;");
+            statement.executeUpdate("drop table if exists quizzes;");
             statement.executeUpdate("drop table if exists Accounts;");
 
             // create accounts table
@@ -112,6 +114,27 @@ class DBHandlerTest {
                     "                        second_friend_id int,\n" +
                     "                        foreign key (first_friend_id) references accounts(id),\n" +
                     "                        foreign key (second_friend_id) references accounts(id)\n" +
+                    ");");
+
+
+            // create quizzes table
+            connection.createStatement().executeUpdate("create table quizzes(\n" +
+                    "id int auto_increment primary key,\n" +
+                    "title varchar(55),\n" +
+                    "question_order varchar(55),\n" +
+                    "question_alignment varchar(55),\n" +
+                    "answer_type varchar(55),\n" +
+                    "creator_id int\n" +
+                    ");");
+
+            // create quiz history table
+            connection.createStatement().executeUpdate("create table quiz_history(\n" +
+                    "\tquiz_id int,\n" +
+                    "    account_id int,\n" +
+                    "    score double,\n" +
+                    "    time int,\n" +
+                    "    foreign key(quiz_id) references quizzes(id),\n" +
+                    "    foreign key(account_id) references accounts(id)\n" +
                     ");");
 
         } catch (SQLException e) {
@@ -332,5 +355,11 @@ class DBHandlerTest {
     @Test
     void numberOfAdmins() {
         assertEquals(3, handler.numberOfAdmins());
+    }
+
+    @Test
+    void updateQuizHistory(){
+        handler.addQuiz("asd","a","a", "a", 1);
+        handler.updateQuizHistory(1, 1, 1, 1);
     }
 }
