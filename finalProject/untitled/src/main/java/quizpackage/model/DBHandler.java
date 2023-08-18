@@ -519,7 +519,7 @@ public class DBHandler {
     }
 
 
-    public void addQuiz(String quizTitle, String order, String alignment, String answerType, int creatorId) {
+    public void addQuiz(String quizTitle, String order, String alignment, String answerType, int creatorId, String description) {
         int newID = getMaxQuizID()+1;
         System.out.println(newID);
         try{
@@ -527,11 +527,11 @@ public class DBHandler {
                 return ;
             }
             connection.createStatement()
-                    .executeUpdate("insert into quizzes(id,title,question_order,question_alignment,answer_type,creator_id) " +
-                            "value ( "+ newID +", \'"  + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ");");
+                    .executeUpdate("insert into quizzes(id,title,question_order,question_alignment,answer_type,creator_id,quiz_description) " +
+                            "value ( "+ newID +", \'"  + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ",\'" +description+"\');");
         }catch(SQLException e){
-            System.out.println("insert into quizzes(id,title,question_order,question_alignment,answer_type,creator_id) " +
-                    "value ( "+ newID +", \'"  + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ");");
+            System.out.println("insert into quizzes(id,title,question_order,question_alignment,answer_type,creator_id,quiz_description) " +
+                    "value ( "+ newID +", \'"  + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ",\'" +description+"\');");
             e.printStackTrace();
         }
     }
@@ -597,7 +597,7 @@ public class DBHandler {
         }
     }
 
-    public List<Quiz> getQuizzes(int id){
+    public List<Quiz> getQuizzesByAuthor(int id){
         try{
             List<Quiz> quizzes = new ArrayList<>();
             ResultSet rs = connection.createStatement()
@@ -610,7 +610,7 @@ public class DBHandler {
                         rs.getString("question_alignment"),
                         rs.getString("answer_type"),
                         rs.getInt("creator_id"),
-                        rs.getInt("id")));
+                        rs.getInt("id"),rs.getString("quiz_description")));
             }
 
             return quizzes;
@@ -686,7 +686,8 @@ public class DBHandler {
                         rs.getString("question_alignment"),
                         rs.getString("answer_type"),
                         rs.getInt("creator_id"),
-                        id);
+                        id,
+                        rs.getString("quiz_description"));
             }
         }catch (SQLException e){
             e.printStackTrace();
@@ -697,11 +698,89 @@ public class DBHandler {
     public void updateQuizHistory(int quiz_id, int account_id, double score, int time){
         try {
             connection.createStatement()
-                    .executeUpdate("insert into quiz_history(quiz_id, account_id, score, time) " +
-                            "value (" + quiz_id + ", " + account_id + ", " + score + ", " + time + ");");
+                    .executeUpdate("insert into quiz_history(quiz_id, account_id, score, time, start_date) " +
+                            "value (" + quiz_id + ", " + account_id + ", " + score + ", " + time + ", sysdate());");
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static int limit = 5;
+    private String[] order = {"start_date desc", "score desc", "time asc"};
+    public List<QuizStatistics> getQuizStatisticsForUserAndOrder(int quiz_id, int account_id, int order_id){
+        List<QuizStatistics> quizStatistics = new ArrayList<>();
+        try {
+            ResultSet resultSet = connection.createStatement()
+                    .executeQuery("select * from quiz_history where quiz_id = " + quiz_id + " and account_id = " + account_id + " order by " + order[order_id] + " limit " + limit +";");
+
+            while(resultSet.next()){
+                quizStatistics.add(getSingleQuizStatistics(resultSet));
+            }
+            return quizStatistics;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public List<QuizStatistics> getTopPerformersOfAllTime(){
+        List<QuizStatistics> quizStatistics = new ArrayList<>();
+        try {
+            ResultSet resultSet = connection.createStatement()
+                    .executeQuery("select * from quiz_history order by score desc limit "+ limit +";");
+
+            while(resultSet.next()){
+                quizStatistics.add(getSingleQuizStatistics(resultSet));
+            }        return quizStatistics;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<QuizStatistics> getTopPerformersOfTheDay(){
+        List<QuizStatistics> quizStatistics = new ArrayList<>();
+        try {
+            ResultSet resultSet = connection.createStatement()
+                    .executeQuery("select * from quiz_history where TIMESTAMPDIFF(HOUR, start_date, sysdate()) <= 24 order by score desc limit " + limit + ";");
+
+            while(resultSet.next()){
+                quizStatistics.add(getSingleQuizStatistics(resultSet));
+            }
+            return quizStatistics;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<QuizStatistics> getLastPerformers(){
+        List<QuizStatistics> quizStatistics = new ArrayList<>();
+        try {
+            ResultSet resultSet = connection.createStatement()
+                    .executeQuery("select * from quiz_history order by start_date desc limit " + limit + ";");
+
+            while(resultSet.next()){
+                quizStatistics.add(getSingleQuizStatistics(resultSet));
+            }
+            return quizStatistics;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private QuizStatistics getSingleQuizStatistics(ResultSet resultSet){
+        try {
+            int quiz_id = resultSet.getInt("quiz_id");
+            int account_id = resultSet.getInt("account_id");
+            double score = resultSet.getDouble("score");
+            int time = resultSet.getInt("time");
+            Date startDate = resultSet.getDate("start_date");
+            return new QuizStatistics(quiz_id, account_id, score, time, startDate);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
