@@ -1,5 +1,8 @@
 <%@ page import="quizpackage.model.quizzes.Quiz" %>
-<%@ page import="quizpackage.model.DBHandler" %><%--
+<%@ page import="quizpackage.model.DBHandler" %>
+<%@ page import="quizpackage.model.QuizStatistics" %>
+<%@ page import="java.util.List" %>
+<%@ page import="quizpackage.model.Account" %><%--
   Created by IntelliJ IDEA.
   User: PC
   Date: 8/18/2023
@@ -12,6 +15,7 @@
     <%
         DBHandler handler = (DBHandler) application.getAttribute("handler");
         int quizId = Integer.parseInt(request.getParameter("id"));
+        Account currentAccount = (Account)request.getSession().getAttribute("account");
         Quiz quiz = handler.getQuiz(quizId);
 
     %>
@@ -33,6 +37,63 @@
     </div>
 </head>
 <body>
+
+    <div id = "topPerformersAllTimeDiv">
+        <h1>Top Performers All time</h1>
+        <%
+            List<QuizStatistics> quizStatistics = handler.getTopPerformersOfAllTime();
+            if(quizStatistics.size() > 0) {
+                for (int i = 0; i < quizStatistics.size(); i++) {
+                    out.println("<div>");
+                    Account account = handler.getAccount(quizStatistics.get(i).getAccountId());
+                    out.println("<p> Name: " + account.getName() +
+                            " Score: " + quizStatistics.get(i).getScore() +
+                            " Time: " + quizStatistics.get(i).getTime() + "</p>");
+                    out.println("</div>");
+                }
+            } else {
+                out.println("<p> No Activity </p>");
+            }
+        %>
+    </div>
+
+    <div id = "topPerformersLastDayDiv">
+        <h1>Top Performers Last Day</h1>
+        <%
+            quizStatistics = handler.getTopPerformersOfTheDay();
+            if(quizStatistics.size() > 0) {
+                for (int i = 0; i < quizStatistics.size(); i++) {
+                    out.println("<div>");
+                    Account account = handler.getAccount(quizStatistics.get(i).getAccountId());
+                    out.println("<p> Name: " + account.getName() +
+                            " Score: " + quizStatistics.get(i).getScore() +
+                            " Time: " + quizStatistics.get(i).getTime() + "</p>");
+                    out.println("</div>");
+                }
+            } else {
+                out.println("<p> No Activity </p>");
+            }
+        %>
+    </div>
+
+    <div id = "myActivityDiv">
+        <h1>My Activity</h1>
+        <%
+            quizStatistics = handler.getQuizStatisticsForUserAndOrder(quizId, currentAccount.getId(), 0);
+            if(quizStatistics.size() > 0) {
+                for (int i = 0; i < quizStatistics.size(); i++) {
+                    out.println("<div>");
+                    Account account = handler.getAccount(quizStatistics.get(i).getAccountId());
+                    out.println("<p> Name: " + account.getName() +
+                            " Score: " + quizStatistics.get(i).getScore() +
+                            " Time: " + quizStatistics.get(i).getTime() + "</p>");
+                    out.println("</div>");
+                }
+            } else {
+                out.println("<p> No Activity </p>");
+            }
+        %>
+    </div>
 
 </body>
 </html>
