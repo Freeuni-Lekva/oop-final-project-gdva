@@ -92,11 +92,24 @@
                     <%
                         for(int i = 0; i<toAccountMessages.size();i++){
                             if(toAccountMessages.get(i).getFrom().equals(currentAccount)){
-                                out.println("<div style = \" display:flex; justify-content: flex-end \"><div><p>"+toAccountMessages.get(i).getText()+"</p></div></div>");
+                                if(toAccountMessages.get(i).getType().startsWith("challenge")){
+
+                                    out.println("<div style = \" display:flex; justify-content: flex-end \"><div><a href = \"quizSummary.jsp?id="+toAccountMessages.get(i).getType().split(" ")[1]+"\"><p>"+toAccountMessages.get(i).getText()+"</a></p></div></div>");
+                                }
+                                else if(toAccountMessages.get(i).getType().equals("text")){
+                                    out.println("<div style = \" display:flex; justify-content: flex-end \"><div><p>"+toAccountMessages.get(i).getText()+"</p></div></div>");
+                                }
                             }
                             else{
-                                out.println("<div><img src = \""+toAccountMessages.get(i).getFrom().getImage() + "\">" +
-                                        "<div><p>"+toAccountMessages.get(i).getText()+"</p></div></div>");
+                                if(toAccountMessages.get(i).getType().startsWith("challenge")){
+                                    out.println("<div><img src = \""+toAccountMessages.get(i).getFrom().getImage() + "\">" +
+                                            "<div><a href = \"quizSummary.jsp?id=\""+toAccountMessages.get(i).getType().split(" ")[1]+"\"><p>"+toAccountMessages.get(i).getText()+"</a></p></div></div>");
+                                }
+                                else if(toAccountMessages.get(i).getType().equals("text")){
+                                    out.println("<div><img src = \""+toAccountMessages.get(i).getFrom().getImage() + "\">" +
+                                            "<div><p>"+toAccountMessages.get(i).getText()+"</p></div></div>");
+                                }
+
                             }
                         }
                     %>

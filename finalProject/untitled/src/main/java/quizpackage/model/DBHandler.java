@@ -31,9 +31,9 @@ public class DBHandler {
 
     public DBHandler(boolean f){
         dataSource = new BasicDataSource();
-        dataSource.setUrl("jdbc:mysql://localhost:3306/test");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/finalproject");
         dataSource.setUsername("root");
-        dataSource.setPassword("rootroot2023");
+        dataSource.setPassword("Vpxdukkdaash1");
         try{
             connection = dataSource.getConnection();
         }
@@ -355,7 +355,8 @@ public class DBHandler {
             Account to = getAccount(st.getInt("to_id"));
             Date date = st.getDate("send_date");
             String txt = st.getString("txt");
-            Message message = new Message(from,to,date,txt);
+            String type = st.getString("message_type");
+            Message message = new Message(from,to,date,txt,type);
             return message;
         }
         catch(SQLException e){
@@ -364,7 +365,7 @@ public class DBHandler {
         }
     }
 
-    public void addMessage(Account from, Account to, String text){
+    public void addMessage(Account from, Account to, String text, String type){
         try{
             if(from == null){
                 debug("from is null");
@@ -373,7 +374,7 @@ public class DBHandler {
                 debug("to is null");
             }
             debug("" + from.getId() + " " + to.getId() + " " +text);
-            connection.createStatement().execute("insert into messages(from_id,to_id,send_date,txt) value ("+ from.getId() + ","+ to.getId()+","+"sysdate()"+"," + "\'"+text+"\');");
+            connection.createStatement().execute("insert into messages(from_id,to_id,send_date,txt,message_type) value ("+ from.getId() + ","+ to.getId()+","+"sysdate()"+"," + "\'"+text+"\',\'"+type+"\');");
         }
         catch(SQLException e){
             e.printStackTrace();
@@ -698,11 +699,89 @@ public class DBHandler {
     public void updateQuizHistory(int quiz_id, int account_id, double score, int time){
         try {
             connection.createStatement()
-                    .executeUpdate("insert into quiz_history(quiz_id, account_id, score, time) " +
-                            "value (" + quiz_id + ", " + account_id + ", " + score + ", " + time + ");");
+                    .executeUpdate("insert into quiz_history(quiz_id, account_id, score, time, start_date) " +
+                            "value (" + quiz_id + ", " + account_id + ", " + score + ", " + time + ", sysdate());");
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static int limit = 5;
+    private String[] order = {"start_date desc", "score desc", "time asc"};
+    public List<QuizStatistics> getQuizStatisticsForUserAndOrder(int quiz_id, int account_id, int order_id){
+        List<QuizStatistics> quizStatistics = new ArrayList<>();
+        try {
+            ResultSet resultSet = connection.createStatement()
+                    .executeQuery("select * from quiz_history where quiz_id = " + quiz_id + " and account_id = " + account_id + " order by " + order[order_id] + " limit " + limit +";");
+
+            while(resultSet.next()){
+                quizStatistics.add(getSingleQuizStatistics(resultSet));
+            }
+            return quizStatistics;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public List<QuizStatistics> getTopPerformersOfAllTime(){
+        List<QuizStatistics> quizStatistics = new ArrayList<>();
+        try {
+            ResultSet resultSet = connection.createStatement()
+                    .executeQuery("select * from quiz_history order by score desc limit "+ limit +";");
+
+            while(resultSet.next()){
+                quizStatistics.add(getSingleQuizStatistics(resultSet));
+            }        return quizStatistics;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<QuizStatistics> getTopPerformersOfTheDay(){
+        List<QuizStatistics> quizStatistics = new ArrayList<>();
+        try {
+            ResultSet resultSet = connection.createStatement()
+                    .executeQuery("select * from quiz_history where TIMESTAMPDIFF(HOUR, start_date, sysdate()) <= 24 order by score desc limit " + limit + ";");
+
+            while(resultSet.next()){
+                quizStatistics.add(getSingleQuizStatistics(resultSet));
+            }
+            return quizStatistics;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<QuizStatistics> getLastPerformers(){
+        List<QuizStatistics> quizStatistics = new ArrayList<>();
+        try {
+            ResultSet resultSet = connection.createStatement()
+                    .executeQuery("select * from quiz_history order by start_date desc limit " + limit + ";");
+
+            while(resultSet.next()){
+                quizStatistics.add(getSingleQuizStatistics(resultSet));
+            }
+            return quizStatistics;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private QuizStatistics getSingleQuizStatistics(ResultSet resultSet){
+        try {
+            int quiz_id = resultSet.getInt("quiz_id");
+            int account_id = resultSet.getInt("account_id");
+            double score = resultSet.getDouble("score");
+            int time = resultSet.getInt("time");
+            Date startDate = resultSet.getDate("start_date");
+            return new QuizStatistics(quiz_id, account_id, score, time, startDate);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

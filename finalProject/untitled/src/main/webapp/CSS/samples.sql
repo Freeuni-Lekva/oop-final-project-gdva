@@ -75,12 +75,13 @@ create table messages(
     to_id int,
     send_date datetime,
     txt varchar(1000),
+    message_type varchar(255),
     foreign key(from_id) references accounts(id),
     foreign key(to_id) references accounts(id)
 );
 
-INSERT INTO messages(from_id, to_id, send_date, txt)
-SELECT from_id, to_id, SYSDATE(), CONCAT('Random message ', n)
+INSERT INTO messages(from_id, to_id, send_date, txt,message_type)
+SELECT from_id, to_id, SYSDATE(), CONCAT('Random message ', n),"text"
 FROM (
     SELECT from_id, IF(from_id = 0, FLOOR(RAND() * 14) + 1, 0) AS to_id, n
     FROM (

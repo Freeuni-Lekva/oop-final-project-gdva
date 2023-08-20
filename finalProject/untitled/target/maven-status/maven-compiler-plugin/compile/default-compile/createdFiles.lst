@@ -28,6 +28,7 @@ quizpackage\model\quizzes\Answer.class
 quizpackage\controller\RemoveUserServlet.class
 quizpackage\model\quizzes\Question.class
 quizpackage\controller\CreateQuizServlet.class
+quizpackage\controller\ChallengeServlet.class
 quizpackage\controller\ContextCreation.class
 quizpackage\controller\RemoveOrPromoteUserServlet.class
 quizpackage\controller\FriendRequestResponseServlet.class
@@ -39,6 +40,7 @@ quizpackage\controller\RemoveFriendServlet.class
 quizpackage\controller\SessionCreation.class
 quizpackage\controller\SubmitQuizServlet.class
 quizpackage\model\quizzes\Quiz.class
+quizpackage\controller\MultiPageServlet.class
 quizpackage\model\quizzes\SingleAnswerQuestion.class
 quizpackage\mainclass.class
 quizpackage\controller\LoginPageController.class
