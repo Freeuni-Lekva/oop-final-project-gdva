@@ -31,9 +31,9 @@ public class DBHandler {
 
     public DBHandler(boolean f){
         dataSource = new BasicDataSource();
-        dataSource.setUrl("jdbc:mysql://localhost:3306/test");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/finalproject");
         dataSource.setUsername("root");
-        dataSource.setPassword("rootroot2023");
+        dataSource.setPassword("Vpxdukkdaash1");
         try{
             connection = dataSource.getConnection();
         }
@@ -355,7 +355,8 @@ public class DBHandler {
             Account to = getAccount(st.getInt("to_id"));
             Date date = st.getDate("send_date");
             String txt = st.getString("txt");
-            Message message = new Message(from,to,date,txt);
+            String type = st.getString("message_type");
+            Message message = new Message(from,to,date,txt,type);
             return message;
         }
         catch(SQLException e){
@@ -364,7 +365,7 @@ public class DBHandler {
         }
     }
 
-    public void addMessage(Account from, Account to, String text){
+    public void addMessage(Account from, Account to, String text, String type){
         try{
             if(from == null){
                 debug("from is null");
@@ -373,7 +374,7 @@ public class DBHandler {
                 debug("to is null");
             }
             debug("" + from.getId() + " " + to.getId() + " " +text);
-            connection.createStatement().execute("insert into messages(from_id,to_id,send_date,txt) value ("+ from.getId() + ","+ to.getId()+","+"sysdate()"+"," + "\'"+text+"\');");
+            connection.createStatement().execute("insert into messages(from_id,to_id,send_date,txt,message_type) value ("+ from.getId() + ","+ to.getId()+","+"sysdate()"+"," + "\'"+text+"\',\'"+type+"\');");
         }
         catch(SQLException e){
             e.printStackTrace();

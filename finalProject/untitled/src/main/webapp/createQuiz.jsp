@@ -13,9 +13,9 @@
     <link href="/CSS/createQuiz.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<video autoplay muted loop id = "backgrVid">
-    <source src="/CSS/backgr.mp4" type="video/mp4">
-</video>
+<%--<video autoplay muted loop id = "backgrVid">--%>
+<%--    <source src="/CSS/backgr.mp4" type="video/mp4">--%>
+<%--</video>--%>
 <div id = "entireDiv">
     <div id = "topDiv">
         <h1>Create Quiz</h1>
@@ -35,20 +35,20 @@
                             <option value="4">multiple choice</option>
                         </select>
 
-<%--                <details>--%>
-<%--                    <summary>question1</summary>--%>
-<%--&lt;%&ndash;                    <div>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                        <p>nika nika</p>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                        <img src="baro.jpg">&ndash;%&gt;--%>
-<%--&lt;%&ndash;                    </div>&ndash;%&gt;--%>
-<%--                </details>--%>
-<%--                <details>--%>
-<%--                    <summary>question2</summary>--%>
-<%--&lt;%&ndash;                    <div>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                        <p>baro baro</p>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                        <img src="beka.jpg">&ndash;%&gt;--%>
-<%--&lt;%&ndash;                    </div>&ndash;%&gt;--%>
-<%--                </details>--%>
+                        <%--                <details>--%>
+                        <%--                    <summary>question1</summary>--%>
+                        <%--&lt;%&ndash;                    <div>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;                        <p>nika nika</p>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;                        <img src="baro.jpg">&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;                    </div>&ndash;%&gt;--%>
+                        <%--                </details>--%>
+                        <%--                <details>--%>
+                        <%--                    <summary>question2</summary>--%>
+                        <%--&lt;%&ndash;                    <div>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;                        <p>baro baro</p>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;                        <img src="beka.jpg">&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;                    </div>&ndash;%&gt;--%>
+                        <%--                </details>--%>
 
                         <div class= "questionCreate" id = "questionCreate">
 

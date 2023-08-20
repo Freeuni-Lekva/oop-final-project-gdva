@@ -34,6 +34,11 @@
         <a href="quiz.jsp?id=<%=quizId%>&start_time=<%=System.currentTimeMillis()%>">
             <input type="submit" value="start quiz">
         </a>
+        <form action="challengeServlet" method="post">
+            <input type="hidden" value="<%=quizId%>" name="quiz_id">
+            <input type="text" placeholder="enter who you want to challenge" name="challengeField" id="challengeField">
+            <input type="submit" value="challenge">
+        </form>
     </div>
 </head>
 <body>
