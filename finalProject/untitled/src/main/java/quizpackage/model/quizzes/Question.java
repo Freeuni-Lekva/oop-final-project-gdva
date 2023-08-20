@@ -11,4 +11,5 @@ public interface Question {
         return answerPercent(answer) * getQuestionGrade();
     }
     String getQuestionClass();
+    String getAnswer();
 }

@@ -164,6 +164,14 @@ create table quiz_questions(
     foreign key(quiz_id) references quizzes(id),
     foreign key(question_id) references questions(question_id)
 );
+create table quiz_history(
+     quiz_id int,
+     account_id int,
+     score double,
+     time int,
+     foreign key(quiz_id) references quizzes(id),
+     foreign key(account_id) references accounts(id)
+);
 
 
 create table quiz_history(

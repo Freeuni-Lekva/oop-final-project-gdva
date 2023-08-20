@@ -34,4 +34,9 @@ public class SingleAnswer implements SingleAnswerQuestion {
     public String getQuestionClass(){
         return "SingleAnswer";
     }
+
+    @Override
+    public String getAnswer() {
+        return questionAnswer;
+    }
 }
