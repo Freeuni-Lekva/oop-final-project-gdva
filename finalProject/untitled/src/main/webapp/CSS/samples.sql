@@ -137,6 +137,7 @@ create table quizzes(
 	answer_type varchar(55),
     creator_id int,
     quiz_description varchar(1000),
+    create_date datetime,
     foreign key (creator_id) references accounts(id)
 );
 
