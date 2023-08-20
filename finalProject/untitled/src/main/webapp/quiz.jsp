@@ -158,14 +158,26 @@
         </div>
     </div>
     <div class="buttons-container">
-        <%if(multiID != questions.size()-1){%>
+        <%if(multiID != questions.size()-1){
+            if(!quiz.immediateAnswerNeeded()){
+        %>
         <div class = "centered-button">
         <div id="buttonsDiv2">
             <input type="hidden" name="buttonValue" value="Next">
             <button class="custom-button">Next</button>
         </div>
         </div>
-        <%} else {%>
+        <%
+            } else {
+        %>
+        <div class = "centered-button">
+            <div id="buttonsDiv4">
+                <input type="hidden" name="buttonValue" value="Confirm">
+                <input type="hidden" name="questionId" value="<%=(multiID)%>">
+                <button class="custom-button">Confirm</button>
+            </div>
+        </div>
+        <%} } else {%>
         <div class = "centered-button">
         <div id="buttonsDiv3">
             <input type="hidden" name="buttonValue" value="Finish">
