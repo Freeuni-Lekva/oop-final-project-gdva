@@ -1,3 +1,7 @@
+html,body{
+    top:0;
+    height:100%;
+}
 #entireDiv{
     position:absolute;
     width:100%;
@@ -6,6 +10,7 @@
     flex-direction: column;
     left:0;
     top:0;
+    background-color: #EFF6E0;
 }
 #backgrVid{
     position: fixed;
@@ -19,33 +24,61 @@
 #topDiv{
     position : relative;
     top : 0;
-    width: 30%;
+    width: 100%;
     height:10%;
-    left: 42%;
+    /*left: 42%;*/
     display:flex;
     flex-direction: row;
-    //background-color: black;
-    color: azure
+    background-color: black;
 }
-
+#topDiv > h1{
+    position:relative;
+    left:45%;
+    color:#EFF6E0;
+}
+label{
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    font-weight: normal;
+    margin: 0 0 1em 0;
+    padding: 0;
+    line-height: 1.5;
+    text-align: justify;
+    display:block;
+    color:#EFF6E0;
+}
+p{
+    color:#EFF6E0;
+}
 #bodyDiv{
     position: relative;
-    height:90%;
+    height:100%;
     width:100%;
     display:flex;
     flex-direction:row;
+    background-color: #EFF6E0;
 }
 
 #leftDiv{
     height:100%;
     width:70%;
-    background-color: blue;
+    background-color: #EFF6E0;
+    display:flex;
+    flex-direction:row;
 }
-#rightDiv{
+#rightHolder{
     height:100%;
     width:30%;
-    background-color:green;
     text-align:center;
+    background-color: #124559;
+    color:#EFF6E0;
+}
+#rightDiv{
+    position:relative;
+    width:90%;
+    left:5%;
+    top:10%;
+    height:100%;
 }
 
 #properties{
@@ -84,7 +117,8 @@ details > p {
     box-shadow: 1px 1px 2px #bbbbbb;
 }
 details > summary::before {
-    content: '▶';
+    /*content: '▶';*/
+    content:'🛆';
     display: inline-block;
     width: 1.5em;
     text-align: center;
@@ -92,18 +126,42 @@ details > summary::before {
 }
 
 details[open] > summary::before {
-    transform: rotate(90deg);
+    transform: rotate(180deg);
 }
 #questionCreate{
     height:40%;
-    background-color:pink;
+    /*background-color:pink;*/
+}
+#leftEdge{
+    position:relative;
+    /*left:35%;*/
+    width:50%;
+    height:100%;
+    /*display:inline;*/
+}
+#leftEdgeCenter{
+    position:relative;
+    width:100%;
+    height:100%;
+    left:0%;
+    top:10%;
+}
+#leftFirst{
+    position:relative;
+    background-color: #598392;
+    height:100%;
+    width:50%;
+    top:0;
 }
 #leftCenter{
     position:relative;
-    left:30%;
+    background-color:#598392;
     height:100%;
-    width:70%;
-    background-color:salmon;
+    width:90%;
+    top:10%;
+    left:5%;
+    /*display:inline;*/
+    /*background-color:salmon;*/
 }
 #choices{
     width:25%;
@@ -118,5 +176,113 @@ details[open] > summary::before {
     position:relative;
     left:0;
 }
+input{
+    font-family: monospace;
+    font-size: 16px;
+    font-weight: bold;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    /*background-color: #fff;*/
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.2s ease-in-out;
+    margin-bottom:5px;
+    color:#124559;
+    width:80%;
 
+}
+input:focus{
+    border-color: #4d90fe;
+    box-shadow: 0 0 16px rgba(77,144,254,0.9);
+}
+input:hover {
+    transform: scale(1.1);
+    background-color: lightblue;
+}
+#createQuizButton{
+    margin-top:10px;
+    display:block;
+    position:relative;
+    left:0%;
+    width:50%;
+    font-family:monospace;
+    color:#124559;
+    border-color:#124559;
+    background-color:#EFF6E0;
+    border-radius:7px;
+}
+#addQuestionButton{
+    /*font-family : "Comic Sans MS";*/
+    font-family:monospace;
+    color:#124559;
+    border-color:#124559;
+    background-color:#EFF6E0;
+    border-radius:7px;
+}
+label{
+    margin:5px;
+    position:relative;
+    width:100%;
+}
+option{
+    font-family:monospace;
+}
+details{
+    position:relative;
+    width:80%;
+    left:10%;
+    background-color:#EFF6E0;
+    border-color:inherit;
+    /*animation: details-animation 2s infinite;*/
+}
+details summary{
+    transition: font-size 0.2s ease-in-out;
+}
 
+details:hover summary {
+    font-size:24px;
+    /*animation: text-animation 2s infinite;*/
+}
+/*@keyframes text-animation {*/
+/*    0% {*/
+/*        font-size: 16px;*/
+/*    }*/
+/*    50% {*/
+/*        font-size: 24px;*/
+/*    }*/
+/*    100% {*/
+/*        font-size: 16px;*/
+/*    }*/
+/*}*/
+summary{
+    background-color: #124559;
+    width:100%;
+    position:relative;
+    color:#124559;
+    border-color:inherit;
+}
+details > p{
+    font-family:monospace;
+    width:100%;
+    background-color: #EFF6E0;
+    color:#124559;
+}
+select {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+p {
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    font-weight: normal;
+    margin: 0 0 1em 0;
+    padding: 0;
+    line-height: 1.5;
+    text-align: justify;
+}
