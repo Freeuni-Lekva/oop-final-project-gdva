@@ -528,11 +528,9 @@ public class DBHandler {
                 return ;
             }
             connection.createStatement()
-                    .executeUpdate("insert into quizzes(id,title,question_order,question_alignment,answer_type,creator_id,quiz_description) " +
-                            "value ( "+ newID +", \'"  + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ",\'" +description+"\');");
+                    .executeUpdate("insert into quizzes(id,title,question_order,question_alignment,answer_type,creator_id,quiz_description,create_date) " +
+                            "value ( "+ newID +", \'"  + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ",\'" +description+"\',sysdate());");
         }catch(SQLException e){
-            System.out.println("insert into quizzes(id,title,question_order,question_alignment,answer_type,creator_id,quiz_description) " +
-                    "value ( "+ newID +", \'"  + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ",\'" +description+"\');");
             e.printStackTrace();
         }
     }
@@ -605,13 +603,7 @@ public class DBHandler {
                     .executeQuery("select * from quizzes where creator_id = " + id  + ";");
 
             while(rs.next()){
-                quizzes.add(new Quiz(getQuizQuestions(rs.getInt("id")),
-                        rs.getString("title"),
-                        rs.getString("question_order"),
-                        rs.getString("question_alignment"),
-                        rs.getString("answer_type"),
-                        rs.getInt("creator_id"),
-                        rs.getInt("id"),rs.getString("quiz_description")));
+                quizzes.add(getSingleQuizFromResultSet(rs));
             }
 
             return quizzes;
@@ -620,6 +612,20 @@ public class DBHandler {
             e.printStackTrace();
         }
         return null;
+    }
+    private Quiz getSingleQuizFromResultSet(ResultSet rs) {
+        debug("here");
+        try {
+            return new Quiz(getQuizQuestions(rs.getInt("id")),
+                    rs.getString("title"),
+                    rs.getString("question_order"),
+                    rs.getString("question_alignment"),
+                    rs.getString("answer_type"),
+                    rs.getInt("creator_id"),
+                    rs.getInt("id"),rs.getString("quiz_description"),rs.getDate("create_date"));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private List<Question> getQuizQuestions(int quizId) {
@@ -688,7 +694,8 @@ public class DBHandler {
                         rs.getString("answer_type"),
                         rs.getInt("creator_id"),
                         id,
-                        rs.getString("quiz_description"));
+                        rs.getString("quiz_description"),
+                        rs.getDate("create_date"));
             }
         }catch (SQLException e){
             e.printStackTrace();
@@ -778,6 +785,52 @@ public class DBHandler {
             int time = resultSet.getInt("time");
             Date startDate = resultSet.getDate("start_date");
             return new QuizStatistics(quiz_id, account_id, score, time, startDate);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<Quiz> getRecentQuizzes(){
+        try{
+            ResultSet st = connection.createStatement().executeQuery("select * from quizzes order by create_date desc limit " + limit+";");
+            List<Quiz> quizzes = new ArrayList<>();
+            while(st.next()){
+                quizzes.add(getSingleQuizFromResultSet(st));
+            }
+            return quizzes;
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<Quiz> getPopularQuizzes()  {
+        try {
+            List<Quiz> popularQuizzes = new ArrayList<>();
+            ResultSet st = connection.createStatement().executeQuery("select quiz_id, count(*) as frequency\n" +
+                    "from quiz_history\n" +
+                    "group by quiz_id\n" +
+                    "order by frequency desc limit "+ limit+";");
+            while(st.next()){
+                popularQuizzes.add(getSingleQuizFromResultSet(st));
+            }
+            return popularQuizzes;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<QuizStatistics> getRecentActivities(int id){
+        try {
+            ResultSet st = connection.createStatement().executeQuery("select * from quiz_history where account_id = " + id+ " order by start_date desc limit "+limit+";");
+            List<QuizStatistics> statistics = new ArrayList<>();
+            while(st.next()){
+                statistics.add(getSingleQuizStatistics(st));
+            }
+            return statistics;
         } catch (SQLException e) {
             e.printStackTrace();
         }
