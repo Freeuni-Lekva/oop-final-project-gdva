@@ -1,0 +1,81 @@
+#quizHeader{
+    position:relative;
+    background-color: black;
+    color:#EFF6E0;
+    width:100%;
+    height:10%;
+    text-align: center;
+}
+#bodyDiv{
+    display:flex;
+    flex-direction: row;
+    width:100%;
+    height:100%;
+}
+#leftDiv{
+    width:30%;
+    height:100%;
+    background-color: #598392;
+}
+#midDiv{
+    width:40%;
+    height:100%;
+    background-color: #EFF6E0;
+    text-align:center;
+}
+#rightDiv{
+    width:30%;
+    height:100%;
+    background-color: #124559;
+
+}
+input{
+    font-family: monospace;
+    font-size: 16px;
+    font-weight: bold;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    /*background-color: #fff;*/
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.2s ease-in-out;
+    margin-bottom:5px;
+    color:#124559;
+    width:80%;
+
+}
+p{
+    font-family:monospace;
+    font-size:16px;
+}
+input:focus{
+    border-color: #4d90fe;
+    box-shadow: 0 0 16px rgba(77,144,254,0.9);
+}
+input[type="text"]:hover {
+
+    background-color: lightblue;
+}
+input:hover{
+    transform: scale(1.1);
+}
+#leftDiv > div > p{
+    color:#EFF6E0;
+}
+.buttonClass{
+    margin-top:10px;
+    display:block;
+    position:relative;
+    left:0%;
+    width:50%;
+    font-family:monospace;
+        color:#EFF6E0;
+    border-color:#124559;
+    background-color:#124559;
+    border-radius:7px;
+    left:25%;
+}
+#challengeField{
+    margin-top:30px;
+    width:50%;
+}

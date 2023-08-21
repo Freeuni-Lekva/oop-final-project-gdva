@@ -14,6 +14,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <link href="/CSS/quizSummary.css" rel="stylesheet" type="text/css">
     <%
         DBHandler handler = (DBHandler) application.getAttribute("handler");
         int quizId = Integer.parseInt(request.getParameter("id"));
@@ -25,8 +27,73 @@
         String currentTime = format.format(new Date());
         handler.debug(currentTime);
     %>
-    <div id="quizDiv">
-        <h1><%=quiz.getTitle()%></h1>
+</head>
+<body>
+<div id="quizHeader">
+    <h1><%=quiz.getTitle()%></h1>
+</div>
+<div id="bodyDiv">
+    <div id="leftDiv">
+        <div id = "topPerformersAllTimeDiv">
+            <h1>Top Performers All time</h1>
+            <%
+                List<QuizStatistics> quizStatistics = handler.getTopPerformersOfAllTime();
+                if(quizStatistics.size() > 0) {
+                    for (int i = 0; i < quizStatistics.size(); i++) {
+                        out.println("<div>");
+                        Account account = handler.getAccount(quizStatistics.get(i).getAccountId());
+                        out.println("<p> Name: " + account.getName() +
+                                " Score: " + quizStatistics.get(i).getScore() +
+                                " Time: " + quizStatistics.get(i).getTime() + "</p>");
+                        out.println("</div>");
+                    }
+                } else {
+                    out.println("<p> No Activity </p>");
+                }
+            %>
+        </div>
+
+        <div id = "topPerformersLastDayDiv">
+            <h1>Top Performers Last Day</h1>
+            <%
+                quizStatistics = handler.getTopPerformersOfTheDay();
+                if(quizStatistics.size() > 0) {
+                    for (int i = 0; i < quizStatistics.size(); i++) {
+                        out.println("<div>");
+                        Account account = handler.getAccount(quizStatistics.get(i).getAccountId());
+                        out.println("<p> Name: " + account.getName() +
+                                " Score: " + quizStatistics.get(i).getScore() +
+                                " Time: " + quizStatistics.get(i).getTime() + "</p>");
+                        out.println("</div>");
+                    }
+                } else {
+                    out.println("<p> No Activity </p>");
+                }
+            %>
+        </div>
+
+        <div id = "myActivityDiv">
+            <h1>My Activity</h1>
+            <%
+                quizStatistics = handler.getQuizStatisticsForUserAndOrder(quizId, currentAccount.getId(), 0);
+                if(quizStatistics.size() > 0) {
+                    for (int i = 0; i < quizStatistics.size(); i++) {
+                        out.println("<div>");
+                        Account account = handler.getAccount(quizStatistics.get(i).getAccountId());
+                        out.println("<p> Name: " + account.getName() +
+                                " Score: " + quizStatistics.get(i).getScore() +
+                                " Time: " + quizStatistics.get(i).getTime() + "</p>");
+                        out.println("</div>");
+                    }
+                } else {
+                    out.println("<p> No Activity </p>");
+                }
+            %>
+        </div>
+
+    </div>
+    <div id="midDiv">
+
         <p>questions number: <%=quiz.getQuestions().size()%></p>
         <p>quiz type: <%
             if(quiz.areQuestionsOnSinglePage()){
@@ -37,74 +104,20 @@
             }
         %></p>
         <p>total score: <%=quiz.getQuizTotalScore()%></p>
-        <a href="quiz.jsp?id=<%=quizId%>&start_time=<%=currentTime%>">
-            <input type="submit" value="start quiz">
+        <a href="quiz.jsp?id=<%=quizId%>&start_time=<%=System.currentTimeMillis()%>">
+            <input class="buttonClass" type="submit" value="start quiz">
         </a>
         <form action="challengeServlet" method="post">
-            <input type="hidden" value="<%=quizId%>" name="quiz_id">
+            <input  type="hidden" value="<%=quizId%>" name="quiz_id">
             <input type="text" placeholder="enter who you want to challenge" name="challengeField" id="challengeField">
-            <input type="submit" value="challenge">
+            <input class = "buttonClass" type="submit" value="challenge">
         </form>
     </div>
-</head>
-<body>
+    <div id="rightDiv">
 
-    <div id = "topPerformersAllTimeDiv">
-        <h1>Top Performers All time</h1>
-        <%
-            List<QuizStatistics> quizStatistics = handler.getTopPerformersOfAllTime();
-            if(quizStatistics.size() > 0) {
-                for (int i = 0; i < quizStatistics.size(); i++) {
-                    out.println("<div>");
-                    Account account = handler.getAccount(quizStatistics.get(i).getAccountId());
-                    out.println("<p> Name: " + account.getName() +
-                            " Score: " + quizStatistics.get(i).getScore() +
-                            " Time: " + quizStatistics.get(i).getTime() + "</p>");
-                    out.println("</div>");
-                }
-            } else {
-                out.println("<p> No Activity </p>");
-            }
-        %>
     </div>
 
-    <div id = "topPerformersLastDayDiv">
-        <h1>Top Performers Last Day</h1>
-        <%
-            quizStatistics = handler.getTopPerformersOfTheDay();
-            if(quizStatistics.size() > 0) {
-                for (int i = 0; i < quizStatistics.size(); i++) {
-                    out.println("<div>");
-                    Account account = handler.getAccount(quizStatistics.get(i).getAccountId());
-                    out.println("<p> Name: " + account.getName() +
-                            " Score: " + quizStatistics.get(i).getScore() +
-                            " Time: " + quizStatistics.get(i).getTime() + "</p>");
-                    out.println("</div>");
-                }
-            } else {
-                out.println("<p> No Activity </p>");
-            }
-        %>
-    </div>
-
-    <div id = "myActivityDiv">
-        <h1>My Activity</h1>
-        <%
-            quizStatistics = handler.getQuizStatisticsForUserAndOrder(quizId, currentAccount.getId(), 0);
-            if(quizStatistics.size() > 0) {
-                for (int i = 0; i < quizStatistics.size(); i++) {
-                    out.println("<div>");
-                    Account account = handler.getAccount(quizStatistics.get(i).getAccountId());
-                    out.println("<p> Name: " + account.getName() +
-                            " Score: " + quizStatistics.get(i).getScore() +
-                            " Time: " + quizStatistics.get(i).getTime() + "</p>");
-                    out.println("</div>");
-                }
-            } else {
-                out.println("<p> No Activity </p>");
-            }
-        %>
-    </div>
+</div>
 
 </body>
 </html>
