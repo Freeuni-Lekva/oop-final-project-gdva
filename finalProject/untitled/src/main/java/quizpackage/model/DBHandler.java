@@ -20,7 +20,7 @@ public class DBHandler {
         dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/finalproject");
         dataSource.setUsername("root");
-        dataSource.setPassword("root1234");
+        dataSource.setPassword("Vpxdukkdaash1");
         try{
             connection = dataSource.getConnection();
         }
@@ -817,7 +817,7 @@ public class DBHandler {
                     "group by quiz_id\n" +
                     "order by frequency desc limit "+ limit+";");
             while(st.next()){
-                popularQuizzes.add(getSingleQuizFromResultSet(st));
+                popularQuizzes.add(getQuiz(st.getInt("quiz_id")));
             }
             return popularQuizzes;
         } catch (SQLException e) {
@@ -833,6 +833,7 @@ public class DBHandler {
             while(st.next()){
                 statistics.add(getSingleQuizStatistics(st));
             }
+            System.out.println(statistics.size());
             return statistics;
         } catch (SQLException e) {
             e.printStackTrace();

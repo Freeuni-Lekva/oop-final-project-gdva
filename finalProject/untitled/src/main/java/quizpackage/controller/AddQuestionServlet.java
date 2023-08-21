@@ -29,7 +29,7 @@ public class AddQuestionServlet extends HttpServlet {
             handler.debug("1");
             String questionText = req.getParameter("questionResponseText");
             String questionAnswer = req.getParameter("questionResponseAnswer");
-            double grade = Integer.parseInt(req.getParameter("questionResponseGrade"));
+            double grade = Double.parseDouble(req.getParameter("questionResponseGrade"));
             QuestionResponse question = new QuestionResponse(questionText,questionAnswer,grade);
             questions.add(question);
         }
@@ -37,7 +37,7 @@ public class AddQuestionServlet extends HttpServlet {
             handler.debug("2");
             String questionText = req.getParameter("fillText");
             String questionAnswer = req.getParameter("fillAnswer");
-            double grade = Integer.parseInt(req.getParameter("fillGrade"));
+            double grade = Double.parseDouble(req.getParameter("fillGrade"));
             FillTheBlank question = new FillTheBlank(questionText,grade,questionAnswer);
             questions.add(question);
         }
@@ -46,7 +46,7 @@ public class AddQuestionServlet extends HttpServlet {
             String questionText = req.getParameter("pictureText");
             String questionAnswer = req.getParameter("pictureAnswer");
             String image = req.getParameter("pictureURL");
-            double grade = Integer.parseInt(req.getParameter("pictureGrade"));
+            double grade = Double.parseDouble(req.getParameter("pictureGrade"));
             PictureResponse question = new PictureResponse(questionText,questionAnswer,image,grade);
             questions.add(question);
         }
