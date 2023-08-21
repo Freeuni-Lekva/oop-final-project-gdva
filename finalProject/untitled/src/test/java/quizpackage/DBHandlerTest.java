@@ -266,15 +266,15 @@ class DBHandlerTest {
         Account cima = handler.getAccount(4);
 
         // situacia: dead lock
-        handler.addMessage(beka, lasha, "baro lasha");
-        handler.addMessage(beso, cima, "cima rava xar?");
-        handler.addMessage(beso, cima, "xo xar janze?");
-        handler.addMessage(cima, beso, "ki besik, shen rava xar?");
-        handler.addMessage(lasha, beka, "baro");
-        handler.addMessage(beka, lasha, "lasha 50 lari xo ar gaqvs?");
-        handler.addMessage(lasha, beso, "besik 50 lari xo ar gaqvs?");
-        handler.addMessage(beso, cima, "cimush 50 lari xo ar gaqvs?");
-        handler.addMessage(cima, beka, "beshqen 50 lari xo ar gaqvs?");
+        handler.addMessage(beka, lasha, "baro lasha","text");
+        handler.addMessage(beso, cima, "cima rava xar?","text");
+        handler.addMessage(beso, cima, "xo xar janze?","text");
+        handler.addMessage(cima, beso, "ki besik, shen rava xar?","text");
+        handler.addMessage(lasha, beka, "baro","text");
+        handler.addMessage(beka, lasha, "lasha 50 lari xo ar gaqvs?","text");
+        handler.addMessage(lasha, beso, "besik 50 lari xo ar gaqvs?","text");
+        handler.addMessage(beso, cima, "cimush 50 lari xo ar gaqvs?","text");
+        handler.addMessage(cima, beka, "beshqen 50 lari xo ar gaqvs?","text");
 
         // test getDialogue
         assertEquals(3,handler.getDialogue(beka, lasha).size());

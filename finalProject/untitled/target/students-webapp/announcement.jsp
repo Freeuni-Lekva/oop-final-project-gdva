@@ -1,5 +1,5 @@
-<%@ page import="quizpackage.DBHandler" %>
-<%@ page import="quizpackage.Announcement" %><%--
+<%@ page import="quizpackage.model.DBHandler" %>
+<%@ page import="quizpackage.model.Announcement" %><%--
   Created by IntelliJ IDEA.
   User: Giorgi
   Date: 03.08.2023
