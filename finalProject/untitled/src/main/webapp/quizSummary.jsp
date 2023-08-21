@@ -37,10 +37,10 @@
         <div id = "topPerformersAllTimeDiv">
             <h1>Top Performers All time</h1>
             <%
-                List<QuizStatistics> quizStatistics = handler.getTopPerformersOfAllTime();
+                List<QuizStatistics> quizStatistics = handler.getTopPerformersOfAllTime(quizId);
                 if(quizStatistics.size() > 0) {
                     for (int i = 0; i < quizStatistics.size(); i++) {
-                        out.println("<div>");
+                        out.println("<div style = \"margin-bottom:5px;border-bottom : 3px dotted black;\">");
                         Account account = handler.getAccount(quizStatistics.get(i).getAccountId());
                         out.println("<p style=\"display:inline; vertical-align:middle;\"> User: </p><a style=\"text-decoration:none; color:inherit\" href = \"profile.jsp?id="+account.getId()+"\"><img src=\""+account.getImage() +"\" style = \"width:30px; height:30px; border-radius:10px; display:inline; vertical-align:middle;margin-right:10px;\"><p style=\"display:inline; vertical-align:middle\">" + account.getUsername() + "</p></a>");
                         out.println("<p> Score: "+ quizStatistics.get(i).getScore() +"</p>");
@@ -57,10 +57,10 @@
         <div id = "topPerformersLastDayDiv">
             <h1>Top Performers Last Day</h1>
             <%
-                quizStatistics = handler.getTopPerformersOfTheDay();
+                quizStatistics = handler.getTopPerformersOfTheDay(quizId);
                 if(quizStatistics.size() > 0) {
                     for (int i = 0; i < quizStatistics.size(); i++) {
-                        out.println("<div>");
+                        out.println("<div style = \"margin-bottom:5px;border-bottom : 3px dotted black;\">");
                         Account account = handler.getAccount(quizStatistics.get(i).getAccountId());
                         out.println("<p style=\"display:inline; vertical-align:middle;\"> User: </p><a style=\"text-decoration:none; color:inherit\" href = \"profile.jsp?id="+account.getId()+"\"><img src=\""+account.getImage() +"\" style = \"width:30px; height:30px; border-radius:10px; display:inline; vertical-align:middle;margin-right:10px;\"><p style=\"display:inline; vertical-align:middle\">" + account.getUsername() + "</p></a>");
                         out.println("<p> Score: "+ quizStatistics.get(i).getScore() +"</p>");
@@ -74,39 +74,22 @@
             %>
         </div>
 
-        <div id = "myActivityDiv">
-            <h1>My Activity</h1>
-            <%
-                quizStatistics = handler.getQuizStatisticsForUserAndOrder(quizId, currentAccount.getId(), 0);
-                if(quizStatistics.size() > 0) {
-                    for (int i = 0; i < quizStatistics.size(); i++) {
-                        out.println("<div>");
-                        Account account = handler.getAccount(quizStatistics.get(i).getAccountId());
-                        out.println("<p style=\"display:inline; vertical-align:middle;\"> User: </p><a style=\"text-decoration:none; color:inherit\" href = \"profile.jsp?id="+account.getId()+"\"><img src=\""+account.getImage() +"\" style = \"width:30px; height:30px; border-radius:10px; display:inline; vertical-align:middle;margin-right:10px;\"><p style=\"display:inline; vertical-align:middle\">" + account.getUsername() + "</p></a>");
-                        out.println("<p> Score: "+ quizStatistics.get(i).getScore() +"</p>");
-                        out.println("<p> Time: " + (double) quizStatistics.get(i).getTime() / 1000 + " seconds</p>");
 
-                        out.println("</div>");
-                    }
-                } else {
-                    out.println("<p> No Activity </p>");
-                }
-            %>
-        </div>
 
     </div>
     <div id="midDiv">
-
-        <p>questions number: <%=quiz.getQuestions().size()%></p>
-        <p>quiz type: <%
+        <p>Quiz Description: <%=quiz.getDescription()%></p>
+        <p>Author: <%=handler.getAccount(quiz.getCreatorID()).getUsername()%></p>
+        <p>Questions Number: <%=quiz.getQuestions().size()%></p>
+        <p>Quiz type: <%
             if(quiz.areQuestionsOnSinglePage()){
-                out.print("single page");
+                out.print("Single Page");
             }
             else{
-                out.print("multiple pages");
+                out.print("Multiple Pages");
             }
         %></p>
-        <p>total score: <%=quiz.getQuizTotalScore()%></p>
+        <p>Total Score: <%=quiz.getQuizTotalScore()%></p>
         <a href="quiz.jsp?id=<%=quizId%>&start_time=<%=currentTime%>">
             <input class="buttonClass" type="submit" value="start quiz">
         </a>
@@ -117,7 +100,25 @@
         </form>
     </div>
     <div id="rightDiv">
+        <div id = "myActivityDiv">
+            <h1>My Activity</h1>
+            <%
+                quizStatistics = handler.getQuizStatisticsForUserAndOrder(quizId, currentAccount.getId(), 0);
+                if(quizStatistics.size() > 0) {
+                    for (int i = 0; i < quizStatistics.size(); i++) {
+                        out.println("<div style = \"margin-bottom:5px;border-bottom : 3px dotted black;\">");
+                        Account account = handler.getAccount(quizStatistics.get(i).getAccountId());
+                        out.println("<p style=\"display:inline; vertical-align:middle;\"> User: </p><a style=\"text-decoration:none; color:inherit\" href = \"profile.jsp?id="+account.getId()+"\"><img src=\""+account.getImage() +"\" style = \"width:30px; height:30px; border-radius:10px; display:inline; vertical-align:middle;margin-right:10px;\"><p style=\"display:inline; vertical-align:middle\">" + account.getUsername() + "</p></a>");
+                        out.println("<p> Score: "+ quizStatistics.get(i).getScore() +"</p>");
+                        out.println("<p> Time: " + (double) quizStatistics.get(i).getTime() / 1000 + " seconds</p>");
 
+                        out.println("</div>");
+                    }
+                } else {
+                    out.println("<p> No Activity </p>");
+                }
+            %>
+        </div>
     </div>
 
 </div>
