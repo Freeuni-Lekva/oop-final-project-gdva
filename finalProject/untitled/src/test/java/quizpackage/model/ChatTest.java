@@ -19,10 +19,10 @@ class ChatTest {
         gio = new User("giorgi", "kobakhia", "gk", "gio123", 20, 4, "koba.jpg");
         fxala = new User("nika", "fxaladze", "nf", "fxala12", 20, 1, "fxala.jpg");
         ArrayList<Message> messages = new ArrayList<>();
-        messages.add(new Message(gio, fxala, date, "baro fxala"));
-        messages.add(new Message(fxala, gio, date, "baro"));
-        messages.add(new Message(gio, fxala, date, "paka"));
-        messages.add(new Message(fxala, gio, date, "paka"));
+        messages.add(new Message(gio, fxala, date, "baro fxala","text"));
+        messages.add(new Message(fxala, gio, date, "baro","text"));
+        messages.add(new Message(gio, fxala, date, "paka","text"));
+        messages.add(new Message(fxala, gio, date, "paka","text"));
         chat = new Chat(fxala, gio, messages);
     }
 

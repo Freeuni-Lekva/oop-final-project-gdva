@@ -7,12 +7,14 @@ public class Message {
     Account to;
     Date date;
     String text;
+    String type;
 
-    public Message(Account from, Account to, Date date, String text){
+    public Message(Account from, Account to, Date date, String text,String type){
         this.from = from;
         this.to = to;
         this.date = date;
         this.text = text;
+        this.type = type;
     }
 
     public Account getFrom() {
@@ -30,4 +32,5 @@ public class Message {
     public String getText() {
         return text;
     }
+    public String getType(){return type;}
 }

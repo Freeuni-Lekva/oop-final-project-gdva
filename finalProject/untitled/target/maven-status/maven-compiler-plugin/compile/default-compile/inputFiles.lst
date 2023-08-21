@@ -7,6 +7,7 @@ C:\Users\Giorgi\Desktop\reserveProject\finalProject\untitled\src\main\java\quizp
 C:\Users\Giorgi\Desktop\reserveProject\finalProject\untitled\src\main\java\quizpackage\model\Message.java
 C:\Users\Giorgi\Desktop\reserveProject\finalProject\untitled\src\main\java\quizpackage\model\PasswordHasher.java
 C:\Users\Giorgi\Desktop\reserveProject\finalProject\untitled\src\main\java\quizpackage\controller\AddAnnouncementServlet.java
+C:\Users\Giorgi\Desktop\reserveProject\finalProject\untitled\src\main\java\quizpackage\controller\ChallengeServlet.java
 C:\Users\Giorgi\Desktop\reserveProject\finalProject\untitled\src\main\java\quizpackage\controller\SendRequestServlet.java
 C:\Users\Giorgi\Desktop\reserveProject\finalProject\untitled\src\main\java\quizpackage\model\quizzes\Answer.java
 C:\Users\Giorgi\Desktop\reserveProject\finalProject\untitled\src\main\java\quizpackage\model\quizzes\QuizTest.java
@@ -43,3 +44,4 @@ C:\Users\Giorgi\Desktop\reserveProject\finalProject\untitled\src\main\java\quizp
 C:\Users\Giorgi\Desktop\reserveProject\finalProject\untitled\src\main\java\quizpackage\controller\SearchFriendMessagesServlet.java
 C:\Users\Giorgi\Desktop\reserveProject\finalProject\untitled\src\main\java\quizpackage\model\quizzes\FillTheBlank.java
 C:\Users\Giorgi\Desktop\reserveProject\finalProject\untitled\src\main\java\quizpackage\controller\StatisticsServlet.java
+C:\Users\Giorgi\Desktop\reserveProject\finalProject\untitled\src\main\java\quizpackage\model\QuizStatistics.java

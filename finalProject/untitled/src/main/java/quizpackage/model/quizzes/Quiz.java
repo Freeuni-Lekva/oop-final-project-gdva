@@ -1,5 +1,6 @@
 package quizpackage.model.quizzes;
 
+import java.util.Date;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,9 +12,12 @@ public class Quiz {
     String answerType;
     int creatorID;
     int id;
+    String description;
+    double totalScore;
+    Date createDate;
 
     public Quiz(List<Question> questions, String title, String order,String alignment, String answerType,
-            int creatorId, int id){
+            int creatorId, int id,String description,Date createDate){
         this.questions = questions;
         this.title = title;
         this.order = order;
@@ -21,6 +25,12 @@ public class Quiz {
         this.answerType = answerType;
         this.creatorID = creatorId;
         this.id = id;
+        this.description = description;
+        totalScore = 0;
+        for(int i = 0; i<questions.size();i++){
+            totalScore += questions.get(i).getQuestionGrade();
+        }
+        this.createDate = createDate;
     }
 
     public void randomizeQuestions(){
@@ -64,4 +74,6 @@ public class Quiz {
     public boolean immediateAnswerNeeded(){
         return getAnswerType().equals("immediate");
     }
+    public double getQuizTotalScore(){return totalScore;}
+    public Date getCreateDate(){return createDate;}
 }

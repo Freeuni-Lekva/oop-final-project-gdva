@@ -18,7 +18,7 @@ class MessageTest {
         date = new Date(1,1,1);
         gio = new User("giorgi", "kobakhia", "gk", "gio123", 20, 4, "koba.jpg");
         fxala = new User("nika", "fxaladze", "nf", "fxala12", 20, 1, "fxala.jpg");
-        message = new Message(gio, fxala, date, "baro fxala");
+        message = new Message(gio, fxala, date, "baro fxala","text");
     }
 
     @Test
