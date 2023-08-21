@@ -1,6 +1,4 @@
-<%@ page import="quizpackage.DBHandler" %>
-<%@ page import="javax.persistence.criteria.CriteriaBuilder" %>
-<%@ page import="quizpackage.Account" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: giorgi kobakhia
   Date: 8/8/2023
@@ -19,15 +17,15 @@
     </video>
 
     <div id = "central">
-
         <%
             Integer accounts = (Integer) session.getAttribute("accounts");
             Integer admins = (Integer) session.getAttribute("admins");
         %>
-        <div id = "statistics">
-            <p Accounts: <%=accounts%>></p>
-            <p Admins: <%=admins%>></p>
-        </div>
+        <h1>Statistics: </h1>
+        <ul>
+            <li> <a style = " ";> Accounts: <%=accounts%></a></li>
+            <li> <a style = " ";> Admins: <%=admins%></a></li>
+        </ul>
     </div>
 </body>
 </html>

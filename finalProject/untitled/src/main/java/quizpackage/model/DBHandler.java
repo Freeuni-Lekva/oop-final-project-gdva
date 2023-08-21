@@ -20,7 +20,7 @@ public class DBHandler {
         dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/finalproject");
         dataSource.setUsername("root");
-        dataSource.setPassword("root1234");
+        dataSource.setPassword("rootroot2023");
         try{
             connection = dataSource.getConnection();
         }
@@ -31,9 +31,9 @@ public class DBHandler {
 
     public DBHandler(boolean f){
         dataSource = new BasicDataSource();
-        dataSource.setUrl("jdbc:mysql://localhost:3306/finalproject");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/test");
         dataSource.setUsername("root");
-        dataSource.setPassword("Vpxdukkdaash1");
+        dataSource.setPassword("rootroot2023");
         try{
             connection = dataSource.getConnection();
         }
@@ -531,6 +531,8 @@ public class DBHandler {
                     .executeUpdate("insert into quizzes(id,title,question_order,question_alignment,answer_type,creator_id,quiz_description,create_date) " +
                             "value ( "+ newID +", \'"  + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ",\'" +description+"\',sysdate());");
         }catch(SQLException e){
+            System.out.println("insert into quizzes(id,title,question_order,question_alignment,answer_type,creator_id,quiz_description) " +
+                    "value ( "+ newID +", \'"  + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ",\'" +description+"\');");
             e.printStackTrace();
         }
     }
@@ -835,6 +837,23 @@ public class DBHandler {
             }
             System.out.println(statistics.size());
             return statistics;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public List<Account> getFriends(int id){
+        List<Account> friends = new ArrayList<>();
+        try {
+            ResultSet resultSet = connection.createStatement()
+                    .executeQuery("select * from friends where first_friend_id = " + id +" or second_friend_id = " + id + " ;");
+            while(resultSet.next()){
+                int id1 = resultSet.getInt("first_friend_id");
+                int id2 = resultSet.getInt("second_friend_id");
+                if(id1 == id) id1 = id2;
+                friends.add(getAccount(id1));
+            }
+            return friends;
         } catch (SQLException e) {
             e.printStackTrace();
         }

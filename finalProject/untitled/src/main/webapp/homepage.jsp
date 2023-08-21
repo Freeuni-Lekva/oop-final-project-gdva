@@ -26,6 +26,7 @@
     List<Quiz>allQuizzes = handler.getRecentQuizzes();
     List<Quiz> popularQuizzes = handler.getPopularQuizzes();
     List<QuizStatistics> recentActivities = handler.getRecentActivities(currentAccount.getId());
+    session.setAttribute("to_account", null);
 %>
 <div id = "entireDiv">
     <div id = "topDiv">

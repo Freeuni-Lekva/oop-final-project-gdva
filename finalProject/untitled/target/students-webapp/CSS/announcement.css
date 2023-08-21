@@ -41,7 +41,6 @@
     left: 30%;
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
 #topMarginDiv {
@@ -57,9 +56,6 @@
     height: 75%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center; /* Center vertically */
-    text-align: center; /* Center align text horizontally */
 }
 
 #announcementDiv > img {
@@ -72,7 +68,6 @@
     position: relative;
     color: azure;
     width: 100%;
-    text-align: center;
     margin: 0; /* Reset margin to center text vertically */
 }
 
@@ -93,7 +88,7 @@ h2 {
 
 h3 {
     font-style: italic;
-    position: absolute;
+    position: relative;
     color: azure;
     font-family: "Academy Italic";
 }

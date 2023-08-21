@@ -444,3 +444,6 @@
 0:0:0:0:0:0:0:1 - - [21/Aug/2023:16:57:29 +0400] "GET /CSS/quizSummary.css HTTP/1.1" 304 - http-bio-9090-exec-8 1
 0:0:0:0:0:0:0:1 - - [21/Aug/2023:16:58:27 +0400] "GET /quizSummary.jsp?id=1 HTTP/1.1" 200 6366 http-bio-9090-exec-9 80
 0:0:0:0:0:0:0:1 - - [21/Aug/2023:16:58:27 +0400] "GET /CSS/quizSummary.css HTTP/1.1" 304 - http-bio-9090-exec-9 2
+0:0:0:0:0:0:0:1 - - [21/Aug/2023:22:59:35 +0400] "GET / HTTP/1.1" 200 1262 http-bio-9090-exec-2 98
+0:0:0:0:0:0:0:1 - - [21/Aug/2023:22:59:38 +0400] "GET /loginButtonServlet?loginInput=a&passwordInput=a&loginButton=Log+In HTTP/1.1" 500 1510 http-bio-9090-exec-3 5
+0:0:0:0:0:0:0:1 - - [21/Aug/2023:22:59:52 +0400] "GET /loginButtonServlet?loginInput=a&passwordInput=a&loginButton=Log+In HTTP/1.1" 500 1510 http-bio-9090-exec-1 3

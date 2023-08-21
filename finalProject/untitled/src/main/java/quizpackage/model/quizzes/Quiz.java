@@ -76,5 +76,4 @@ public class Quiz {
     }
     public double getQuizTotalScore(){return totalScore;}
     public Date getCreateDate(){return createDate;}
-    public String getDescription(){return description;}
 }
