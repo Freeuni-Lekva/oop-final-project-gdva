@@ -42,9 +42,10 @@
                     for (int i = 0; i < quizStatistics.size(); i++) {
                         out.println("<div>");
                         Account account = handler.getAccount(quizStatistics.get(i).getAccountId());
-                        out.println("<p> Name: " + account.getName() +
-                                " Score: " + quizStatistics.get(i).getScore() +
-                                " Time: " + quizStatistics.get(i).getTime() + "</p>");
+                        out.println("<p style=\"display:inline; vertical-align:middle;\"> User: </p><a style=\"text-decoration:none; color:inherit\" href = \"profile.jsp?id="+account.getId()+"\"><img src=\""+account.getImage() +"\" style = \"width:30px; height:30px; border-radius:10px; display:inline; vertical-align:middle;margin-right:10px;\"><p style=\"display:inline; vertical-align:middle\">" + account.getUsername() + "</p></a>");
+                        out.println("<p> Score: "+ quizStatistics.get(i).getScore() +"</p>");
+                        out.println("<p> Time: " + (double) quizStatistics.get(i).getTime() / 1000 + " seconds</p>");
+
                         out.println("</div>");
                     }
                 } else {
@@ -61,9 +62,10 @@
                     for (int i = 0; i < quizStatistics.size(); i++) {
                         out.println("<div>");
                         Account account = handler.getAccount(quizStatistics.get(i).getAccountId());
-                        out.println("<p> Name: " + account.getName() +
-                                " Score: " + quizStatistics.get(i).getScore() +
-                                " Time: " + quizStatistics.get(i).getTime() + "</p>");
+                        out.println("<p style=\"display:inline; vertical-align:middle;\"> User: </p><a style=\"text-decoration:none; color:inherit\" href = \"profile.jsp?id="+account.getId()+"\"><img src=\""+account.getImage() +"\" style = \"width:30px; height:30px; border-radius:10px; display:inline; vertical-align:middle;margin-right:10px;\"><p style=\"display:inline; vertical-align:middle\">" + account.getUsername() + "</p></a>");
+                        out.println("<p> Score: "+ quizStatistics.get(i).getScore() +"</p>");
+                        out.println("<p> Time: " + (double) quizStatistics.get(i).getTime() / 1000 + " seconds</p>");
+
                         out.println("</div>");
                     }
                 } else {
@@ -80,9 +82,10 @@
                     for (int i = 0; i < quizStatistics.size(); i++) {
                         out.println("<div>");
                         Account account = handler.getAccount(quizStatistics.get(i).getAccountId());
-                        out.println("<p> Name: " + account.getName() +
-                                " Score: " + quizStatistics.get(i).getScore() +
-                                " Time: " + quizStatistics.get(i).getTime() + "</p>");
+                        out.println("<p style=\"display:inline; vertical-align:middle;\"> User: </p><a style=\"text-decoration:none; color:inherit\" href = \"profile.jsp?id="+account.getId()+"\"><img src=\""+account.getImage() +"\" style = \"width:30px; height:30px; border-radius:10px; display:inline; vertical-align:middle;margin-right:10px;\"><p style=\"display:inline; vertical-align:middle\">" + account.getUsername() + "</p></a>");
+                        out.println("<p> Score: "+ quizStatistics.get(i).getScore() +"</p>");
+                        out.println("<p> Time: " + (double) quizStatistics.get(i).getTime() / 1000 + " seconds</p>");
+
                         out.println("</div>");
                     }
                 } else {
@@ -104,7 +107,7 @@
             }
         %></p>
         <p>total score: <%=quiz.getQuizTotalScore()%></p>
-        <a href="quiz.jsp?id=<%=quizId%>&start_time=<%=System.currentTimeMillis()%>">
+        <a href="quiz.jsp?id=<%=quizId%>&start_time=<%=currentTime%>">
             <input class="buttonClass" type="submit" value="start quiz">
         </a>
         <form action="challengeServlet" method="post">
