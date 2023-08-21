@@ -367,13 +367,6 @@ public class DBHandler {
 
     public void addMessage(Account from, Account to, String text, String type){
         try{
-            if(from == null){
-                debug("from is null");
-            }
-            if(to == null){
-                debug("to is null");
-            }
-            debug("" + from.getId() + " " + to.getId() + " " +text);
             connection.createStatement().execute("insert into messages(from_id,to_id,send_date,txt,message_type) value ("+ from.getId() + ","+ to.getId()+","+"sysdate()"+"," + "\'"+text+"\',\'"+type+"\');");
         }
         catch(SQLException e){
@@ -522,7 +515,6 @@ public class DBHandler {
 
     public void addQuiz(String quizTitle, String order, String alignment, String answerType, int creatorId, String description) {
         int newID = getMaxQuizID()+1;
-        System.out.println(newID);
         try{
             if(containsQuiz(quizTitle)){
                 return ;
@@ -587,17 +579,6 @@ public class DBHandler {
         }
     }
 
-    public void addLastQuestionToQuiz(String quizTitle) {
-        int quiz_id = getQuizID(quizTitle);
-        int question_id = getLastQuestionID();
-        try{
-            connection.createStatement().executeUpdate("insert into quiz_questions(quiz_id,question_id) value (" + quiz_id+","+question_id+")");
-        }
-        catch(SQLException e){
-            e.printStackTrace();
-        }
-    }
-
     public List<Quiz> getQuizzesByAuthor(int id){
         try{
             List<Quiz> quizzes = new ArrayList<>();
@@ -609,14 +590,12 @@ public class DBHandler {
             }
 
             return quizzes;
-        }
-        catch(SQLException e){
+        } catch(SQLException e){
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
     private Quiz getSingleQuizFromResultSet(ResultSet rs) {
-        debug("here");
         try {
             return new Quiz(getQuizQuestions(rs.getInt("id")),
                     rs.getString("title"),
@@ -709,10 +688,8 @@ public class DBHandler {
         try {
             connection.createStatement().executeUpdate(
                     "INSERT INTO quiz_history(quiz_id, account_id, score, time, start_date) " +
-                            "VALUES (" + quiz_id + ", " + account_id + ", " + score + ", " + time + ", '" + startDate + "')");
+                            "VALUE (" + quiz_id + ", " + account_id + ", " + score + ", " + time + ", '" + startDate + "')");
         } catch (SQLException e) {
-            debug("INSERT INTO quiz_history(quiz_id, account_id, score, time, start_date) " +
-                            "VALUES (" + quiz_id + ", " + account_id + ", " + score + ", " + time + ", '" + startDate + "')");
             e.printStackTrace();
         }
     }

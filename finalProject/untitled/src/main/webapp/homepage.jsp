@@ -23,7 +23,7 @@
     Account currentAccount = (Account)request.getSession().getAttribute("account");
     List<Announcement> announcements = handler.getAnnouncements();
     List<Quiz> userQuizzes = handler.getQuizzesByAuthor(currentAccount.getId());
-    List<Quiz>allQuizzes = handler.getRecentQuizzes();
+    List<Quiz> allQuizzes = handler.getRecentQuizzes();
     List<Quiz> popularQuizzes = handler.getPopularQuizzes();
     List<QuizStatistics> recentActivities = handler.getRecentActivities(currentAccount.getId());
     session.setAttribute("to_account", null);

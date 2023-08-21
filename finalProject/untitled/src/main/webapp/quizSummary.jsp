@@ -46,7 +46,7 @@
     <div id = "topPerformersAllTimeDiv">
         <h1>Top Performers All time</h1>
         <%
-            List<QuizStatistics> quizStatistics = handler.getTopPerformersOfAllTime();
+            List<QuizStatistics> quizStatistics = handler.getTopPerformersOfAllTime(quizId);
             if(quizStatistics.size() > 0) {
                 for (int i = 0; i < quizStatistics.size(); i++) {
                     out.println("<div>");
@@ -65,7 +65,7 @@
     <div id = "topPerformersLastDayDiv">
         <h1>Top Performers Last Day</h1>
         <%
-            quizStatistics = handler.getTopPerformersOfTheDay();
+            quizStatistics = handler.getTopPerformersOfTheDay(quizId);
             if(quizStatistics.size() > 0) {
                 for (int i = 0; i < quizStatistics.size(); i++) {
                     out.println("<div>");
