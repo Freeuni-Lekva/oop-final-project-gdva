@@ -17,6 +17,7 @@
     DBHandler handler = (DBHandler)request.getServletContext().getAttribute("handler");
     Question question = (Question)request.getSession().getAttribute("ImmediateResponseQuestion");
     String answer = request.getParameter("answer");
+    String startTime = request.getParameter("start_time");
     int id = Integer.parseInt(request.getParameter("questionId"))+1;
 %>
 <head>
@@ -68,6 +69,7 @@
       <div id="buttonsDiv">
         <form action="FinishOnePageQuizServlet" method = "get">
           <input type="hidden" name="buttonValue" value="Next">
+          <input type="hidden" name="start_time" value="<%=startTime%>">
           <input type="hidden" name="<%=id%>" value="<%=answer%>">
           <button class="custom-button">Next</button>
         </form>

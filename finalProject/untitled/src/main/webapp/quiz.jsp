@@ -21,9 +21,11 @@
     String buttonValue = request.getParameter("buttonValue");
     Quiz quiz = handler.getQuiz(ID);
     List<Question> questions = quiz.getQuestions();
+    String startTime = request.getParameter("start_time");
 
     Integer multiID = (Integer)session.getAttribute("multiID");
     if(buttonValue == null) multiID = null;
+    handler.debug("Start time in quiz.jsp: "+startTime);
 %>
 <form action="FinishOnePageQuizServlet" method="get">
 <div id="entireDiv">
@@ -72,7 +74,6 @@
                     <%
                        MultipleChoiceSingleAnswer multipleChoiceQuestion = (MultipleChoiceSingleAnswer)question;
                        List<String> answers = multipleChoiceQuestion.getPossibleAnswers();
-                       handler.debug(answers.size()+"");
                     %>
                     <% for (int i = 0; i < answers.size(); i++) { %>
                     <li>
@@ -89,6 +90,7 @@
 
     </div>
         <div id="buttonsDiv">
+            <input type="hidden" name="start_time" value="<%=startTime%>">
             <button class="custom-button">Finish Quiz</button>
         </div>
     </div>
@@ -141,7 +143,6 @@
                         <%
                             MultipleChoiceSingleAnswer multipleChoiceQuestion = (MultipleChoiceSingleAnswer)question;
                             List<String> answers = multipleChoiceQuestion.getPossibleAnswers();
-                            handler.debug(answers.size()+"");
                         %>
                         <% for (int i = 0; i < answers.size(); i++) { %>
                         <li>
@@ -164,6 +165,7 @@
         <div class = "centered-button">
         <div id="buttonsDiv2">
             <input type="hidden" name="buttonValue" value="Next">
+            <input type="hidden" name="start_time" value="<%=startTime%>">
             <button class="custom-button">Next</button>
         </div>
         </div>
@@ -174,6 +176,7 @@
             <div id="buttonsDiv4">
                 <input type="hidden" name="buttonValue" value="Confirm">
                 <input type="hidden" name="questionId" value="<%=(multiID)%>">
+                <input type="hidden" name="start_time" value="<%=startTime%>">
                 <button class="custom-button">Confirm</button>
             </div>
         </div>
@@ -181,6 +184,7 @@
         <div class = "centered-button">
         <div id="buttonsDiv3">
             <input type="hidden" name="buttonValue" value="Finish">
+            <input type="hidden" name="start_time" value="<%=startTime%>">
             <button class="custom-button">Finish Quiz</button>
         </div>
         </div>

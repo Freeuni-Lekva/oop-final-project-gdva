@@ -2,6 +2,7 @@ quizpackage\controller\SendRequestServlet.class
 quizpackage\model\quizzes\MultipleChoiceSingleAnswer.class
 quizpackage\controller\LoginButtonServlet.class
 quizpackage\model\quizzes\PictureResponse.class
+quizpackage\model\QuizStatistics.class
 quizpackage\model\quizzes\FillTheBlank.class
 quizpackage\model\quizzes\MultipleAnswerQuestion.class
 quizpackage\controller\RegisterUserServlet.class

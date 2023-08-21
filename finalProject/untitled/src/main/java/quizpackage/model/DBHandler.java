@@ -20,7 +20,7 @@ public class DBHandler {
         dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/finalproject");
         dataSource.setUsername("root");
-        dataSource.setPassword("Vpxdukkdaash1");
+        dataSource.setPassword("root1234");
         try{
             connection = dataSource.getConnection();
         }
@@ -703,15 +703,18 @@ public class DBHandler {
         return quiz;
     }
 
-    public void updateQuizHistory(int quiz_id, int account_id, double score, int time){
+    public void updateQuizHistory(int quiz_id, int account_id, double score, long time, String startDate) {
         try {
-            connection.createStatement()
-                    .executeUpdate("insert into quiz_history(quiz_id, account_id, score, time, start_date) " +
-                            "value (" + quiz_id + ", " + account_id + ", " + score + ", " + time + ", sysdate());");
+            connection.createStatement().executeUpdate(
+                    "INSERT INTO quiz_history(quiz_id, account_id, score, time, start_date) " +
+                            "VALUES (" + quiz_id + ", " + account_id + ", " + score + ", " + time + ", '" + startDate + "')");
         } catch (SQLException e) {
+            debug("INSERT INTO quiz_history(quiz_id, account_id, score, time, start_date) " +
+                            "VALUES (" + quiz_id + ", " + account_id + ", " + score + ", " + time + ", '" + startDate + "')");
             e.printStackTrace();
         }
     }
+
 
     public static int limit = 5;
     private String[] order = {"start_date desc", "score desc", "time asc"};

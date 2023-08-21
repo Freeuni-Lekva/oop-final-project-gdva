@@ -1,8 +1,10 @@
 <%@ page import="quizpackage.model.quizzes.Quiz" %>
 <%@ page import="quizpackage.model.DBHandler" %>
 <%@ page import="quizpackage.model.QuizStatistics" %>
-<%@ page import="java.util.List" %>
-<%@ page import="quizpackage.model.Account" %><%--
+<%@ page import="java.util.*" %>
+<%@ page import="quizpackage.model.Account" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%--
   Created by IntelliJ IDEA.
   User: PC
   Date: 8/18/2023
@@ -17,7 +19,11 @@
         int quizId = Integer.parseInt(request.getParameter("id"));
         Account currentAccount = (Account)request.getSession().getAttribute("account");
         Quiz quiz = handler.getQuiz(quizId);
-
+    %>
+    <%
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentTime = format.format(new Date());
+        handler.debug(currentTime);
     %>
     <div id="quizDiv">
         <h1><%=quiz.getTitle()%></h1>
@@ -31,7 +37,7 @@
             }
         %></p>
         <p>total score: <%=quiz.getQuizTotalScore()%></p>
-        <a href="quiz.jsp?id=<%=quizId%>&start_time=<%=System.currentTimeMillis()%>">
+        <a href="quiz.jsp?id=<%=quizId%>&start_time=<%=currentTime%>">
             <input type="submit" value="start quiz">
         </a>
         <form action="challengeServlet" method="post">
