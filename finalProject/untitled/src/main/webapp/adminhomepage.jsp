@@ -50,9 +50,11 @@
                     <button type="button" onclick="location.href='statistics'" id="statisticsButton">Statistics</button>
                 </div>
             </div>
-
-
-
+            <div id = "buttonsDiv4">
+                <div>
+                    <button type="button" onclick="location.href='DeleteQuizButtonServlet'" id="deleteQuizButton">Delete Quiz</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

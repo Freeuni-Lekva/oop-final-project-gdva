@@ -22,11 +22,6 @@
         Account currentAccount = (Account)request.getSession().getAttribute("account");
         Quiz quiz = handler.getQuiz(quizId);
     %>
-    <%
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String currentTime = format.format(new Date());
-        handler.debug(currentTime);
-    %>
 </head>
 <body>
 <div id="quizHeader">
@@ -107,9 +102,10 @@
             }
         %></p>
         <p>total score: <%=quiz.getQuizTotalScore()%></p>
-        <a href="quiz.jsp?id=<%=quizId%>&start_time=<%=currentTime%>">
+        <form action="StartQuizServlet" method ="get">
+            <input type="hidden" value="<%=quizId%>" name ="quiz_id">
             <input class="buttonClass" type="submit" value="start quiz">
-        </a>
+        </form>
         <form action="challengeServlet" method="post">
             <input  type="hidden" value="<%=quizId%>" name="quiz_id">
             <input type="text" placeholder="enter who you want to challenge" name="challengeField" id="challengeField">

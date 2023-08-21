@@ -20,7 +20,7 @@ public class DBHandler {
         dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/finalproject");
         dataSource.setUsername("root");
-        dataSource.setPassword("Vpxdukkdaash1");
+        dataSource.setPassword("root1234");
         try{
             connection = dataSource.getConnection();
         }
@@ -839,6 +839,47 @@ public class DBHandler {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean containsQuizTitle(String title){
+        try{
+            ResultSet rs = connection.createStatement().
+                    executeQuery("select * from quizzes where title='"+title+"'");
+            return rs.next();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void removeQuiz(String title){
+        try{
+            connection.createStatement().
+                    executeUpdate("delete from quizzes where title='"+title+"'");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void clearQuizHistory(int quizId){
+        try{
+            connection.createStatement().
+                    executeUpdate("delete from quiz_history where quiz_id="+quizId);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    public int numberOfQuizzesTaken(){
+        int result = 0;
+        try {
+            ResultSet resultSet = connection.createStatement().executeQuery("Select quiz_id from quiz_history");
+            while (resultSet.next()) {
+                result++;
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return result;
     }
 
 
