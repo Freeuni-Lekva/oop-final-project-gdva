@@ -733,11 +733,11 @@ public class DBHandler {
         }
         return null;
     }
-    public List<QuizStatistics> getTopPerformersOfAllTime(){
+    public List<QuizStatistics> getTopPerformersOfAllTime(int quizId){
         List<QuizStatistics> quizStatistics = new ArrayList<>();
         try {
             ResultSet resultSet = connection.createStatement()
-                    .executeQuery("select * from quiz_history order by score desc limit "+ limit +";");
+                    .executeQuery("select * from quiz_history where quiz_id = " + quizId+" order by score desc limit "+ limit +";");
 
             while(resultSet.next()){
                 quizStatistics.add(getSingleQuizStatistics(resultSet));
@@ -748,11 +748,11 @@ public class DBHandler {
         return null;
     }
 
-    public List<QuizStatistics> getTopPerformersOfTheDay(){
+    public List<QuizStatistics> getTopPerformersOfTheDay(int quizId){
         List<QuizStatistics> quizStatistics = new ArrayList<>();
         try {
             ResultSet resultSet = connection.createStatement()
-                    .executeQuery("select * from quiz_history where TIMESTAMPDIFF(HOUR, start_date, sysdate()) <= 24 order by score desc limit " + limit + ";");
+                    .executeQuery("select * from quiz_history where TIMESTAMPDIFF(HOUR, start_date, sysdate()) <= 24 and quiz_id = " + quizId+" order by score desc limit " + limit + ";");
 
             while(resultSet.next()){
                 quizStatistics.add(getSingleQuizStatistics(resultSet));

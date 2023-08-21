@@ -126,7 +126,7 @@
                             out.println("<a href=\"quizSummary.jsp?id=" + recentActivities.get(i).getQuizId() + "\"><div>");
                             out.println("<p style = \" \" class=\"label\">Quiz title: "+ quiz.getTitle()+"</p>");
                             out.println("<p style = \" \" >Score: "+ recentActivities.get(i).getScore()+"</p>");
-                            out.println("<p style = \" \" >Time: "+ recentActivities.get(i).getTime()+"</p>");
+                            out.println("<p style = \" \" >Time: "+ (double) recentActivities.get(i).getTime() / 1000 +" seconds</p>");
                             out.println("</div></a>");
                         }
                     }
