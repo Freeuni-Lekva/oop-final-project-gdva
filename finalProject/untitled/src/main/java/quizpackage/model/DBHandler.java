@@ -20,7 +20,7 @@ public class DBHandler {
         dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/finalproject");
         dataSource.setUsername("root");
-        dataSource.setPassword("rootroot2023");
+        dataSource.setPassword("Vpxdukkdaash1");
         try{
             connection = dataSource.getConnection();
         }
@@ -31,9 +31,9 @@ public class DBHandler {
 
     public DBHandler(boolean f){
         dataSource = new BasicDataSource();
-        dataSource.setUrl("jdbc:mysql://localhost:3306/test");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/finalproject");
         dataSource.setUsername("root");
-        dataSource.setPassword("rootroot2023");
+        dataSource.setPassword("Vpxdukkdaash1");
         try{
             connection = dataSource.getConnection();
         }
@@ -102,7 +102,7 @@ public class DBHandler {
             boolean usernameCorrect = false;
             boolean passwordCorrect = false;
             Account account = castResultToAccount(st);
-         //   connection.createStatement().executeQuery("insert into debug(id) value (" + account.getId()+")");
+            //   connection.createStatement().executeQuery("insert into debug(id) value (" + account.getId()+")");
             if(account != null){
                 usernameCorrect = true;
                 passwordCorrect = PasswordHasher.isPassword(password,account.getPassword());
@@ -123,7 +123,7 @@ public class DBHandler {
         try{
             ResultSet st =
                     connection.createStatement().executeQuery("Select * from accounts where username = "
-                    + "\'" + username +"\'");
+                            + "\'" + username +"\'");
             return castResultToAccount(st);
         }
         catch(SQLException e){
@@ -238,15 +238,15 @@ public class DBHandler {
     }
 
     private Announcement getSingleAnnouncementFromResultSet(ResultSet st) throws SQLException {
-            int id = st.getInt("id");
-            String title = st.getString("title");
-            String plot = st.getString("plot");
-            String image = st.getString("img");
-            Date date = st.getDate("upload_date");
-            int ID = st.getInt("author_id");
-            Account account = getAccount(ID);
-            Announcement announcement = new Announcement(title, plot, image, date, account,id);
-            return announcement;
+        int id = st.getInt("id");
+        String title = st.getString("title");
+        String plot = st.getString("plot");
+        String image = st.getString("img");
+        Date date = st.getDate("upload_date");
+        int ID = st.getInt("author_id");
+        Account account = getAccount(ID);
+        Announcement announcement = new Announcement(title, plot, image, date, account,id);
+        return announcement;
     }
 
     public void addAnnouncement(Announcement announcement){
@@ -307,8 +307,8 @@ public class DBHandler {
     }
     public void debug(String text){
         try{
-             connection.createStatement().
-                     executeUpdate("insert into debug(txt) value (\'" + text + "\');");
+            connection.createStatement().
+                    executeUpdate("insert into debug(txt) value (\'" + text + "\');");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -367,6 +367,13 @@ public class DBHandler {
 
     public void addMessage(Account from, Account to, String text, String type){
         try{
+            if(from == null){
+                debug("from is null");
+            }
+            if(to == null){
+                debug("to is null");
+            }
+            debug("" + from.getId() + " " + to.getId() + " " +text);
             connection.createStatement().execute("insert into messages(from_id,to_id,send_date,txt,message_type) value ("+ from.getId() + ","+ to.getId()+","+"sysdate()"+"," + "\'"+text+"\',\'"+type+"\');");
         }
         catch(SQLException e){
@@ -378,7 +385,7 @@ public class DBHandler {
         List<Account> accounts = new ArrayList<>();
         try{
             ResultSet rs = connection.createStatement().
-                    executeQuery("select * from accounts where username like " + "\'" + username +"%"+ "\'");
+                    executeQuery("select * from accounts where username like " + "\'" + username +"%"+ "\' and id not in (select id from admins)");
             while(rs.next()){
                 Account cur = getSingleAccount(rs);
                 accounts.add(cur);
@@ -389,13 +396,13 @@ public class DBHandler {
         return accounts;
     }
     public void addFriendRequest(Account from, Account to){
-         try{
-             connection.createStatement().
-                     executeUpdate("insert into sent_requests(sender_id,receiver_id) value (" +
-                             + from.getId() + ","+ to.getId() + ");");
-         }catch (SQLException e){
+        try{
+            connection.createStatement().
+                    executeUpdate("insert into sent_requests(sender_id,receiver_id) value (" +
+                            + from.getId() + ","+ to.getId() + ");");
+        }catch (SQLException e){
             e.printStackTrace();
-         }
+        }
     }
 
     public boolean isRequestSent(Account from, Account to){
@@ -469,9 +476,9 @@ public class DBHandler {
                             ") or (first_friend_id = " + secondID + " and second_friend_id = " + firstID +");");
             return rs.next();
         }catch (SQLException e){
-                debug("select * from friends " +
-                        "where (first_friend_id ="+ firstID+ " and second_friend_id ="+ secondID +
-                        ") or (first_friend_id = " + secondID + " and second_friend_id = " + firstID +");");
+            debug("select * from friends " +
+                    "where (first_friend_id ="+ firstID+ " and second_friend_id ="+ secondID +
+                    ") or (first_friend_id = " + secondID + " and second_friend_id = " + firstID +");");
             e.printStackTrace();
         }
         return false;
@@ -515,6 +522,7 @@ public class DBHandler {
 
     public void addQuiz(String quizTitle, String order, String alignment, String answerType, int creatorId, String description) {
         int newID = getMaxQuizID()+1;
+        System.out.println(newID);
         try{
             if(containsQuiz(quizTitle)){
                 return ;
@@ -523,8 +531,6 @@ public class DBHandler {
                     .executeUpdate("insert into quizzes(id,title,question_order,question_alignment,answer_type,creator_id,quiz_description,create_date) " +
                             "value ( "+ newID +", \'"  + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ",\'" +description+"\',sysdate());");
         }catch(SQLException e){
-            System.out.println("insert into quizzes(id,title,question_order,question_alignment,answer_type,creator_id,quiz_description) " +
-                    "value ( "+ newID +", \'"  + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ",\'" +description+"\');");
             e.printStackTrace();
         }
     }
@@ -579,6 +585,17 @@ public class DBHandler {
         }
     }
 
+    public void addLastQuestionToQuiz(String quizTitle) {
+        int quiz_id = getQuizID(quizTitle);
+        int question_id = getLastQuestionID();
+        try{
+            connection.createStatement().executeUpdate("insert into quiz_questions(quiz_id,question_id) value (" + quiz_id+","+question_id+")");
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
     public List<Quiz> getQuizzesByAuthor(int id){
         try{
             List<Quiz> quizzes = new ArrayList<>();
@@ -590,12 +607,14 @@ public class DBHandler {
             }
 
             return quizzes;
-        } catch(SQLException e){
-            e.printStackTrace();
-            return null;
         }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return null;
     }
     private Quiz getSingleQuizFromResultSet(ResultSet rs) {
+        debug("here");
         try {
             return new Quiz(getQuizQuestions(rs.getInt("id")),
                     rs.getString("title"),
@@ -688,8 +707,10 @@ public class DBHandler {
         try {
             connection.createStatement().executeUpdate(
                     "INSERT INTO quiz_history(quiz_id, account_id, score, time, start_date) " +
-                            "VALUE (" + quiz_id + ", " + account_id + ", " + score + ", " + time + ", '" + startDate + "')");
+                            "VALUES (" + quiz_id + ", " + account_id + ", " + score + ", " + time + ", '" + startDate + "')");
         } catch (SQLException e) {
+            debug("INSERT INTO quiz_history(quiz_id, account_id, score, time, start_date) " +
+                    "VALUES (" + quiz_id + ", " + account_id + ", " + score + ", " + time + ", '" + startDate + "')");
             e.printStackTrace();
         }
     }
@@ -716,7 +737,7 @@ public class DBHandler {
         List<QuizStatistics> quizStatistics = new ArrayList<>();
         try {
             ResultSet resultSet = connection.createStatement()
-                    .executeQuery("select * from quiz_history where quiz_id = " + quizId+" order by score desc limit "+ limit +";");
+                    .executeQuery("select * from quiz_history where quiz_id = " + quizId+" order by score desc,quiz_history.time asc limit "+ limit +";");
 
             while(resultSet.next()){
                 quizStatistics.add(getSingleQuizStatistics(resultSet));
@@ -731,7 +752,7 @@ public class DBHandler {
         List<QuizStatistics> quizStatistics = new ArrayList<>();
         try {
             ResultSet resultSet = connection.createStatement()
-                    .executeQuery("select * from quiz_history where TIMESTAMPDIFF(HOUR, start_date, sysdate()) <= 24 and quiz_id = " + quizId+" order by score desc limit " + limit + ";");
+                    .executeQuery("select * from quiz_history where TIMESTAMPDIFF(HOUR, start_date, sysdate()) <= 24 and quiz_id = " + quizId+" order by score desc, quiz_history.time asc limit " + limit + ";");
 
             while(resultSet.next()){
                 quizStatistics.add(getSingleQuizStatistics(resultSet));
@@ -743,11 +764,11 @@ public class DBHandler {
         return null;
     }
 
-    public List<QuizStatistics> getLastPerformers(){
+    public List<QuizStatistics> getLastPerformers(int quizId){
         List<QuizStatistics> quizStatistics = new ArrayList<>();
         try {
             ResultSet resultSet = connection.createStatement()
-                    .executeQuery("select * from quiz_history order by start_date desc limit " + limit + ";");
+                    .executeQuery("select * from quiz_history where quiz_id =" + quizId +" order by start_date desc limit " + limit + ";");
 
             while(resultSet.next()){
                 quizStatistics.add(getSingleQuizStatistics(resultSet));
@@ -819,23 +840,6 @@ public class DBHandler {
         }
         return null;
     }
-    public List<Account> getFriends(int id){
-        List<Account> friends = new ArrayList<>();
-        try {
-            ResultSet resultSet = connection.createStatement()
-                    .executeQuery("select * from friends where first_friend_id = " + id +" or second_friend_id = " + id + " ;");
-            while(resultSet.next()){
-                int id1 = resultSet.getInt("first_friend_id");
-                int id2 = resultSet.getInt("second_friend_id");
-                if(id1 == id) id1 = id2;
-                friends.add(getAccount(id1));
-            }
-            return friends;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     public boolean containsQuizTitle(String title){
         try{
@@ -878,7 +882,49 @@ public class DBHandler {
         return result;
     }
 
+    public List<QuizStatistics> getAllPerformances(int quizId){
+        try{
+            ResultSet st = connection.createStatement().executeQuery("select * from quiz_history where quiz_id = " + quizId);
+            List<QuizStatistics> statistics = new ArrayList<>();
+            while(st.next()){
+                statistics.add(getSingleQuizStatistics(st));
+            }
+            return statistics;
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 
+    public List<Quiz> friendsQuizzes(int id){
+        try{
+            ResultSet st = connection.createStatement().executeQuery("select * from quizzes where creator_id in (select first_friend_id  from friends where second_friend_id = "+id+") or creator_id in (select second_friend_id from friends where first_friend_id = "+id+") limit "+limit+";");
+            List<Quiz> quizzes = new ArrayList<>();
+            while(st.next()){
+                quizzes.add(getSingleQuizFromResultSet(st));
+            }
+            return quizzes;
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<QuizStatistics> friendsStatistics(int id){
+        try{
+            ResultSet st = connection.createStatement().executeQuery("select * from quiz_history where account_id in (select first_friend_id  from friends where second_friend_id = "+id+") or account_id in (select second_friend_id from friends where first_friend_id = "+id+") limit "+limit+";");
+            List<QuizStatistics> statistics = new ArrayList<>();
+            while(st.next()){
+                statistics.add(getSingleQuizStatistics(st));
+            }
+            return statistics;
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
-
 

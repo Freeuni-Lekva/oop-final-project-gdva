@@ -21,7 +21,7 @@ public class FriendRequestResponseServlet extends HttpServlet {
         Account curAcc = (Account)req.getSession().getAttribute("account");
         DBHandler handler = (DBHandler)req.getServletContext().getAttribute("handler");
         handler.generateResponseToFriendRequest(response.equals("Accept"),Integer.parseInt(id),curAcc.getId());
-        RequestDispatcher dispatcher = req.getRequestDispatcher("friendrequests.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("homepage.jsp");
         dispatcher.forward(req,resp);
     }
 }

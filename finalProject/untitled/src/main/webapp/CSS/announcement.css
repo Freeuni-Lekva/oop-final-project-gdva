@@ -41,6 +41,7 @@
     left: 30%;
     display: flex;
     flex-direction: column;
+    text-align:center;
 }
 
 #topMarginDiv {
@@ -48,6 +49,7 @@
     top: 0;
     height: 15%;
     width: 100%;
+
 }
 
 #announcementDiv {
@@ -81,7 +83,7 @@ h1 {
 h2 {
     position: absolute;
     color: azure;
-    left: 40%;
+    left: 0%;
     font-family: "Comic Sans";
     font-size: xxx-large;
 }

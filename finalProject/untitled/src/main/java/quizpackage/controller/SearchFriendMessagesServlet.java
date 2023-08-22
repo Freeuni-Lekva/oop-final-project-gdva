@@ -2,9 +2,7 @@ package quizpackage.controller;
 
 import quizpackage.model.Account;
 import quizpackage.model.DBHandler;
-import quizpackage.model.User;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,8 +28,7 @@ public class SearchFriendMessagesServlet extends HttpServlet {
                 friends.add(accounts.get(i));
             }
         }
-        req.getSession().setAttribute("friends", friends);
-        req.getSession().setAttribute("to_account", new User("","","","",0, 0, ""));
+        req.getSession().setAttribute("friends",friends);
         RequestDispatcher dispatcher = req.getRequestDispatcher("messenger.jsp");
         dispatcher.forward(req,resp);
     }

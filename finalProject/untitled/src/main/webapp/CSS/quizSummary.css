@@ -88,3 +88,15 @@ input:hover{
     margin-top:30px;
     width:50%;
 }
+img{
+    width:30px;
+    height:30px;
+    border-radius:10px;
+    display:inline;
+    vertical-align:middle;
+    margin-right:10px;
+}
+a{
+    text-decoration: none;
+    color:inherit;
+}

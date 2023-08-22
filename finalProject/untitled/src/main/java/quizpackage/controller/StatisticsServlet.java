@@ -14,13 +14,10 @@ import java.io.IOException;
 public class StatisticsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("statistics.jsp");
         DBHandler handler = (DBHandler) request.getServletContext().getAttribute("handler");
-        int accountsNum = handler.numberOfAccounts();
-        int adminsNum = handler.numberOfAdmins();
-        int quizzesTaken = handler.numberOfQuizzesTaken();
-
-        RequestDispatcher dispatcher = request
-                .getRequestDispatcher("statistics.jsp?accounts="+accountsNum+"&admins="+adminsNum+"&quizzes="+quizzesTaken);
+        request.getSession().setAttribute("accounts", handler.numberOfAccounts());
+        request.getSession().setAttribute("admins", handler.numberOfAdmins());
         dispatcher.forward(request, response);
     }
 }

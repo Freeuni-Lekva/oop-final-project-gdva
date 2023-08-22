@@ -45,20 +45,6 @@ public class FinishOnePageQuizServlet extends HttpServlet {
             return;
         }
 
-        if(value != null && value.equals("Confirm")){
-            String questionId = req.getParameter("questionId");
-            Question question = questions.get(Integer.parseInt(questionId));
-            req.getSession().setAttribute("ImmediateResponseQuestion",question);
-
-            int idx = (int)req.getSession().getAttribute("curIdx");
-            String parameterName = String.valueOf(idx); // Change this line
-            String answer = req.getParameter(parameterName);
-            RequestDispatcher dispatcher =
-                    req.getRequestDispatcher("immediateresponse.jsp?answer="+answer+"&questionId="+questionId);
-            dispatcher.forward(req,resp);
-            return;
-        }
-
         if(value != null && value.equals("Next")){
             int idx = (int)req.getSession().getAttribute("curIdx");
             String parameterName = String.valueOf(idx); // Change this line

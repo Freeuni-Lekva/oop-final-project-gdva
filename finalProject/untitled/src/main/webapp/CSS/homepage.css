@@ -13,14 +13,14 @@ body{
     left:0;
     top:0;
 }
-#backgrVid{
-    position: fixed;
-    right:0;
-    bottom:0;
-    min-width: 100%;
-    min-height: 100%;
-    z-index: -1;
-}
+/*#backgrVid{*/
+/*    position: fixed;*/
+/*    right:0;*/
+/*    bottom:0;*/
+/*    min-width: 100%;*/
+/*    min-height: 100%;*/
+/*    z-index: -1;*/
+/*}*/
 #topDiv{
     position : relative;
     top : 0;
@@ -45,17 +45,57 @@ body{
 #leftDiv{
     position:relative;
     height: 100%;
-    width: 30%;
+    width: 25%;
     left: 0;
     display: flex;
     flex-direction: column;
+    background-color:#598392;
+    text-align:center;
 }
+#leftDiv > form > p {
+    color:#EFF6E0;
+}
+.inputClass{
+    position:relative;
+    font-family: monospace;
+    font-size: 16px;
+    font-weight: bold;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    /*background-color: #fff;*/
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.2s ease-in-out;
+    margin-bottom:5px;
+    color:#124559;
+    width:80%;
+    /*left:10%;*/
+}
+input[type="text"]:hover {
 
+    background-color: lightblue;
+}
+input:hover{
+    transform: scale(1.1);
+}
+input:focus{
+    border-color: #4d90fe;
+    box-shadow: 0 0 16px rgba(77,144,254,0.9);
+}
+.buttonClass{
+    margin-top:10px;
+    display:block;
+    position:relative;
+    width:50%;
+    font-family:monospace;
+    color:#EFF6E0;
+    border-color:#124559;
+    background-color:#124559;
+    border-radius:7px;
+    left:25%;
+}
 #myQuizzesDiv{
     position:relative;
-    height: 15%;
-    width: 50%;
-    left: 0;
     display: flex;
     flex-direction: column;
     /*background-color: blue;*/
@@ -65,8 +105,8 @@ body{
 .quizTitlesDiv{
     position:relative;
     height: 100%;
-    width: 100%;
-    left: 0;
+    width: 90%;
+    left: 10%;
     display: flex;
     flex-direction: column;
     /*background-color: orange;*/
@@ -77,20 +117,16 @@ body{
     position: relative;
     height: 100%;
     width: 50%;
-    left: 10%;
     display:flex;
     flex-direction: column;
+    background-color:#EFF6E0;
     /*background-color: orange;*/
 }
 
 #rightDiv{
-    position: relative;
-    height: 100%;
-    width: 30%;
-    left: 10%;
-    display:flex;
-    flex-direction: column;
-    /*background-color: orange;*/
+    height:100%;
+    width:25%;
+    background-color:#124559;
 }
 
 #topMarginDiv{
@@ -102,8 +138,9 @@ body{
 
 #midList{
     position:relative;
-    width:100%;
+    width:90%;
     height:10%;
+    left:10%;
     display:flex;
 }
 #announcementDiv{
@@ -113,25 +150,31 @@ body{
     display: flex;
     flex-wrap: wrap;
 }
-
-#announcementDiv > a > div{
+.announcements{
+    position: relative;
+    width:100%;
+    height:75%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.announcementDiv > a > div{
     position:relative;
     width: calc(33.33% - 10px);
     height: calc(50% - 10px);
     margin: 2px;
 }
-#announcementDiv > a > div > img:hover{
+.announcementDiv > a > div > img:hover{
     transform: scale(1.05);
     filter:brightness(0.7);
 }
-#announcementDiv > a > div >  img{
+.announcementDiv > a > div >  img{
     position:relative;
     width:100%;
     height:100%;
     transition: transform 0.3s ease-in-out;
 }
 
-#announcementDiv > a > div > p{
+.announcementDiv > a > div > p{
     display:none;
     position: absolute;
     transform: translate(-50%, -50%);
@@ -139,10 +182,10 @@ body{
     z-index: 1;
 }
 
-#announcementDiv > a > div >  img:hover ~ p{
+.announcementDiv > a > div >  img:hover ~ p{
     display:block;
 }
-#announcementDiv > a > div{
+.announcementDiv > a > div{
     position:relative;
     width: 100%;
     height: 100%;
@@ -159,7 +202,7 @@ ul{
     top:10%;
     list-style-type: none;
 }
-a{
+a:not(#quizSubmitActivity > div > a){
     color:inherit;
     text-decoration: none;
     position:relative;
@@ -178,7 +221,7 @@ li{
     cursor: pointer;
     margin-right:20px;
     transition: color 0.5s;
-    color:#EFF6E0;
+    color:#124559;
     transition: transform 0.2s;
 }
 .label:hover {
@@ -190,9 +233,162 @@ li{
     display: block;
     height: 2px;
     width: 0;
-    background-color: #EFF6E0;
+    background-color: #124559;
     transition: width 0.5s;
 }
 .label.active::after {
     width: 100%;
+}
+.dividerBlue{
+    margin-bottom:5px;
+    border-bottom : 3px dotted #124559;
+}
+.dividerWhite{
+    margin-bottom:5px;
+    border-bottom : 3px dotted #EFF6E0;
+}
+#recentActivitiesDiv{
+    width:100%;
+}
+
+.grid-container {
+    display: flex;
+    flex-direction:column;
+}
+.grid-item{
+    position:relative;
+    width:100%;
+}
+.grid-item > div > img{
+    position:relative;
+    display:inline;
+    border-radius:50%;
+    width:40px;
+    height:40px;
+    vertical-align: middle;
+    left:30%;
+}
+.grid-item > div > a > p{
+    position:relative;
+    left:30%;
+    display:inline;
+    vertical-align: middle;
+    color:#EFF6E0;
+}
+.grid-item > div > form{
+    display:inline;
+}
+/*.grid-item > form > input{*/
+/*    display:inline;*/
+/*    vertical-align:middle;*/
+/*}*/
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+.titles{
+    position:relative;
+    top:30px;
+    height:100px;
+}
+p{
+     font-family:monospace;
+     font-size:16px;
+ }
+.titles > h1{
+    font-family:monospace;
+    color:#EFF6E0;
+}
+.button{
+    vertical-align: middle;
+    margin-top:10px;
+    display:inline;
+    position:relative;
+    width:40%;
+    font-family:monospace;
+    background-color:#EFF6E0;
+    border-color:#EFF6E0;
+    color:#124559;
+    border-radius:7px;
+    left:10%;
+}
+.grid-item > div{
+    position:relative;
+    display:block;
+    width:80%;
+    left:10%;
+}
+#friendsActivity{
+    height:75%;
+    position:relative;
+}
+#friendsActivityDiv{
+    margin-top:30px;
+    position:relative;
+    width:100%;
+    height:100%;
+    left:0;
+    display:flex;
+    flex-direction: row;
+}
+#quizSubmitActivity{
+    width:50%;
+}
+#quizSubmitActivity > div > a{
+    position:relative;
+    left:0;
+    display:block;
+    /*height:20%;*/
+}
+#quizSubmitActivity > div > a > img{
+    position:relative;
+    display:inline;
+    border-radius:50%;
+    width:40px;
+    height:40px;
+    vertical-align: middle;
+    left:0%;
+}
+#quizSubmitActivity > div > a > p{
+    position:relative;
+    display:inline;
+    vertical-align: middle;
+    color:#124559;
+}
+#quizCreateActivity{
+    position:relative;
+    left:0;
+    margin-right:5%;
+    width:50%;
+}
+#quizCreateActivity > div > a > img{
+    position:relative;
+    display:inline;
+    border-radius:50%;
+    width:40px;
+    height:40px;
+    vertical-align: middle;
+    left:0%;
+}
+#quizCreateActivity > div > a > p{
+    position: relative;
+    display:inline;
+    vertical-align: middle;
+    color:#124559;
+}
+#quizCreateActivity > div > p{
+    position:relative;
+    display:inline;
+    vertical-align: middle;
+    color:#124559;
+}
+.bordered{
+    border : 3px dotted #124559;
+    margin-bottom:10px;
+
+}
+h4{
+    margin:0;
 }
