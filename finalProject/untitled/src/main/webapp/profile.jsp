@@ -19,7 +19,15 @@
 </head>
 <body>
 <header>
-    <h1><%= profileUser.getUsername() %></h1>
+    <h1 style="display:inline;"><%= profileUser.getUsername() %></h1>
+    <%
+        Account currentAccount = (Account) request.getSession().getAttribute("account");
+    %>
+    <ul>
+        <li> <a style = " "; href="homepage.jsp"><img style="vertical-align: middle;width:40px;height:40px;"src="homepage.png"></a></li>
+        <li><a style=" "; href="profile.jsp?id=<%=currentAccount.getId()%>"><img style="vertical-align:middle;border-radius:50%;width:40px;height:40px;" src="<%=currentAccount.getImage()%>"> </a></li>
+        <li><a style=" "; href="profile.jsp?id=<%=currentAccount.getId()%>"> <h4 style="vertical-align: middle;"><%=currentAccount.getUsername()%></h4></a></li>
+    </ul>
 </header>
 <video autoplay muted loop id="backgrVid">
     <source src="/CSS/backgr.mp4" type="video/mp4">
