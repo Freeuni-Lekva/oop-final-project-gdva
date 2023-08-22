@@ -20,7 +20,7 @@ public class DBHandler {
         dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/finalproject");
         dataSource.setUsername("root");
-        dataSource.setPassword("Vpxdukkdaash1");
+        dataSource.setPassword("rootroot2023");
         try{
             connection = dataSource.getConnection();
         }
@@ -33,7 +33,7 @@ public class DBHandler {
         dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/finalproject");
         dataSource.setUsername("root");
-        dataSource.setPassword("Vpxdukkdaash1");
+        dataSource.setPassword("rootroot2023");
         try{
             connection = dataSource.getConnection();
         }
@@ -102,7 +102,7 @@ public class DBHandler {
             boolean usernameCorrect = false;
             boolean passwordCorrect = false;
             Account account = castResultToAccount(st);
-            //   connection.createStatement().executeQuery("insert into debug(id) value (" + account.getId()+")");
+         //   connection.createStatement().executeQuery("insert into debug(id) value (" + account.getId()+")");
             if(account != null){
                 usernameCorrect = true;
                 passwordCorrect = PasswordHasher.isPassword(password,account.getPassword());
@@ -522,7 +522,6 @@ public class DBHandler {
 
     public void addQuiz(String quizTitle, String order, String alignment, String answerType, int creatorId, String description) {
         int newID = getMaxQuizID()+1;
-        System.out.println(newID);
         try{
             if(containsQuiz(quizTitle)){
                 return ;
@@ -582,17 +581,6 @@ public class DBHandler {
         catch(SQLException e){
             e.printStackTrace();
             return 0;
-        }
-    }
-
-    public void addLastQuestionToQuiz(String quizTitle) {
-        int quiz_id = getQuizID(quizTitle);
-        int question_id = getLastQuestionID();
-        try{
-            connection.createStatement().executeUpdate("insert into quiz_questions(quiz_id,question_id) value (" + quiz_id+","+question_id+")");
-        }
-        catch(SQLException e){
-            e.printStackTrace();
         }
     }
 
@@ -672,11 +660,11 @@ public class DBHandler {
             if(st.next()){
                 return st.getInt("id");
             }
-            return -1;
+            return 0;
         }
         catch(SQLException e){
             e.printStackTrace();
-            return -1;
+            return 0;
         }
     }
 
@@ -805,8 +793,8 @@ public class DBHandler {
         }
         catch(SQLException e){
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     public List<Quiz> getPopularQuizzes()  {
@@ -822,8 +810,8 @@ public class DBHandler {
             return popularQuizzes;
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     public List<QuizStatistics> getRecentActivities(int id){
@@ -833,7 +821,6 @@ public class DBHandler {
             while(st.next()){
                 statistics.add(getSingleQuizStatistics(st));
             }
-            System.out.println(statistics.size());
             return statistics;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -926,5 +913,26 @@ public class DBHandler {
             return null;
         }
     }
+
+    public List<Account> getFriends(int id){
+        List<Account> friends = new ArrayList<>();
+        try {
+            ResultSet resultSet = connection.createStatement()
+                    .executeQuery("select * from friends where first_friend_id = " + id +" or second_friend_id = " + id + " ;");
+            while(resultSet.next()){
+                int id1 = resultSet.getInt("first_friend_id");
+                int id2 = resultSet.getInt("second_friend_id");
+                if(id1 == id) id1 = id2;
+                friends.add(getAccount(id1));
+            }
+            return friends;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
 }
+
 

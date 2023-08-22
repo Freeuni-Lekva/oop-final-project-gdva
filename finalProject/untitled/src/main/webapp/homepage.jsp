@@ -30,6 +30,8 @@
     List<Account> requests = handler.getReceivedFriendRequests(currentAccount);
     List<Quiz> friendsQuizzes = handler.friendsQuizzes(currentAccount.getId());
     List<QuizStatistics> friendsStatistics = handler.friendsStatistics(currentAccount.getId());
+    session.setAttribute("to_account", null);
+    session.setAttribute("friends", null);
 %>
 <div id = "entireDiv">
     <div id = "topDiv">

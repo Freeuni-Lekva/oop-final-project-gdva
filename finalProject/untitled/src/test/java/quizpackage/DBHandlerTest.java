@@ -3,12 +3,13 @@ package quizpackage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import quizpackage.model.*;
+import quizpackage.model.quizzes.Quiz;
 
 import javax.swing.plaf.nimbus.State;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Date;
+import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -36,6 +37,7 @@ class DBHandlerTest {
             statement.executeUpdate("drop table if exists sent_requests;");
             statement.executeUpdate("drop table if exists friends;");
             statement.executeUpdate("drop table if exists quiz_history;");
+            statement.executeUpdate("drop table if exists questions;");
             statement.executeUpdate("drop table if exists quizzes;");
             statement.executeUpdate("drop table if exists Accounts;");
 
@@ -94,6 +96,7 @@ class DBHandlerTest {
                     "    to_id int,\n" +
                     "    send_date datetime,\n" +
                     "    txt varchar(1000),\n" +
+                    "    message_type varchar(1000),\n" +
                     "    foreign key(from_id) references accounts(id),\n" +
                     "    foreign key(to_id) references accounts(id)\n" +
                     ");");
@@ -128,6 +131,7 @@ class DBHandlerTest {
                     "answer_type varchar(55),\n" +
                     "creator_id int,\n" +
                     "quiz_description varchar(1000),\n" +
+                    "create_date datetime,\n" +
                     "foreign key (creator_id) references accounts(id)"+
                     ");");
 
@@ -141,6 +145,17 @@ class DBHandlerTest {
                     "    start_date datetime, \n" +
                     "    foreign key(quiz_id) references quizzes(id),\n" +
                     "    foreign key(account_id) references accounts(id)\n" +
+                    ");");
+
+            connection.createStatement().executeUpdate("create table questions(\n" +
+                    "\tquestion_id  int auto_increment primary key,\n" +
+                    "\tquestion_type varchar(55),\n" +
+                    "    question_text varchar(255),\n" +
+                    "    question_answer varchar(255),\n" +
+                    "    question_image varchar(255),\n" +
+                    "    question_choices_number int,\n" +
+                    "    question_grade double,\n" +
+                    "    quiz_id int\n" +
                     ");");
 
         } catch (SQLException e) {
@@ -220,8 +235,8 @@ class DBHandlerTest {
         assertEquals(3, handler.getAnnouncements().size());
 
         // add new announcement
-        Date date = new Date(1, 1, 1);
-        Announcement announcement = new Announcement("qiravdeba", "qiravdeba 50 lari", "img.jpg", date, handler.getAccount(1), 1);
+        java.sql.Date date = new java.sql.Date(1,1,1);
+        Announcement announcement = new Announcement("qiravdeba", "qiravdeba 50 lari", "img.jpg", (java.sql.Date)date, handler.getAccount(1), 1);
 
         // test getAnnouncement
         handler.addAnnouncement(announcement);
@@ -311,6 +326,11 @@ class DBHandlerTest {
 
     @Test
     void filterUsersByPrefix() {
+        try {
+            connection.createStatement().executeUpdate("delete from admins");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         assertEquals(3, handler.filterUsersByPrefix("b").size());
         assertEquals(2, handler.filterUsersByPrefix("be").size());
         assertEquals(1, handler.filterUsersByPrefix("beka").size());
@@ -324,6 +344,8 @@ class DBHandlerTest {
         Account beka = handler.getAccount(2);
         Account beso = handler.getAccount(3);
         Account cima = handler.getAccount(4);
+
+        assertEquals(null, handler.getMostRecentMessageAccount(lasha));
 
         // test isRequesetSent
         assertEquals(false, handler.isRequestSent(lasha, beka));
@@ -339,6 +361,7 @@ class DBHandlerTest {
         handler.generateResponseToFriendRequest(true, 2, 1);
         assertEquals(true, handler.areFriends(lasha, beka));
         assertEquals(true, handler.areFriends(beka, lasha));
+        assertEquals(1, handler.getFriends(lasha.getId()).size());
 
         // test getReceivedFriendRequests
         handler.addFriendRequest(beka, cima);
@@ -347,6 +370,16 @@ class DBHandlerTest {
         assertEquals(0, handler.getReceivedFriendRequests(lasha).size());
         assertEquals(3, handler.getReceivedFriendRequests(cima).size());
         assertEquals(0, handler.getReceivedFriendRequests(beka).size());
+
+        // test getFriends
+        handler.generateResponseToFriendRequest(true, cima.getId(), beka.getId());
+        handler.generateResponseToFriendRequest(true, cima.getId(), beso.getId());
+        handler.generateResponseToFriendRequest(true, cima.getId(), lasha.getId());
+        List<Account> friends = handler.getFriends(cima.getId());
+        assertEquals(3, friends.size());
+        assertEquals(beka.getId(), friends.get(0).getId());
+        assertEquals(beso.getId(), friends.get(1).getId());
+        assertEquals(lasha.getId(), friends.get(2).getId());
 
         // test removeFriend
         handler.removeFriend(beka, lasha);
@@ -362,20 +395,62 @@ class DBHandlerTest {
     void numberOfAdmins() {
         assertEquals(3, handler.numberOfAdmins());
     }
-    /*
+
+
     @Test
-    void quizHistoryManagement(){
+    void quizManagement(){
+
         // add statistics
-        handler.addQuiz("first quiz", "asdf", "asdf", "asdf", 1, "dasf");
-        handler.updateQuizHistory(1, 1, 10, 12);
-        handler.updateQuizHistory(1, 2, 20, 14);
-        handler.updateQuizHistory(1, 3, 30, 20);
-        handler.updateQuizHistory(1, 4, 50, 10);
-        handler.updateQuizHistory(1, 1, 90, 7);
-        handler.updateQuizHistory(1, 1, 80, 20);
+        handler.addQuiz("first quiz", "asdf", "asdf", "asdf", 4, "dasf");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentTime = "2023-08-22 00:55:13";
+        String TwoDaysAgo = "2023-06-22 00:55:13";
+        String OneDayAgo = "2023-07-22 08:55:14";
+        handler.updateQuizHistory(1, 1, 10, 12, currentTime);
+        handler.updateQuizHistory(1, 2, 20, 14, TwoDaysAgo);
+        handler.updateQuizHistory(1, 3, 30, 20, TwoDaysAgo);
+        handler.updateQuizHistory(1, 4, 50, 10, OneDayAgo);
+        handler.updateQuizHistory(1, 1, 90, 7, currentTime);
+        handler.updateQuizHistory(1, 1, 80, 20, TwoDaysAgo);
+
+        // test getQuizzesByAuthor quiz
+        handler.addQuiz("gio", "as","","", 1, "");
+        handler.addQuiz("gio", "as","","", 1, "");
+        assertEquals(true, handler.containsQuizTitle("gio"));
+        assertEquals(2, handler.getQuizID("gio"));
+        assertEquals(0, handler.getQuizID("gia"));
+
+        handler.addQuestion("",1.0,"",1,"", "", 1);
+        assertEquals(1, handler.getQuizzesByAuthor(1).size());
+        assertEquals(0, handler.getQuizzesByAuthor(2).size());
+        assertEquals("gio", handler.getQuiz(2).getTitle());
+
+        // test getRecentQuizzes;
+        handler.addQuiz("fxala","","","",2,"");
+        List<Quiz> quizzes = handler.getRecentQuizzes();
+        assertEquals(3, quizzes.size());
+        assertEquals(4, quizzes.get(0).getCreatorID());
+        assertEquals(1, quizzes.get(1).getCreatorID());
+        assertEquals(2, quizzes.get(2).getCreatorID());
+
+        // test getPopularQuizzes
+        handler.updateQuizHistory(2,1,10,10,currentTime);
+        quizzes = handler.getPopularQuizzes();
+        assertEquals(2, quizzes.size());
+        assertEquals("first quiz", quizzes.get(0).getTitle());
+        assertEquals("gio", quizzes.get(1).getTitle());
+
+        // test getRecentActivities
+        List<QuizStatistics> recentActivities = handler.getRecentActivities(1);
+        assertEquals(4, recentActivities.size());
+        assertEquals(1, recentActivities.get(0).getQuizId());
+        assertEquals(1, recentActivities.get(1).getQuizId());
+        assertEquals(2, recentActivities.get(2).getQuizId());
+        assertEquals(1, recentActivities.get(3).getQuizId());
 
         // test getQuizStaticsForUserAndOrder
         // order by start_date
+        assertEquals(1, handler.getQuizID("first quiz"));
         List<QuizStatistics> quizStatistics = handler.getQuizStatisticsForUserAndOrder(1, 1, 0);
         assertEquals(10, quizStatistics.get(0).getScore());
         assertEquals(90, quizStatistics.get(1).getScore());
@@ -393,16 +468,16 @@ class DBHandlerTest {
         assertEquals(20, quizStatistics.get(2).getTime());
 
 
-        handler.updateQuizHistory(1, 1, 0, 20);
-        handler.updateQuizHistory(1, 1, 0, 20);
-        handler.updateQuizHistory(1, 1, 0, 20);
+        handler.updateQuizHistory(1, 1, 0, 20, currentTime);
+        handler.updateQuizHistory(1, 1, 0, 20, currentTime);
+        handler.updateQuizHistory(1, 1, 0, 20, TwoDaysAgo);
 
         quizStatistics = handler.getQuizStatisticsForUserAndOrder(1, 1, 2);
         // check limit
         assertEquals(DBHandler.limit, quizStatistics.size());
 
         // check getTopPerformersOfAllTime
-        quizStatistics = handler.getTopPerformersOfAllTime();
+        quizStatistics = handler.getTopPerformersOfAllTime(1);
         assertEquals(DBHandler.limit, quizStatistics.size());
         assertEquals(90, quizStatistics.get(0).getScore());
         assertEquals(80, quizStatistics.get(1).getScore());
@@ -411,23 +486,49 @@ class DBHandlerTest {
         assertEquals(20, quizStatistics.get(4).getScore());
 
         // check getTopPerformersOfTheDay
-        quizStatistics = handler.getTopPerformersOfTheDay();
-        assertEquals(DBHandler.limit, quizStatistics.size());
+        quizStatistics = handler.getTopPerformersOfTheDay(1);
+        assertEquals(DBHandler.limit-1, quizStatistics.size());
         assertEquals(90, quizStatistics.get(0).getScore());
-        assertEquals(80, quizStatistics.get(1).getScore());
-        assertEquals(50, quizStatistics.get(2).getScore());
-        assertEquals(30, quizStatistics.get(3).getScore());
-        assertEquals(20, quizStatistics.get(4).getScore());
+        assertEquals(10, quizStatistics.get(1).getScore());
+        assertEquals(0, quizStatistics.get(2).getScore());
+        assertEquals(0, quizStatistics.get(3).getScore());
 
         //check getLastPerformers
-        quizStatistics = handler.getLastPerformers();
+        quizStatistics = handler.getLastPerformers(1);
         assertEquals(DBHandler.limit, quizStatistics.size());
         assertEquals(10, quizStatistics.get(0).getScore());
-        assertEquals(20, quizStatistics.get(1).getScore());
-        assertEquals(30, quizStatistics.get(2).getScore());
-        assertEquals(50, quizStatistics.get(3).getScore());
-        assertEquals(90, quizStatistics.get(4).getScore());
+        assertEquals(90, quizStatistics.get(1).getScore());
+        assertEquals(0, quizStatistics.get(2).getScore());
+        assertEquals(0, quizStatistics.get(3).getScore());
+        assertEquals(50, quizStatistics.get(4).getScore());
 
+        // test getAllPerformances
+        List<QuizStatistics> performances = handler.getAllPerformances(1);
+        assertEquals(9, performances.size());
+        assertEquals(1, performances.get(0).getAccountId());
+        assertEquals(2, performances.get(1).getAccountId());
+        assertEquals(3, performances.get(2).getAccountId());
+        assertEquals(4, performances.get(3).getAccountId());
 
+        // test number ofQuizzesTaken
+        assertEquals(10, handler.numberOfQuizzesTaken());
+
+        //test friendsQuizzes
+        handler.addQuiz("as","","","",1,"");
+        handler.addFriendRequest(handler.getAccount(1), handler.getAccount(2));
+        handler.generateResponseToFriendRequest(true, 1, 2);
+        quizzes = handler.friendsQuizzes(2);
+        assertEquals(2, quizzes.size());
+        assertEquals("gio", quizzes.get(0).getTitle());
+        assertEquals("as", quizzes.get(1).getTitle());
+
+        //test getFriendsStatistics
+        assertEquals(5, handler.friendsStatistics(2).size());
+        assertEquals(1, handler.friendsStatistics(1).size());
+
+        //test removeQuiz
+        handler.removeQuiz("first quiz");
+        handler.clearQuizHistory(1);
+        assertEquals(false, handler.containsQuizTitle("first quiz"));
     }
 }
