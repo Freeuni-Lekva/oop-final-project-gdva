@@ -46,9 +46,7 @@ public class QuizTest extends TestCase {
         List<String> question3Answers = new ArrayList<>();
         question1Answers.add("messi");
         question2Answers.add("FxAlA");
-        question3Answers.add("fxala");
-        question3Answers.add("bandzi");
-        question3Answers.add("susti");
+        question3Answers.add("fxala~bandzi~susti");
         Answer answer1 = new Answer(1,question1Answers);
         Answer answer2 = new Answer(2,question2Answers);
         Answer answer3 = new Answer(3,question3Answers);
@@ -68,8 +66,9 @@ public class QuizTest extends TestCase {
         questions.add(question1);
         Question question2 = new FillTheBlank("___ ari yvelaze ___ da ___",25.5,"fxala","magari","dzlieri");
         questions.add(question2);
+        Date date = new Date();
         Quiz quiz = new Quiz(questions, "quiz","ordered","one page","immediate",
-                3,3,"la",new Date());
+                3,3,"la",date);
         quiz.randomizeQuestions();
         List<Question> quizQuestions = quiz.getQuestions();
         assertTrue(quizQuestions.size() == questions.size());
@@ -84,5 +83,18 @@ public class QuizTest extends TestCase {
             }
         }
         assertTrue(first && second);
+        assertTrue(quiz.getAlignment().equals("one page"));
+        assertTrue(quiz.getDescription().equals("la"));
+        assertTrue(quiz.getOrder().equals("ordered"));
+        assertTrue(quiz.getAnswerType().equals("immediate"));
+        assertTrue(quiz.getTitle().equals("quiz"));
+        assertTrue(quiz.getCreateDate().equals(date));
+        assertTrue(quiz.getCreatorID() == 3);
+        assertTrue(quiz.getId() == 3);
+        assertTrue(quiz.getQuizTotalScore() == 35.5);
+        assertTrue(quiz.areQuestionsOnSinglePage());
+        assertTrue(quiz.immediateAnswerNeeded());
+        assertTrue(quiz.isOrdered());
     }
+
 }
