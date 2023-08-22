@@ -67,6 +67,7 @@ drop table if exists messages;
 create table debug(
 	txt varchar(255)
 );
+select * from debug;
 select * from messages;
 create table messages(
 	id int auto_increment primary key,
@@ -74,9 +75,11 @@ create table messages(
     to_id int,
     send_date datetime,
     txt varchar(1000),
+    message_type varchar(1000),
     foreign key(from_id) references accounts(id),
     foreign key(to_id) references accounts(id)
 );
+
 INSERT INTO messages(from_id, to_id, send_date, txt)
 SELECT from_id, to_id, SYSDATE(), CONCAT('Random message ', n)
 FROM (
@@ -102,10 +105,10 @@ select * from messages where from_id = 0 or to_id = 0 order by send_date;
 select from_id, to_id from messages where id = (select max(id) from messages where from_id = 0 or to_id = 0);
 select * from debug;
 select * from messages;
+
 create table sent_requests(
                               sender_id int,
                               receiver_id int,
-                              response varchar(10),
                               foreign key (sender_id) references accounts(id),
                               foreign key (sender_id) references accounts(id)
 );
@@ -116,3 +119,54 @@ create table friends(
                         foreign key (first_friend_id) references accounts(id),
                         foreign key (second_friend_id) references accounts(id)
 );
+drop table quizzes;
+drop table questions;
+create table quizzes(
+id int auto_increment primary key,
+title varchar(55),
+question_order varchar(55),
+question_alignment varchar(55),
+answer_type varchar(55),
+creator_id int
+);
+drop table quizzes;
+create table quizzes(
+	id int auto_increment primary key,
+	title varchar(55),
+	question_order varchar(55),
+	question_alignment varchar(55),
+	answer_type varchar(55),
+    creator_id int,
+    quiz_description varchar(1000),
+    create_date datetime,
+    foreign key (creator_id) references accounts(id)
+);
+
+create table questions(
+	question_id  int auto_increment primary key,
+	question_type varchar(55),
+    question_text varchar(255),
+    question_answer varchar(255),
+    question_image varchar(255),
+    question_choices_number int,
+    question_grade double,
+    quiz_id int
+);
+select * from quizzes;
+insert into questions(question_type,question_text,question_answer,question_image,question_choices_number,question_grade,quiz_id)
+    value('QuestionRespone','gg','gia','',0,1.0);
+select max(question_id) as "id" from questions;
+select * from questions;
+delete from questions where question_id = 1;
+drop table question;
+
+create table quiz_history(
+     quiz_id int,
+     account_id int,
+     score double,
+     time int,
+     start_date datetime,
+     foreign key(quiz_id) references quizzes(id),
+     foreign key(account_id) references accounts(id)
+);
+

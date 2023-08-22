@@ -20,7 +20,7 @@ public class DBHandler {
         dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/finalproject");
         dataSource.setUsername("root");
-        dataSource.setPassword("Vpxdukkdaash1");
+        dataSource.setPassword("rootroot2023");
         try{
             connection = dataSource.getConnection();
         }
@@ -31,9 +31,9 @@ public class DBHandler {
 
     public DBHandler(boolean f){
         dataSource = new BasicDataSource();
-        dataSource.setUrl("jdbc:mysql://localhost:3306/finalproject");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/test");
         dataSource.setUsername("root");
-        dataSource.setPassword("Vpxdukkdaash1");
+        dataSource.setPassword("rootroot2023");
         try{
             connection = dataSource.getConnection();
         }
@@ -367,13 +367,6 @@ public class DBHandler {
 
     public void addMessage(Account from, Account to, String text, String type){
         try{
-            if(from == null){
-                debug("from is null");
-            }
-            if(to == null){
-                debug("to is null");
-            }
-            debug("" + from.getId() + " " + to.getId() + " " +text);
             connection.createStatement().execute("insert into messages(from_id,to_id,send_date,txt,message_type) value ("+ from.getId() + ","+ to.getId()+","+"sysdate()"+"," + "\'"+text+"\',\'"+type+"\');");
         }
         catch(SQLException e){
@@ -522,7 +515,6 @@ public class DBHandler {
 
     public void addQuiz(String quizTitle, String order, String alignment, String answerType, int creatorId, String description) {
         int newID = getMaxQuizID()+1;
-        System.out.println(newID);
         try{
             if(containsQuiz(quizTitle)){
                 return ;
@@ -531,6 +523,8 @@ public class DBHandler {
                     .executeUpdate("insert into quizzes(id,title,question_order,question_alignment,answer_type,creator_id,quiz_description,create_date) " +
                             "value ( "+ newID +", \'"  + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ",\'" +description+"\',sysdate());");
         }catch(SQLException e){
+            System.out.println("insert into quizzes(id,title,question_order,question_alignment,answer_type,creator_id,quiz_description) " +
+                    "value ( "+ newID +", \'"  + quizTitle + "\', \'"+order+"\',\'"+alignment+"\',\'"+answerType+"\'," + creatorId + ",\'" +description+"\');");
             e.printStackTrace();
         }
     }
@@ -585,17 +579,6 @@ public class DBHandler {
         }
     }
 
-    public void addLastQuestionToQuiz(String quizTitle) {
-        int quiz_id = getQuizID(quizTitle);
-        int question_id = getLastQuestionID();
-        try{
-            connection.createStatement().executeUpdate("insert into quiz_questions(quiz_id,question_id) value (" + quiz_id+","+question_id+")");
-        }
-        catch(SQLException e){
-            e.printStackTrace();
-        }
-    }
-
     public List<Quiz> getQuizzesByAuthor(int id){
         try{
             List<Quiz> quizzes = new ArrayList<>();
@@ -607,14 +590,12 @@ public class DBHandler {
             }
 
             return quizzes;
-        }
-        catch(SQLException e){
+        } catch(SQLException e){
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
     private Quiz getSingleQuizFromResultSet(ResultSet rs) {
-        debug("here");
         try {
             return new Quiz(getQuizQuestions(rs.getInt("id")),
                     rs.getString("title"),
@@ -707,10 +688,8 @@ public class DBHandler {
         try {
             connection.createStatement().executeUpdate(
                     "INSERT INTO quiz_history(quiz_id, account_id, score, time, start_date) " +
-                            "VALUES (" + quiz_id + ", " + account_id + ", " + score + ", " + time + ", '" + startDate + "')");
+                            "VALUE (" + quiz_id + ", " + account_id + ", " + score + ", " + time + ", '" + startDate + "')");
         } catch (SQLException e) {
-            debug("INSERT INTO quiz_history(quiz_id, account_id, score, time, start_date) " +
-                            "VALUES (" + quiz_id + ", " + account_id + ", " + score + ", " + time + ", '" + startDate + "')");
             e.printStackTrace();
         }
     }
@@ -839,6 +818,64 @@ public class DBHandler {
             e.printStackTrace();
         }
         return null;
+    }
+    public List<Account> getFriends(int id){
+        List<Account> friends = new ArrayList<>();
+        try {
+            ResultSet resultSet = connection.createStatement()
+                    .executeQuery("select * from friends where first_friend_id = " + id +" or second_friend_id = " + id + " ;");
+            while(resultSet.next()){
+                int id1 = resultSet.getInt("first_friend_id");
+                int id2 = resultSet.getInt("second_friend_id");
+                if(id1 == id) id1 = id2;
+                friends.add(getAccount(id1));
+            }
+            return friends;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean containsQuizTitle(String title){
+        try{
+            ResultSet rs = connection.createStatement().
+                    executeQuery("select * from quizzes where title='"+title+"'");
+            return rs.next();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void removeQuiz(String title){
+        try{
+            connection.createStatement().
+                    executeUpdate("delete from quizzes where title='"+title+"'");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void clearQuizHistory(int quizId){
+        try{
+            connection.createStatement().
+                    executeUpdate("delete from quiz_history where quiz_id="+quizId);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    public int numberOfQuizzesTaken(){
+        int result = 0;
+        try {
+            ResultSet resultSet = connection.createStatement().executeQuery("Select quiz_id from quiz_history");
+            while (resultSet.next()) {
+                result++;
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return result;
     }
 
 

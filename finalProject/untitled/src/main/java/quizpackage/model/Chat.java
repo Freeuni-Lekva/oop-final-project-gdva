@@ -17,8 +17,12 @@ public class Chat {
         this.messages = messages;
         displayName = sender.getName() + " " + sender.getSurname();
         displayName = cropString(displayName);
-        displayMessage = messages.get(messages.size()-1).getText();
-        displayMessage = cropString(displayMessage);
+        if(messages.size() > 0){
+            displayMessage = messages.get(messages.size()-1).getText();
+            displayMessage = cropString(displayMessage);
+        } else {
+            displayMessage = null;
+        }
     }
 
     public Account getReceiverAccount() {

@@ -75,6 +75,7 @@ create table messages(
     to_id int,
     send_date datetime,
     txt varchar(1000),
+    message_type varchar(1000),
     foreign key(from_id) references accounts(id),
     foreign key(to_id) references accounts(id)
 );
@@ -157,23 +158,7 @@ insert into questions(question_type,question_text,question_answer,question_image
 select max(question_id) as "id" from questions;
 select * from questions;
 delete from questions where question_id = 1;
-drop table question
-drop table quiz_questions
-create table quiz_questions(
-	quiz_id int,
-    question_id int,
-    foreign key(quiz_id) references quizzes(id),
-    foreign key(question_id) references questions(question_id)
-);
-create table quiz_history(
-     quiz_id int,
-     account_id int,
-     score double,
-     time int,
-     foreign key(quiz_id) references quizzes(id),
-     foreign key(account_id) references accounts(id)
-);
-
+drop table question;
 
 create table quiz_history(
      quiz_id int,

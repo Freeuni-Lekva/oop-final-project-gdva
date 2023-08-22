@@ -1,0 +1,9 @@
+0:0:0:0:0:0:0:1 - - [22/Aug/2023:00:43:13 +0400] "GET / HTTP/1.1" 200 1262 http-bio-9090-exec-2 70
+0:0:0:0:0:0:0:1 - - [22/Aug/2023:00:43:16 +0400] "GET /loginButtonServlet?loginInput=a&passwordInput=a&loginButton=Log+In HTTP/1.1" 200 3102 http-bio-9090-exec-3 542
+0:0:0:0:0:0:0:1 - - [22/Aug/2023:00:43:23 +0400] "GET /quizSummary.jsp?id=1 HTTP/1.1" 500 3340 http-bio-9090-exec-4 72
+0:0:0:0:0:0:0:1 - - [22/Aug/2023:00:44:57 +0400] "GET / HTTP/1.1" 200 1262 http-bio-9090-exec-2 51
+0:0:0:0:0:0:0:1 - - [22/Aug/2023:00:45:00 +0400] "GET /loginButtonServlet?loginInput=a&passwordInput=a&loginButton=Log+In HTTP/1.1" 200 3102 http-bio-9090-exec-3 53
+0:0:0:0:0:0:0:1 - - [22/Aug/2023:00:45:03 +0400] "GET /quizSummary.jsp?id=1 HTTP/1.1" 200 1047 http-bio-9090-exec-4 473
+0:0:0:0:0:0:0:1 - - [22/Aug/2023:00:45:06 +0400] "GET /quiz.jsp?id=1&start_time=1692650703467 HTTP/1.1" 200 921 http-bio-9090-exec-5 85
+0:0:0:0:0:0:0:1 - - [22/Aug/2023:00:45:06 +0400] "GET /CSS/quiz.css HTTP/1.1" 200 4447 http-bio-9090-exec-6 2
+0:0:0:0:0:0:0:1 - - [22/Aug/2023:00:45:14 +0400] "GET /FinishOnePageQuizServlet?1=ara HTTP/1.1" 500 1672 http-bio-9090-exec-7 85
