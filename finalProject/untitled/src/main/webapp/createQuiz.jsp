@@ -1,24 +1,18 @@
 <%@ page import="java.util.List" %>
 <%@ page import="quizpackage.model.quizzes.*" %>
-<%@ page import="quizpackage.model.DBHandler" %><%--
-  Created by IntelliJ IDEA.
-  User: giorgi kobakhia
-  Date: 8/10/2023
-  Time: 5:32 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <link href="/CSS/createQuiz.css" rel="stylesheet" type="text/css">
-</head>
-<body>
-<%--<video autoplay muted loop id = "backgrVid">--%>
-<%--    <source src="/CSS/backgr.mp4" type="video/mp4">--%>
-<%--</video>--%>
+<%@ page import="quizpackage.model.DBHandler" %>
+<%@ page import="quizpackage.model.Account" %>
 <div id = "entireDiv">
     <div id = "topDiv">
-        <h1>Create Quiz</h1>
+        <h1 style="vertical-align: middle;">Create Quiz</h1>
+        <%
+            Account currentAccount = (Account) request.getSession().getAttribute("account");
+        %>
+        <ul>
+            <li> <a style = " "; href="homepage.jsp"><img style="vertical-align: middle;width:40px;height:40px;"src="homepage.png"></a></li>
+            <li><a style=" "; href="profile.jsp?id=<%=currentAccount.getId()%>"><img style="vertical-align:middle;border-radius:50%;width:40px;height:40px;" src="<%=currentAccount.getImage()%>"> </a></li>
+            <li><a style=" "; href="profile.jsp?id=<%=currentAccount.getId()%>"> <h4 style="vertical-align: middle;"><%=currentAccount.getUsername()%></h4></a></li>
+        </ul>
     </div>
     <div id ="bodyDiv">
         <div id = "leftDiv">
@@ -35,20 +29,7 @@
                             <option value="4">multiple choice</option>
                         </select>
 
-                        <%--                <details>--%>
-                        <%--                    <summary>question1</summary>--%>
-                        <%--&lt;%&ndash;                    <div>&ndash;%&gt;--%>
-                        <%--&lt;%&ndash;                        <p>nika nika</p>&ndash;%&gt;--%>
-                        <%--&lt;%&ndash;                        <img src="baro.jpg">&ndash;%&gt;--%>
-                        <%--&lt;%&ndash;                    </div>&ndash;%&gt;--%>
-                        <%--                </details>--%>
-                        <%--                <details>--%>
-                        <%--                    <summary>question2</summary>--%>
-                        <%--&lt;%&ndash;                    <div>&ndash;%&gt;--%>
-                        <%--&lt;%&ndash;                        <p>baro baro</p>&ndash;%&gt;--%>
-                        <%--&lt;%&ndash;                        <img src="beka.jpg">&ndash;%&gt;--%>
-                        <%--&lt;%&ndash;                    </div>&ndash;%&gt;--%>
-                        <%--                </details>--%>
+
 
                         <div class= "questionCreate" id = "questionCreate">
 
@@ -147,55 +128,7 @@
 
                         </div>
                     </form>
-                    <%--    <script>--%>
-                    <%--        let questionsCounter = 0;--%>
-                    <%--        let template = document.querySelector('#questionCreate');--%>
-                    <%--        let leftCenter = document.querySelector('#leftCenter');--%>
-                    <%--        let addButton = document.querySelector('#addQuestionButton');--%>
-                    <%--        const selector = document.querySelector('#mySelect');--%>
-                    <%--        let info = document.querySelector('#numberOfQuestions');--%>
-                    <%--        addButton.addEventListener('click',function(){--%>
-                    <%--            questionsCounter++;--%>
-                    <%--            info.textContent = questionsCounter.toString();--%>
-                    <%--            let newDetails = document.createElement('details');--%>
 
-
-                    <%--            let newSummary = document.createElement('summary');--%>
-                    <%--            let p = document.createElement("p");--%>
-                    <%--            if(selector.value === "1"){--%>
-                    <%--                let questionText = document.querySelector('#questionResponseText');--%>
-                    <%--                newSummary.textContent = questionText.value;--%>
-                    <%--                let text = document.createElement("p");--%>
-                    <%--                text.textContent = "Question: " + questionText.value;--%>
-                    <%--                let answer = document.createElement("");--%>
-                    <%--                p.textContent = 'Question Type: Question Response';--%>
-                    <%--            }--%>
-                    <%--            if(selector.value === "2"){--%>
-                    <%--                let questionText = document.querySelector('#fillText');--%>
-                    <%--                newSummary.textContent = questionText.value;--%>
-                    <%--                p.textContent = 'Question Type: Fill The Blank';--%>
-                    <%--            }--%>
-                    <%--            if(selector.value === "3"){--%>
-                    <%--                let questionText = document.querySelector('#pictureText');--%>
-                    <%--                newSummary.textContent = questionText.value;--%>
-                    <%--                p.textContent = 'Question Type: Picture Response';--%>
-                    <%--            }--%>
-                    <%--            if(selector.value === "4"){--%>
-                    <%--                let questionText = document.querySelector('#multipleText');--%>
-                    <%--                newSummary.textContent = questionText.value;--%>
-                    <%--                p.textContent = 'Question Type: Multiple Choice';--%>
-                    <%--            }--%>
-                    <%--            let newDiv = template.cloneNode(true);--%>
-
-
-                    <%--            newDetails.appendChild(newSummary);--%>
-                    <%--            newDetails.appendChild(p);--%>
-                    <%--            newDetails.appendChild(newDiv);--%>
-
-
-                    <%--            leftCenter.appendChild(newDetails);--%>
-                    <%--        });--%>
-                    <%--    </script>--%>
                 </div>
             </div>
 
@@ -203,7 +136,7 @@
                 <div id="leftEdgeCenter">
                     <%
                         DBHandler handler = (DBHandler) application.getAttribute("handler");
-                        List<Question> questions = (List<Question>) session.getAttribute("questions");
+                        List<Question> questions = (List<Question>) request.getAttribute("questions");
                         int sz = questions == null ? 0 : questions.size();
                         for(int i = 0; i<sz;i++){
                             out.println("<details>");

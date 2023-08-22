@@ -25,14 +25,16 @@
     <div id = "topDiv">
         <h1>Announcement</h1>
         <ul>
-            <li><%=post.getAuthor().getUsername() %></li>
+            <li><a style=" "; href="profile.jsp?id=<%=post.getAuthor().getId()%>"><img style="vertical-align:middle;border-radius:50%;width:40px;height:40px;" src="<%=post.getAuthor().getImage()%>"> </a></li>
+            <li><a style=" "; href="profile.jsp?id=<%=post.getAuthor().getId()%>"> <h4 style="vertical-align: middle;"><%=post.getAuthor().getUsername()%></h4></a></li>
+<%--            <li><%=post.getAuthor().getUsername() %></li>--%>
         </ul>
     </div>
     <div id ="bodyDiv">
 
         <div id = "midDiv">
             <div id="topMarginDiv"></div>
-            <h2><%=post.getTitle()%></h2>
+            <p style="font-size:40px; color:white;"><%=post.getTitle()%></p>
             <div id="announcementDiv">
                 <img src = "<%=post.getImgSrc()%>">
                 <h4>
@@ -42,6 +44,9 @@
             <div id = "bottomDiv">
                 <h3> <%=post.getUploadDate()%> </h3>
             </div>
+            <a href="homepage.jsp">
+                <input type="submit" value="Back To Home Page">
+            </a>
         </div>
     </div>
 

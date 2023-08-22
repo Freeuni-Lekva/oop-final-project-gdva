@@ -25,19 +25,23 @@
     Account currentAccount = (Account) session.getAttribute("account");
 
     List<Account> friends = (List<Account>) session.getAttribute("friends");
-    if(friends == null) friends = handler.getFriends(currentAccount.getId());
+    if(friends == null) {
+        friends = handler.getFriends(currentAccount.getId());
+        //System.out.println("called getFriends");
+    }
 
     List<Message> toAccountMessages = new ArrayList<Message>();
 
     Account to_account = (Account) session.getAttribute("to_account");
     if(to_account == null){
         to_account = handler.getMostRecentMessageAccount(currentAccount);
+        if(to_account == null){
+            to_account = handler.getAccount(Integer.parseInt(to_account_id));
+        }
     } else if(to_account.getName().length() == 0){
         to_account = null;
     } else if(to_account_id != null){
         to_account = handler.getAccount(Integer.parseInt(to_account_id));
-    } else {
-        to_account = null;
     }
 
     if(to_account != null) {
@@ -49,8 +53,10 @@
     Set<Integer> chat_ids = new HashSet<Integer>();
     Set<Integer> friends_ids = new HashSet<Integer>();
 
+    System.out.println("printing friends ids");
     for(Account account : friends){
         friends_ids.add(account.getId());
+        System.out.println(account.getId());
     }
 
     List<Chat> chats = new ArrayList<Chat>();
@@ -88,84 +94,84 @@
 
 %>
 <body>
-    <div id = "entireDiv">
-        <div id = "centralDiv">
-            <div id = "leftDiv">
-                <div id="searchBarDiv">
-                    <form action="SearchFriendMessagesServlet" method="get">
-                        <input id="searchInput" name="searchInput" type="text" placeholder="Search...">
-                        <input id="searchButton" name="searchButton" type="submit" value="Search">
-                    </form>
-                </div>
-                <%
-                    if(chats.size() == 0){
-                        out.println("<p> No Chats Found <p>");
-                        to_account = null;
-                    } else {
-                        for (int i = 0; i < chats.size(); i++) {
-                            System.out.println(chats.get(i).getDisplayName());
-                            if (friends.contains(chats.get(i).getDisplayAccount())) {
-                                out.println("<a href = \"" + "messenger.jsp?to_account_id=" + chats.get(i).getDisplayAccount().getId() + "\">");
-                                out.println("<div> <img src = \"" + chats.get(i).getDisplayAccount().getImage() + "\">");
-                                out.println("<div><h4>" + chats.get(i).getDisplayName() + "</h4>");
-                                String text = chats.get(i).getDisplayMessage();
-                                if (text != null) {
-                                    out.println("<p>" + text + "</p>");
-                                }
-                                out.println("</div></div></a>");
+<div id = "entireDiv">
+    <div id = "centralDiv">
+        <div id = "leftDiv">
+            <div id="searchBarDiv">
+                <form action="SearchFriendMessagesServlet" method="get">
+                    <input id="searchInput" name="searchInput" type="text" placeholder="Search...">
+                    <input id="searchButton" name="searchButton" type="submit" value="Search">
+                </form>
+            </div>
+            <%
+                if(chats.size() == 0){
+                    out.println("<p> No Chats Found <p>");
+                    to_account = null;
+                } else {
+                    for (int i = 0; i < chats.size(); i++) {
+                        System.out.println(chats.get(i).getDisplayName());
+                        if (friends.contains(chats.get(i).getDisplayAccount())) {
+                            out.println("<a href = \"" + "messenger.jsp?to_account_id=" + chats.get(i).getDisplayAccount().getId() + "\">");
+                            out.println("<div> <img src = \"" + chats.get(i).getDisplayAccount().getImage() + "\">");
+                            out.println("<div><h4>" + chats.get(i).getDisplayName() + "</h4>");
+                            String text = chats.get(i).getDisplayMessage();
+                            if (text != null) {
+                                out.println("<p>" + text + "</p>");
                             }
+                            out.println("</div></div></a>");
+                        }
+                    }
+                }
+            %>
+        </div>
+        <% if(to_account != null){ %>
+        <div id="rightDiv">
+            <div id="messageHeaderDiv">
+                <img src="<%=to_account.getImage()%>">
+                <div>
+                    <h4><%=to_account.getName() + " " + to_account.getSurname()%></h4>
+                </div>
+            </div>
+            <div id="messageDiv">
+                <%
+                    for(int i = 0; i<toAccountMessages.size();i++){
+                        if(toAccountMessages.get(i).getFrom().equals(currentAccount)){
+                            if(toAccountMessages.get(i).getType().startsWith("challenge")){
+
+                                out.println("<div style = \" display:flex; justify-content: flex-end \"><div><a href = \"quizSummary.jsp?id="+toAccountMessages.get(i).getType().split(" ")[1]+"\"><p>"+toAccountMessages.get(i).getText()+"</a></p></div></div>");
+                            }
+                            else if(toAccountMessages.get(i).getType().equals("text")){
+                                out.println("<div style = \" display:flex; justify-content: flex-end \"><div><p>"+toAccountMessages.get(i).getText()+"</p></div></div>");
+                            }
+                        }
+                        else{
+                            if(toAccountMessages.get(i).getType().startsWith("challenge")){
+                                out.println("<div><img src = \""+toAccountMessages.get(i).getFrom().getImage() + "\">" +
+                                        "<div><a href = \"quizSummary.jsp?id=\""+toAccountMessages.get(i).getType().split(" ")[1]+"\"><p>"+toAccountMessages.get(i).getText()+"</a></p></div></div>");
+                            }
+                            else if(toAccountMessages.get(i).getType().equals("text")){
+                                out.println("<div><img src = \""+toAccountMessages.get(i).getFrom().getImage() + "\">" +
+                                        "<div><p>"+toAccountMessages.get(i).getText()+"</p></div></div>");
+                            }
+
                         }
                     }
                 %>
+
             </div>
-            <% if(to_account != null){ %>
-            <div id="rightDiv">
-                <div id="messageHeaderDiv">
-                    <img src="<%=to_account.getImage()%>">
-                    <div>
-                        <h4><%=to_account.getName() + " " + to_account.getSurname()%></h4>
-                    </div>
-                </div>
-                <div id="messageDiv">
-                    <%
-                        for(int i = 0; i<toAccountMessages.size();i++){
-                            if(toAccountMessages.get(i).getFrom().equals(currentAccount)){
-                                if(toAccountMessages.get(i).getType().startsWith("challenge")){
-
-                                    out.println("<div style = \" display:flex; justify-content: flex-end \"><div><a href = \"quizSummary.jsp?id="+toAccountMessages.get(i).getType().split(" ")[1]+"\"><p>"+toAccountMessages.get(i).getText()+"</a></p></div></div>");
-                                }
-                                else if(toAccountMessages.get(i).getType().equals("text")){
-                                    out.println("<div style = \" display:flex; justify-content: flex-end \"><div><p>"+toAccountMessages.get(i).getText()+"</p></div></div>");
-                                }
-                            }
-                            else{
-                                if(toAccountMessages.get(i).getType().startsWith("challenge")){
-                                    out.println("<div><img src = \""+toAccountMessages.get(i).getFrom().getImage() + "\">" +
-                                            "<div><a href = \"quizSummary.jsp?id=\""+toAccountMessages.get(i).getType().split(" ")[1]+"\"><p>"+toAccountMessages.get(i).getText()+"</a></p></div></div>");
-                                }
-                                else if(toAccountMessages.get(i).getType().equals("text")){
-                                    out.println("<div><img src = \""+toAccountMessages.get(i).getFrom().getImage() + "\">" +
-                                            "<div><p>"+toAccountMessages.get(i).getText()+"</p></div></div>");
-                                }
-
-                            }
-                        }
-                    %>
-
-                </div>
-                <script>
-                    // Scroll the div with id "myDiv" to the bottom
-                    $('#messageDiv').scrollTop($('#messageDiv')[0].scrollHeight);
-                </script>
-                <div id = "inputDiv">
-                    <form action = "messageButtonServlet" method="post" >
-                        <input id = "messageInput" name="messageInput" type="text">
-                        <input id = "messageButton" name="messageButton" type="submit" value="Send!" >
-                    </form>
-                </div>
+            <script>
+                // Scroll the div with id "myDiv" to the bottom
+                $('#messageDiv').scrollTop($('#messageDiv')[0].scrollHeight);
+            </script>
+            <div id = "inputDiv">
+                <form action = "messageButtonServlet" method="post" >
+                    <input id = "messageInput" name="messageInput" type="text">
+                    <input id = "messageButton" name="messageButton" type="submit" value="Send!" >
+                </form>
             </div>
-            <% } %>
         </div>
+        <% } %>
     </div>
+</div>
 </body>
 </html>

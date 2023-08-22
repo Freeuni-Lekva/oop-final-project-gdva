@@ -79,7 +79,9 @@
                 </div>
                 <% } } %>
             </div>
-
+                <a href="homepage.jsp">
+                    <input type="submit" value="Back To Home Page">
+                </a>
         </div>
     </div>
 </div>

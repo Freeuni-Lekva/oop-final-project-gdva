@@ -16,16 +16,17 @@
         <source src="/CSS/backgr.mp4" type="video/mp4">
     </video>
 
-    <div id = "central">
-        <%
-            Integer accounts = (Integer) session.getAttribute("accounts");
-            Integer admins = (Integer) session.getAttribute("admins");
-        %>
-        <h1>Statistics: </h1>
-        <ul>
-            <li> <a style = " ";> Accounts: <%=accounts%></a></li>
-            <li> <a style = " ";> Admins: <%=admins%></a></li>
-        </ul>
+    <%
+        String accounts = request.getParameter("accounts");
+        String admins = request.getParameter("admins");
+        String quizzes = request.getParameter("quizzes");
+    %>
+    <h1>Statistics: </h1>
+    <ul>
+        <li> <a style = " ";> Accounts: <%=accounts%></a></li>
+        <li> <a style = " ";> Admins: <%=admins%></a></li>
+        <li> <a style = " ";> Quizzes Taken: <%=quizzes%></a></li>
+    </ul>
     </div>
 </body>
 </html>

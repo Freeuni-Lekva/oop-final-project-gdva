@@ -5,6 +5,7 @@ import quizpackage.model.Account;
 import quizpackage.model.DBHandler;
 import quizpackage.model.quizzes.Quiz;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,5 +27,7 @@ public class ChallengeServlet extends HttpServlet {
         if(areFriends){
             handler.addMessage(userAccount,friendAccount,"I challenge you to do " + currentQuiz.getTitle(),"challenge " + currentQuiz.getId());
         }
+        RequestDispatcher dispatcher = req.getRequestDispatcher("quizSummary.jsp?id="+currentQuiz.getId());
+        dispatcher.forward(req,resp);
     }
 }

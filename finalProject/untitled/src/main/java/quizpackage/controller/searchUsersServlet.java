@@ -20,8 +20,8 @@ public class searchUsersServlet extends HttpServlet {
         String username = req.getParameter("usernameInput");
         DBHandler handler = (DBHandler) req.getServletContext().getAttribute("handler");
         List<Account> accounts = handler.filterUsersByPrefix(username);
-        req.getSession().setAttribute("accounts",accounts);
-        RequestDispatcher dispatcher  = req.getRequestDispatcher("searchuser.jsp");
+        req.setAttribute("accounts",accounts);
+        RequestDispatcher dispatcher  = req.getRequestDispatcher("homepage.jsp");
         dispatcher.forward(req,resp);
     }
 }
