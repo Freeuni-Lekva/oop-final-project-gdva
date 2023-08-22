@@ -184,6 +184,8 @@ create table quiz_history(
      foreign key(quiz_id) references quizzes(id),
      foreign key(account_id) references accounts(id)
 );
+
+
 select * from quiz_history where quiz_id = 1 order by score desc, quiz_history.time asc limit 5;
 select * from quizzes where creator_id in (select first_friend_id  from friends where second_friend_id = 1) or creator_id in (select second_friend_id from friends where first_friend_id = 1);
 select * from quiz_history where account_id in (select first_friend_id  from friends where second_friend_id = 1) or creator_id in (select second_friend_id from friends where first_friend_id = 1);

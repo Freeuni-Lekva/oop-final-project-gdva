@@ -10,14 +10,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "statisticsServlet", urlPatterns = "/statistics")
+@WebServlet(name = "statisticsServlet", urlPatterns = "/statisticsServlet")
 public class StatisticsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("statistics.jsp");
         DBHandler handler = (DBHandler) request.getServletContext().getAttribute("handler");
-        request.getSession().setAttribute("accounts", handler.numberOfAccounts());
-        request.getSession().setAttribute("admins", handler.numberOfAdmins());
+        int accountsNum = handler.numberOfAccounts();
+        int adminsNum = handler.numberOfAdmins();
+        int quizzesTaken = handler.numberOfQuizzesTaken();
+
+        RequestDispatcher dispatcher = request
+                .getRequestDispatcher("statistics.jsp?accounts="+accountsNum+"&admins="+adminsNum+"&quizzes="+quizzesTaken);
         dispatcher.forward(request, response);
     }
 }
