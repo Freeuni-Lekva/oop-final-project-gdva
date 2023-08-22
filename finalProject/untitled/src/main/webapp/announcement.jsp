@@ -25,9 +25,10 @@
     <div id = "topDiv">
         <h1>Announcement</h1>
         <ul>
+            <li> <a style = " "; href="homepage.jsp"><img style="vertical-align: middle;width:40px;height:40px;"src="homepage.png"></a></li>
             <li><a style=" "; href="profile.jsp?id=<%=post.getAuthor().getId()%>"><img style="vertical-align:middle;border-radius:50%;width:40px;height:40px;" src="<%=post.getAuthor().getImage()%>"> </a></li>
             <li><a style=" "; href="profile.jsp?id=<%=post.getAuthor().getId()%>"> <h4 style="vertical-align: middle;"><%=post.getAuthor().getUsername()%></h4></a></li>
-<%--            <li><%=post.getAuthor().getUsername() %></li>--%>
+            <%--            <li><%=post.getAuthor().getUsername() %></li>--%>
         </ul>
     </div>
     <div id ="bodyDiv">
