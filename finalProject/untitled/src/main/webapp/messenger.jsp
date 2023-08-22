@@ -27,7 +27,6 @@
     List<Account> friends = (List<Account>) session.getAttribute("friends");
     if(friends == null) {
         friends = handler.getFriends(currentAccount.getId());
-        //System.out.println("called getFriends");
     }
 
     List<Message> toAccountMessages = new ArrayList<Message>();
@@ -35,7 +34,7 @@
     Account to_account = (Account) session.getAttribute("to_account");
     if(to_account == null){
         to_account = handler.getMostRecentMessageAccount(currentAccount);
-        if(to_account == null){
+        if(to_account == null && to_account_id != null){
             to_account = handler.getAccount(Integer.parseInt(to_account_id));
         }
     } else if(to_account.getName().length() == 0){
@@ -53,10 +52,8 @@
     Set<Integer> chat_ids = new HashSet<Integer>();
     Set<Integer> friends_ids = new HashSet<Integer>();
 
-    System.out.println("printing friends ids");
     for(Account account : friends){
         friends_ids.add(account.getId());
-        System.out.println(account.getId());
     }
 
     List<Chat> chats = new ArrayList<Chat>();
@@ -109,7 +106,6 @@
                     to_account = null;
                 } else {
                     for (int i = 0; i < chats.size(); i++) {
-                        System.out.println(chats.get(i).getDisplayName());
                         if (friends.contains(chats.get(i).getDisplayAccount())) {
                             out.println("<a href = \"" + "messenger.jsp?to_account_id=" + chats.get(i).getDisplayAccount().getId() + "\">");
                             out.println("<div> <img src = \"" + chats.get(i).getDisplayAccount().getImage() + "\">");
@@ -135,6 +131,8 @@
             <div id="messageDiv">
                 <%
                     for(int i = 0; i<toAccountMessages.size();i++){
+                        System.out.println("msg: " + toAccountMessages.get(i).getText());
+                        System.out.println("type: " + toAccountMessages.get(i).getType());
                         if(toAccountMessages.get(i).getFrom().equals(currentAccount)){
                             if(toAccountMessages.get(i).getType().startsWith("challenge")){
 
@@ -146,8 +144,10 @@
                         }
                         else{
                             if(toAccountMessages.get(i).getType().startsWith("challenge")){
+                                System.out.println("msg1: " + toAccountMessages.get(i).getText());
+                                System.out.println("type1: " + toAccountMessages.get(i).getType());
                                 out.println("<div><img src = \""+toAccountMessages.get(i).getFrom().getImage() + "\">" +
-                                        "<div><a href = \"quizSummary.jsp?id=\""+toAccountMessages.get(i).getType().split(" ")[1]+"\"><p>"+toAccountMessages.get(i).getText()+"</a></p></div></div>");
+                                        "<div><a href = \"quizSummary.jsp?id="+toAccountMessages.get(i).getType().split(" ")[1]+"\"><p>"+toAccountMessages.get(i).getText()+"</a></p></div></div>");
                             }
                             else if(toAccountMessages.get(i).getType().equals("text")){
                                 out.println("<div><img src = \""+toAccountMessages.get(i).getFrom().getImage() + "\">" +

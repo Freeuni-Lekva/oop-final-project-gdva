@@ -19,6 +19,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <%
         DBHandler handler = (DBHandler) application.getAttribute("handler");
+        System.out.println("quizid: " + request.getParameter("id"));
         int quizId = Integer.parseInt(request.getParameter("id"));
         Account currentAccount = (Account)request.getSession().getAttribute("account");
         Quiz quiz = handler.getQuiz(quizId);
@@ -109,6 +110,7 @@
         %></p>
         <p>Total Score: <%=quiz.getQuizTotalScore()%></p>
             <form action="StartQuizServlet" method ="get">
+                <input type="hidden" value="<%=quizId%>" name ="quiz_id">
             <input class="buttonClass" type="submit" value="start quiz">
             </form>
         <form action="challengeServlet" method="post">

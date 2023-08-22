@@ -191,13 +191,32 @@ public class DBHandler {
 
         try{
             //System.out.println("delete from accounts where username = " + "\'" + username + "\'; commit;");
+            Account acc = getAccount(username);
+            removeFriends(acc.getId());
+            removeMessages(acc.getId());
+            removeQuizzes(acc.getId());
             connection.createStatement().executeUpdate("delete from accounts where username = " + "\'" + username + "\'; ");
         }catch(SQLException e){
             e.printStackTrace();
         }
 
     }
-
+    private void removeQuizzes(int id){
+        try{
+            connection.createStatement().
+                    executeUpdate("delete from quizzes where creator_id = "+id+";");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    private void removeFriends(int id){
+        try{
+            connection.createStatement().
+                    executeUpdate("delete from friends where first_friend_id = "+id+" or second_friend_id ="+id+";");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
     public void promoteUser(String username){
         int id = getAccount(username).getId();
         if(isAdmin(id)) return ;
@@ -316,7 +335,7 @@ public class DBHandler {
 
     public Account getMostRecentMessageAccount(Account account){
         try{
-            ResultSet st = connection.createStatement().executeQuery("select from_id, to_id from messages where id = (select max(id) from messages where from_id = " + account.getId() + " or to_id = " +account.getId() +");");
+            ResultSet st = connection.createStatement().executeQuery("select from_id, to_id from messages where id = (select max(id) from messages where   ((from_id, to_id) in (select * from friends) or (to_id, from_id) in (select * from friends)) and (from_id = "+account.getId()+" or to_id = "+account.getId()+"));");
             while(st.next()){
                 int from_id = st.getInt("from_id");
                 int to_id = st.getInt("to_id");
@@ -838,9 +857,18 @@ public class DBHandler {
         }
         return false;
     }
+    private void removeMessages(int id){
+        try{
+            connection.createStatement().
+                    executeUpdate("delete from messages where from_id = "+id+" or to_id = "+id+";");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
 
     public void removeQuiz(String title){
         try{
+            clearQuizHistory(getQuizID(title));
             connection.createStatement().
                     executeUpdate("delete from quizzes where title='"+title+"'");
         }catch (SQLException e){
