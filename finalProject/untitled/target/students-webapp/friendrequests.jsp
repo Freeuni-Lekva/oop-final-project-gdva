@@ -1,5 +1,5 @@
-<%@ page import="quizpackage.model.Account" %>
-<%@ page import="quizpackage.model.DBHandler" %>
+<%@ page import="quizpackage.Account" %>
+<%@ page import="quizpackage.DBHandler" %>
 <%@ page import="java.util.List" %>
 <html>
 

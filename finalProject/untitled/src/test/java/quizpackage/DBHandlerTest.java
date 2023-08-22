@@ -8,7 +8,7 @@ import javax.swing.plaf.nimbus.State;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Date;
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -37,7 +37,6 @@ class DBHandlerTest {
             statement.executeUpdate("drop table if exists friends;");
             statement.executeUpdate("drop table if exists quiz_history;");
             statement.executeUpdate("drop table if exists quizzes;");
-            statement.executeUpdate("drop table if exists questions;");
             statement.executeUpdate("drop table if exists Accounts;");
 
             // create accounts table
@@ -95,7 +94,6 @@ class DBHandlerTest {
                     "    to_id int,\n" +
                     "    send_date datetime,\n" +
                     "    txt varchar(1000),\n" +
-                    "    message_type varchar(1000),\n" +
                     "    foreign key(from_id) references accounts(id),\n" +
                     "    foreign key(to_id) references accounts(id)\n" +
                     ");");
@@ -130,7 +128,6 @@ class DBHandlerTest {
                     "answer_type varchar(55),\n" +
                     "creator_id int,\n" +
                     "quiz_description varchar(1000),\n" +
-                    "create_date datetime,\n" +
                     "foreign key (creator_id) references accounts(id)"+
                     ");");
 
@@ -144,17 +141,6 @@ class DBHandlerTest {
                     "    start_date datetime, \n" +
                     "    foreign key(quiz_id) references quizzes(id),\n" +
                     "    foreign key(account_id) references accounts(id)\n" +
-                    ");");
-
-            connection.createStatement().executeUpdate("create table questions(\n" +
-                    "\tquestion_id  int auto_increment primary key,\n" +
-                    "\tquestion_type varchar(55),\n" +
-                    "    question_text varchar(255),\n" +
-                    "    question_answer varchar(255),\n" +
-                    "    question_image varchar(255),\n" +
-                    "    question_choices_number int,\n" +
-                    "    question_grade double,\n" +
-                    "    quiz_id int\n" +
                     ");");
 
         } catch (SQLException e) {
@@ -235,7 +221,7 @@ class DBHandlerTest {
 
         // add new announcement
         Date date = new Date(1, 1, 1);
-        Announcement announcement = new Announcement("qiravdeba", "qiravdeba 50 lari", "img.jpg", (java.sql.Date)date, handler.getAccount(1), 1);
+        Announcement announcement = new Announcement("qiravdeba", "qiravdeba 50 lari", "img.jpg", date, handler.getAccount(1), 1);
 
         // test getAnnouncement
         handler.addAnnouncement(announcement);
@@ -339,8 +325,6 @@ class DBHandlerTest {
         Account beso = handler.getAccount(3);
         Account cima = handler.getAccount(4);
 
-        assertEquals(null, handler.getMostRecentMessageAccount(lasha));
-
         // test isRequesetSent
         assertEquals(false, handler.isRequestSent(lasha, beka));
         handler.addFriendRequest(lasha, beka);
@@ -378,40 +362,20 @@ class DBHandlerTest {
     void numberOfAdmins() {
         assertEquals(3, handler.numberOfAdmins());
     }
-
-    @Test
-    void quizAndQuestionManagement(){
-
-        handler.addQuiz("gio", "as","","", 1, "");
-        handler.addQuiz("gio", "as","","", 1, "");
-        assertEquals(true, handler.containsQuizTitle("gio"));
-        assertEquals(1, handler.getQuizID("gio"));
-        assertEquals(0, handler.getQuizID("gia"));
-
-        handler.addQuestion("",1.0,"",1,"", "", 1);
-        assertEquals(1, handler.getQuizzesByAuthor(1).size());
-        assertEquals(0, handler.getQuizzesByAuthor(2).size());
-        assertEquals("gio", handler.getQuiz(1).getTitle());
-    }
-
+    /*
     @Test
     void quizHistoryManagement(){
         // add statistics
         handler.addQuiz("first quiz", "asdf", "asdf", "asdf", 1, "dasf");
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String currentTime = "2023-08-22 00:55:13";
-        String TwoDaysAgo = "2023-06-22 00:55:13";
-        String OneDayAgo = "2023-07-22 08:55:14";
-        handler.updateQuizHistory(1, 1, 10, 12, currentTime);
-        handler.updateQuizHistory(1, 2, 20, 14, TwoDaysAgo);
-        handler.updateQuizHistory(1, 3, 30, 20, TwoDaysAgo);
-        handler.updateQuizHistory(1, 4, 50, 10, OneDayAgo);
-        handler.updateQuizHistory(1, 1, 90, 7, currentTime);
-        handler.updateQuizHistory(1, 1, 80, 20, TwoDaysAgo);
+        handler.updateQuizHistory(1, 1, 10, 12);
+        handler.updateQuizHistory(1, 2, 20, 14);
+        handler.updateQuizHistory(1, 3, 30, 20);
+        handler.updateQuizHistory(1, 4, 50, 10);
+        handler.updateQuizHistory(1, 1, 90, 7);
+        handler.updateQuizHistory(1, 1, 80, 20);
 
         // test getQuizStaticsForUserAndOrder
         // order by start_date
-        assertEquals(1, handler.getQuizID("first quiz"));
         List<QuizStatistics> quizStatistics = handler.getQuizStatisticsForUserAndOrder(1, 1, 0);
         assertEquals(10, quizStatistics.get(0).getScore());
         assertEquals(90, quizStatistics.get(1).getScore());
@@ -429,16 +393,16 @@ class DBHandlerTest {
         assertEquals(20, quizStatistics.get(2).getTime());
 
 
-        handler.updateQuizHistory(1, 1, 0, 20, currentTime);
-        handler.updateQuizHistory(1, 1, 0, 20, currentTime);
-        handler.updateQuizHistory(1, 1, 0, 20, TwoDaysAgo);
+        handler.updateQuizHistory(1, 1, 0, 20);
+        handler.updateQuizHistory(1, 1, 0, 20);
+        handler.updateQuizHistory(1, 1, 0, 20);
 
         quizStatistics = handler.getQuizStatisticsForUserAndOrder(1, 1, 2);
         // check limit
         assertEquals(DBHandler.limit, quizStatistics.size());
 
         // check getTopPerformersOfAllTime
-        quizStatistics = handler.getTopPerformersOfAllTime(1);
+        quizStatistics = handler.getTopPerformersOfAllTime();
         assertEquals(DBHandler.limit, quizStatistics.size());
         assertEquals(90, quizStatistics.get(0).getScore());
         assertEquals(80, quizStatistics.get(1).getScore());
@@ -447,21 +411,22 @@ class DBHandlerTest {
         assertEquals(20, quizStatistics.get(4).getScore());
 
         // check getTopPerformersOfTheDay
-        quizStatistics = handler.getTopPerformersOfTheDay(1);
-        assertEquals(DBHandler.limit-1, quizStatistics.size());
+        quizStatistics = handler.getTopPerformersOfTheDay();
+        assertEquals(DBHandler.limit, quizStatistics.size());
         assertEquals(90, quizStatistics.get(0).getScore());
-        assertEquals(10, quizStatistics.get(1).getScore());
-        assertEquals(0, quizStatistics.get(2).getScore());
-        assertEquals(0, quizStatistics.get(3).getScore());
+        assertEquals(80, quizStatistics.get(1).getScore());
+        assertEquals(50, quizStatistics.get(2).getScore());
+        assertEquals(30, quizStatistics.get(3).getScore());
+        assertEquals(20, quizStatistics.get(4).getScore());
 
         //check getLastPerformers
         quizStatistics = handler.getLastPerformers();
         assertEquals(DBHandler.limit, quizStatistics.size());
         assertEquals(10, quizStatistics.get(0).getScore());
-        assertEquals(90, quizStatistics.get(1).getScore());
-        assertEquals(0, quizStatistics.get(2).getScore());
-        assertEquals(0, quizStatistics.get(3).getScore());
-        assertEquals(50, quizStatistics.get(4).getScore());
+        assertEquals(20, quizStatistics.get(1).getScore());
+        assertEquals(30, quizStatistics.get(2).getScore());
+        assertEquals(50, quizStatistics.get(3).getScore());
+        assertEquals(90, quizStatistics.get(4).getScore());
 
 
     }

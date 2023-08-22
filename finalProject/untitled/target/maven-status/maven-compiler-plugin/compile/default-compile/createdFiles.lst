@@ -1,10 +1,12 @@
 quizpackage\controller\SendRequestServlet.class
 quizpackage\model\quizzes\MultipleChoiceSingleAnswer.class
 quizpackage\model\quizzes\PictureResponse.class
+quizpackage\model\QuizStatistics.class
 quizpackage\model\quizzes\FillTheBlank.class
 quizpackage\model\quizzes\MultipleAnswerQuestion.class
 quizpackage\model\Announcement.class
 quizpackage\controller\AnnouncementAddButtonServlet.class
+quizpackage\controller\HomePageButtonServlet.class
 quizpackage\model\quizzes\SingleAnswer.class
 quizpackage\model\DBHandler.class
 quizpackage\model\User.class

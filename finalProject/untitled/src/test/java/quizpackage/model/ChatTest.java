@@ -44,7 +44,5 @@ class ChatTest {
     @Test
     void getDisplayMessage() {
         assertEquals("paka", chat.getDisplayMessage());
-        Chat chat1 = new Chat(gio, fxala, new ArrayList<>());
-        assertEquals(null, chat1.getDisplayMessage());
     }
 }

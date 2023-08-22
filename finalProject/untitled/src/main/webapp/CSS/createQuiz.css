@@ -286,3 +286,21 @@ p {
     line-height: 1.5;
     text-align: justify;
 }
+ul {
+    position: absolute;
+    right: 5%;
+    list-style-type: none;
+    margin:0;
+}
+li{
+    display: inline-block;
+    font-family:Verdana, sans-serif;
+    color: azure;
+    font-size:x-large;
+    margin-right:20px;
+    margin-top:0px;
+}
+a{
+    text-decoration: none;
+    color:inherit;
+}

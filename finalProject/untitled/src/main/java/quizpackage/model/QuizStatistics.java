@@ -36,4 +36,7 @@ public class QuizStatistics {
         return startDate;
     }
 
+    public String toString(){
+        return "quiz_id: " + quizId + " account_id: " + accountId + " score: " + score + " time: "+ time + " start_date: " + startDate;
+    }
 }

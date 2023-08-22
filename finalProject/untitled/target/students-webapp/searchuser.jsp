@@ -1,7 +1,7 @@
-<%@ page import="quizpackage.model.Account" %>
-<%@ page import="quizpackage.model.Announcement" %>
+<%@ page import="quizpackage.Account" %>
+<%@ page import="quizpackage.Announcement" %>
 <%@ page import="java.util.List" %>
-<%@ page import="quizpackage.model.DBHandler" %>
+<%@ page import="quizpackage.DBHandler" %>
 <%@ page import="java.util.ArrayList" %>
 <html>
 <head>

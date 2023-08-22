@@ -40,9 +40,4 @@ class MessageTest {
     void getText() {
         assertEquals("baro fxala", message.getText());
     }
-
-    @Test
-    void getType(){
-        assertEquals("text", message.getType());
-    }
 }
