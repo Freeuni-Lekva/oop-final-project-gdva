@@ -12,6 +12,7 @@ public class MultipleChoiceSingleAnswer extends SingleAnswer {
         this.choiceNumber = choiceNumber;
         answers = new ArrayList<>();
         if(text.length == 1) fullQuestion = text[0];
+        fullQuestion = getQuestionText();
     }
     public int getChoiceNumber(){
         return choiceNumber;
@@ -23,7 +24,6 @@ public class MultipleChoiceSingleAnswer extends SingleAnswer {
         }
         if(text.length == 1){
             if(text[0].indexOf("#") == -1) return text[0];
-            return text[0].substring(0,text[0].indexOf("#"));
         }
         res += text[0];
         res += "#";
@@ -54,6 +54,4 @@ public class MultipleChoiceSingleAnswer extends SingleAnswer {
         answers.add(reserve.substring(splitIndexes.get(splitIndexes.size()-1)+1));
         return answers;
     }
-      //  [32,36,41,46]
-    //who is the president of the USA?#Bush#Trump#Byden#Obama#
 }
