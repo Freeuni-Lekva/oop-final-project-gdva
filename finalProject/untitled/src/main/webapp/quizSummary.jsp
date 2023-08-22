@@ -108,9 +108,9 @@
             }
         %></p>
         <p>Total Score: <%=quiz.getQuizTotalScore()%></p>
-        <a href="quiz.jsp?id=<%=quizId%>&start_time=<%=currentTime%>">
+            <form action="StartQuizServlet" method ="get">
             <input class="buttonClass" type="submit" value="start quiz">
-        </a>
+            </form>
         <form action="challengeServlet" method="post">
             <input  type="hidden" value="<%=quizId%>" name="quiz_id">
             <input type="text" placeholder="enter who you want to challenge" name="challengeField" id="challengeField">
