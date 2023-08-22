@@ -47,7 +47,7 @@
 
             <div id = "buttonsDiv3">
                 <div>
-                    <button type="button" onclick="location.href='statistics'" id="statisticsButton">Statistics</button>
+                    <button type="button" onclick="location.href='statisticsServlet'" id="statisticsButton">Statistics</button>
                 </div>
             </div>
             <div id = "buttonsDiv4">

@@ -2,6 +2,13 @@
 <%@ page import="quizpackage.model.quizzes.*" %>
 <%@ page import="quizpackage.model.DBHandler" %>
 <%@ page import="quizpackage.model.Account" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link href="/CSS/createQuiz.css" rel="stylesheet" type="text/css">
+</head>
+<body>
 <div id = "entireDiv">
     <div id = "topDiv">
         <h1 style="vertical-align: middle;">Create Quiz</h1>
@@ -136,7 +143,7 @@
                 <div id="leftEdgeCenter">
                     <%
                         DBHandler handler = (DBHandler) application.getAttribute("handler");
-                        List<Question> questions = (List<Question>) request.getAttribute("questions");
+                        List<Question> questions = (List<Question>) request.getSession().getAttribute("questions");
                         int sz = questions == null ? 0 : questions.size();
                         for(int i = 0; i<sz;i++){
                             out.println("<details>");
