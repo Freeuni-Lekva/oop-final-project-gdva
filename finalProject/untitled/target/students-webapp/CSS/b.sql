@@ -1,1 +1,0 @@
-CREATE USER airflow_user@localhost IDENTIFIED BY 'fedziaivanov1947';

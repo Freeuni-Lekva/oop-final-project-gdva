@@ -20,7 +20,7 @@ public class DBHandler {
         dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/finalproject");
         dataSource.setUsername("root");
-        dataSource.setPassword("Vpxdukkdaash1");
+        dataSource.setPassword("rootroot2023");
         try{
             connection = dataSource.getConnection();
         }
@@ -193,6 +193,7 @@ public class DBHandler {
             //System.out.println("delete from accounts where username = " + "\'" + username + "\'; commit;");
             Account acc = getAccount(username);
             removeFriends(acc.getId());
+            removeSentRequests(acc.getId());
             removeMessages(acc.getId());
             removeQuizzes(acc.getId());
             connection.createStatement().executeUpdate("delete from accounts where username = " + "\'" + username + "\'; ");
@@ -201,14 +202,48 @@ public class DBHandler {
         }
 
     }
+
+    private void removeSentRequests(int id) {
+        try{
+            connection.createStatement().
+                    executeUpdate("delete from sent_requests where sender_id = "+id+" or receiver_id = "+ id + ";");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void removeQuizHistory(int quiz_id) {
+        try{
+            connection.createStatement().
+                    executeUpdate("delete from quiz_history where quiz_id = "+quiz_id+";");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
     private void removeQuizzes(int id){
         try{
+            List<Quiz> quizzes = getQuizzesByAuthor(id);
+            for(Quiz quiz : quizzes){
+                removeQuestions(quiz.getId());
+                removeQuizHistory(quiz.getId());
+            }
             connection.createStatement().
                     executeUpdate("delete from quizzes where creator_id = "+id+";");
         }catch (SQLException e){
             e.printStackTrace();
         }
     }
+
+    private void removeQuestions(int quiz_id) {
+        try{
+            connection.createStatement().
+                    executeUpdate("delete from questions where quiz_id = "+quiz_id+";");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
     private void removeFriends(int id){
         try{
             connection.createStatement().
@@ -555,7 +590,7 @@ public class DBHandler {
 
     private boolean containsQuiz(String quizTitle) {
         try {
-            debug("Title is: " + quizTitle);
+            //debug("Title is: " + quizTitle);
             ResultSet resultSet = connection.createStatement().executeQuery("select * from quizzes where title = \'" + quizTitle + "\';");
             if(resultSet.next()) return true;
             return false;
@@ -869,6 +904,7 @@ public class DBHandler {
     public void removeQuiz(String title){
         try{
             clearQuizHistory(getQuizID(title));
+            removeQuestions(getQuizID(title));
             connection.createStatement().
                     executeUpdate("delete from quizzes where title='"+title+"'");
         }catch (SQLException e){

@@ -11,9 +11,12 @@ quizpackage\model\quizzes\SingleAnswer.class
 quizpackage\model\DBHandler.class
 quizpackage\model\User.class
 quizpackage\model\Admin.class
+quizpackage\model\quizzes\mainclass.class
 quizpackage\model\quizzes\MultipleChoice.class
+quizpackage\controller\StartQuizServlet.class
 quizpackage\controller\RemoveOrPromoteUserServlet.class
 quizpackage\controller\FriendRequestResponseServlet.class
+quizpackage\controller\RemoveQuizOrClearHistoryServlet.class
 quizpackage\model\Message.class
 quizpackage\controller\FinishOnePageQuizServlet.class
 quizpackage\controller\AddAnnouncementServlet.class
@@ -21,7 +24,9 @@ quizpackage\controller\RegisterButtonServlet.class
 quizpackage\controller\RemoveFriendServlet.class
 quizpackage\model\quizzes\Quiz.class
 quizpackage\controller\MultiPageServlet.class
+quizpackage\mainclass.class
 quizpackage\controller\LoginButtonServlet.class
+quizpackage\controller\DeleteQuizButtonServlet.class
 quizpackage\controller\RegisterUserServlet.class
 quizpackage\model\quizzes\QuestionResponse.class
 quizpackage\model\quizzes\QuizTest.class
